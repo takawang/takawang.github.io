@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>HTML Cheat Sheet | Liberation Notes</title>
+<meta name="keywords" content="Frontend, Cheat Sheet, HTML">
+<meta name="description" content="Cheat Sheet for HTML">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="HTML Cheat Sheet" />
+<meta property="og:description" content="Cheat Sheet for HTML" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-20T17:14:50+08:00" />
+<meta property="article:modified_time" content="2020-10-20T17:14:50+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="HTML Cheat Sheet"/>
+<meta name="twitter:description" content="Cheat Sheet for HTML"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "HTML Cheat Sheet",
+      "item": "https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HTML Cheat Sheet",
+  "name": "HTML Cheat Sheet",
+  "description": "Cheat Sheet for HTML",
+  "keywords": [
+    "Frontend", "Cheat Sheet", "HTML"
+  ],
+  "articleBody": "Document Structure ! 然後 tab 快速鍵，快速產出骨架：\n\u003c!DOCTYPE html\u003e \u003chtml\u003e \u003chead\u003e \u003ctitle\u003e\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e .... \u003c/body\u003e \u003c/html\u003e Paragraph element p \u003cp\u003elorem ...\u003c/p\u003e Heading element h1, h2,…, h6 只能有一個 H1 \u003ch1\u003eTaka's Blog\u003c/h1\u003e Comments Void Element br 與 hr \u003cbr /\u003e \u003chr /\u003e Lists ul 與 ol Unordered List \u003cul\u003e \u003cli\u003eitem 1\u003c/li\u003e \u003cli\u003eitem 2\u003c/li\u003e \u003cli\u003eitem 3\u003c/li\u003e \u003cul\u003e\u003c/ul\u003e \u003c/ul\u003e Ordered List \u003col\u003e \u003col\u003e item 1 \u003c/ol\u003e \u003col\u003e item 2 \u003c/ol\u003e \u003col\u003e item 3 \u003c/ol\u003e \u003col\u003e\u003c/ol\u003e \u003c/ol\u003e Emphasis em 不要再使用 lorem \u003cem\u003elorem\u003c/em\u003e Bold strong \u003cstrong\u003elorem\u003c/strong\u003e Superscript, Subscript sup sub \u003csup\u003e\u003c/sup\u003e \u003csub\u003e\u003c/sub\u003e Image image alt 很重要 \u003cimg src=\"io.png\" alt=\"something in the folder\" /\u003e Anchor (links) a The Anchor element - HTML: HyperText Markup Language | MDN\nlink to other elements，可以用 # link 到某一段落的 id \u003ca href=\"...\"\u003ego to reddit\u003c/a\u003e \u003ca href=\"contact.html\"\u003eContact\u003c/a\u003e \u003ca href=\"#pets\"\u003eMy Pets\u003c/a\u003e \u003ch2 id=\"pets\"\u003ePets\u003c/h2\u003e image anchor \u003ca href=\"https://example.com\"\u003e \u003cimg src=\"[https://picsum.photos/400](https://picsum.photos/400)\" alt=\"pig\" /\u003e \u003c/a\u003e target \u003ca href=\"contact.html\" target=\"_blank\"\u003eContact\u003c/a\u003e Inline vs block elements inline 不會換行 block elements 會佔滿整行，例如 heading elements Forms use form to group controls together name for input，這樣傳遞參數才能區別是哪個 input placeholder for text input required 設為必填 input types: The Input (Form Input) element - HTML: HyperText Markup Language | MDN \u003cform action=\"/register\" method=\"get\"\u003e \u003cinput type=\"text\" name=\"any\" placeholder=\"any\" /\u003e \u003clabel for=\"your_name\"\u003eEnter your name\u003c/label\u003e \u003cinput type=\"text\" name=\"name_input\" id=\"your_name\" /\u003e \u003cbutton type=\"submit\"\u003eSubmit\u003c/button\u003e \u003cinput type=\"password\" /\u003e \u003cinput type=\"email\" /\u003e \u003cinput type=\"number\" /\u003e \u003cinput type=\"color\" /\u003e \u003cinput type=\"checkbox\" name=\"subscribe\" /\u003e \u003cinput type=\"radio\" /\u003e \u003c/form\u003e range input \u003cinput type=\"range\" min=\"0\" max=\"10\" step=\"2\" name=\"volumnvalue\" /\u003e text area multiple line text input \u003ctextarea rows=\"10\" cols=\"10\"\u003e\u003c/textarea\u003e selects \u003clabel for=\"pet_options\"\u003eSelect your pet\u003c/label\u003e \u003cselect name=\"pets\" id=\"pet_options\"\u003e \u003coption value=\"dog\"\u003eDog\u003c/option\u003e \u003coption value=\"cat\"\u003eCat\u003c/option\u003e \u003c/select\u003e radio button 需要給 value 區分是哪個被選中 若使用同樣的 name ，就可以 group radio button \u003clabel for=\"phone\"\u003eCall me\u003c/label\u003e \u003cinput type=\"radio\" id=\"phone\" ***name=\"contact\" *** **value=\"phone\" ** /\u003e \u003clabel for=\"email\"\u003eEmail\u003c/label\u003e \u003cinput type=\"radio\" id=\"email\" ***name=\"contact\" *** **value=\"email\" ** /\u003e Tables \u003ctable\u003e \u003cthead\u003e \u003ctr\u003e \u003cth\u003ecol_1\u003c/th\u003e \u003cth\u003ecol_2\u003c/th\u003e \u003c/tr\u003e \u003c/thead\u003e \u003ctbody\u003e \u003ctr\u003e \u003ctd\u003elorem\u003c/td\u003e \u003ctd\u003elorem\u003c/td\u003e \u003c/tr\u003e \u003ctr\u003e \u003ctd\u003elorem\u003c/td\u003e \u003ctd\u003elorem\u003c/td\u003e \u003c/tr\u003e \u003c/tbody\u003e \u003c/table\u003e Span and Divs span use for styling purpose, it does not have any meaning\ndiv generic containers that have no inherent meaning, they are use to group content together for styling.\nSemantic markup / Semantic elements\n使用有語意的標籤而不是一堆 div Semantics - MDN Web Docs Glossary: Definitions of Web-related terms | MDN\n",
+  "wordCount" : "486",
+  "inLanguage": "zh",
+  "datePublished": "2020-10-20T17:14:50+08:00",
+  "dateModified": "2020-10-20T17:14:50+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      HTML Cheat Sheet
+    </h1>
+    <div class="post-meta"><span title='2020-10-20 17:14:50 +0800 CST'>2020-10-20</span>&nbsp;·&nbsp;486 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目錄</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#document-structure" aria-label="Document Structure">Document Structure</a></li>
+                <li>
+                    <a href="#paragraph-element-p" aria-label="Paragraph element p">Paragraph element p</a></li>
+                <li>
+                    <a href="#heading-element-h1-h2-h6" aria-label="Heading element h1, h2,&hellip;, h6">Heading element h1, h2,&hellip;, h6</a></li>
+                <li>
+                    <a href="#comments" aria-label="Comments">Comments</a></li>
+                <li>
+                    <a href="#void-element-br-%e8%88%87-hr" aria-label="Void Element br 與 hr">Void Element br 與 hr</a></li>
+                <li>
+                    <a href="#lists-ul-%e8%88%87-ol" aria-label="Lists ul 與 ol">Lists ul 與 ol</a><ul>
+                        
+                <li>
+                    <a href="#unordered-list" aria-label="Unordered List">Unordered List</a></li>
+                <li>
+                    <a href="#ordered-list" aria-label="Ordered List">Ordered List</a></li></ul>
+                </li>
+                <li>
+                    <a href="#emphasis-em" aria-label="Emphasis em">Emphasis em</a></li>
+                <li>
+                    <a href="#bold-strong" aria-label="Bold strong">Bold strong</a></li>
+                <li>
+                    <a href="#superscript-subscript-sup-sub" aria-label="Superscript, Subscript sup sub">Superscript, Subscript sup sub</a></li>
+                <li>
+                    <a href="#image-image" aria-label="Image image">Image image</a></li>
+                <li>
+                    <a href="#anchor-links-a" aria-label="Anchor (links) a">Anchor (links) a</a><ul>
+                        
+                <li>
+                    <a href="#image-anchor" aria-label="image anchor">image anchor</a></li>
+                <li>
+                    <a href="#target" aria-label="target">target</a></li></ul>
+                </li>
+                <li>
+                    <a href="#inline-vs-block-elements" aria-label="Inline vs block elements">Inline vs block elements</a></li>
+                <li>
+                    <a href="#forms" aria-label="Forms">Forms</a><ul>
+                        
+                <li>
+                    <a href="#range-input" aria-label="range input">range input</a></li>
+                <li>
+                    <a href="#text-area" aria-label="text area">text area</a></li>
+                <li>
+                    <a href="#selects" aria-label="selects">selects</a></li>
+                <li>
+                    <a href="#radio-button" aria-label="radio button">radio button</a></li></ul>
+                </li>
+                <li>
+                    <a href="#tables" aria-label="Tables">Tables</a></li>
+                <li>
+                    <a href="#span-and-divs" aria-label="Span and Divs">Span and Divs</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="document-structure">Document Structure<a hidden class="anchor" aria-hidden="true" href="#document-structure">#</a></h2>
+<ul>
+<li>
+<p><code>!</code> 然後 <code>tab</code> 快速鍵，快速產出骨架：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    ....
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="paragraph-element-p">Paragraph element <code>p</code><a hidden class="anchor" aria-hidden="true" href="#paragraph-element-p">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>lorem ...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="heading-element-h1-h2-h6">Heading element <code>h1</code>, <code>h2</code>,&hellip;, <code>h6</code><a hidden class="anchor" aria-hidden="true" href="#heading-element-h1-h2-h6">#</a></h2>
+<ul>
+<li>只能有一個 H1</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Taka&#39;s Blog<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="comments">Comments<a hidden class="anchor" aria-hidden="true" href="#comments">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- something --&gt;</span>
+</span></span></code></pre></div><h2 id="void-element-br-與-hr">Void Element <code>br</code> 與 <code>hr</code><a hidden class="anchor" aria-hidden="true" href="#void-element-br-與-hr">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 換行 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">hr</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 分隔線 --&gt;</span>
+</span></span></code></pre></div><h2 id="lists-ul-與-ol">Lists <code>ul</code> 與 <code>ol</code><a hidden class="anchor" aria-hidden="true" href="#lists-ul-與-ol">#</a></h2>
+<h3 id="unordered-list">Unordered List<a hidden class="anchor" aria-hidden="true" href="#unordered-list">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 3<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="ordered-list">Ordered List<a hidden class="anchor" aria-hidden="true" href="#ordered-list">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 1
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 2
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 3
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="emphasis-em">Emphasis <code>em</code><a hidden class="anchor" aria-hidden="true" href="#emphasis-em">#</a></h2>
+<ul>
+<li>不要再使用 <code>&lt;i&gt;lorem&lt;/i&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="bold-strong">Bold <code>strong</code><a hidden class="anchor" aria-hidden="true" href="#bold-strong">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="superscript-subscript-sup-sub">Superscript, Subscript <code>sup</code> <code>sub</code><a hidden class="anchor" aria-hidden="true" href="#superscript-subscript-sup-sub">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;&lt;/</span><span class="nt">sub</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="image-image">Image <code>image</code><a hidden class="anchor" aria-hidden="true" href="#image-image">#</a></h2>
+<ul>
+<li><code>alt</code> 很重要</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;io.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;something in the folder&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="anchor-links-a">Anchor (links) <code>a</code><a hidden class="anchor" aria-hidden="true" href="#anchor-links-a">#</a></h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#examples">The Anchor element - HTML: HyperText Markup Language | MDN</a></p>
+<ul>
+<li>link to other elements，可以用 <code>#</code> link 到某一段落的 <code>id</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;...&#34;</span><span class="p">&gt;</span>go to reddit<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;#pets&#34;</span><span class="p">&gt;</span>My Pets<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- link to section --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pets&#34;</span><span class="p">&gt;</span>Pets<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="image-anchor">image anchor<a hidden class="anchor" aria-hidden="true" href="#image-anchor">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://example.com&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;[https://picsum.photos/400](https://picsum.photos/400)&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;pig&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="target">target<a hidden class="anchor" aria-hidden="true" href="#target">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span> <span class="na">target</span><span class="o">=</span><span class="s">&#34;_blank&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="inline-vs-block-elements"><code>Inline</code> vs <code>block</code> elements<a hidden class="anchor" aria-hidden="true" href="#inline-vs-block-elements">#</a></h2>
+<ul>
+<li>inline 不會換行</li>
+<li>block elements 會佔滿整行，例如 <code>heading elements</code></li>
+</ul>
+<h2 id="forms">Forms<a hidden class="anchor" aria-hidden="true" href="#forms">#</a></h2>
+<ul>
+<li>use form to group controls together</li>
+<li><code>name</code> for input，這樣傳遞參數才能區別是哪個 input</li>
+<li><code>placeholder</code> for text input</li>
+<li><code>required</code> 設為必填</li>
+<li>input types:
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types">The Input (Form Input) element - HTML: HyperText Markup Language | MDN</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/register&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;get&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span><span class="p">&gt;</span>Enter your name<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name_input&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- button --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;number&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;color&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;checkbox&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- 🔥 --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="range-input">range input<a hidden class="anchor" aria-hidden="true" href="#range-input">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;range&#34;</span> <span class="na">min</span><span class="o">=</span><span class="s">&#34;0&#34;</span> <span class="na">max</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">step</span><span class="o">=</span><span class="s">&#34;2&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;volumnvalue&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h3 id="text-area">text area<a hidden class="anchor" aria-hidden="true" href="#text-area">#</a></h3>
+<ul>
+<li>multiple line text input</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">rows</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">cols</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="selects">selects<a hidden class="anchor" aria-hidden="true" href="#selects">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>Select your pet<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;pets&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;dog&#34;</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;cat&#34;</span><span class="p">&gt;</span>Cat<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="radio-button">radio button<a hidden class="anchor" aria-hidden="true" href="#radio-button">#</a></h3>
+<ul>
+<li>需要給 value 區分是哪個被選中</li>
+<li>若使用同樣的 <code>name</code> ，就可以 group radio button</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;phone&#34;</span><span class="p">&gt;</span>Call me<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email&#34;</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="tables">Tables<a hidden class="anchor" aria-hidden="true" href="#tables">#</a></h2>
+<ul>
+<li><code>&lt;thead&gt;</code></li>
+<li><code>&lt;tbody&gt;</code></li>
+<li><code>&lt;tfoot&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_1<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_2<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="span-and-divs">Span and Divs<a hidden class="anchor" aria-hidden="true" href="#span-and-divs">#</a></h2>
+<ul>
+<li>
+<p><code>span</code> use for styling purpose, it does not have any meaning</p>
+</li>
+<li>
+<p><code>div</code> generic containers that have no inherent meaning, they are use to group content together for styling.</p>
+</li>
+<li>
+<p>Semantic markup / Semantic elements</p>
+<ul>
+<li>使用有語意的標籤而不是一堆 div</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Glossary/Semantics">Semantics - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a></p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/frontend/">Frontend</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/html/">HTML</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/cheat-sheet/">Cheat Sheet</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2020/10/html-form-cheat-sheet/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>Html Form Cheat Sheet</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2020/10/php-cheat-sheet/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>PHP Cheat Sheet</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share HTML Cheat Sheet on x"
+            href="https://x.com/intent/tweet/?text=HTML%20Cheat%20Sheet&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fhtml-cheat-sheet%2f&amp;hashtags=Frontend%2cHTML%2cCheatSheet">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share HTML Cheat Sheet on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fhtml-cheat-sheet%2f&amp;title=HTML%20Cheat%20Sheet&amp;summary=HTML%20Cheat%20Sheet&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fhtml-cheat-sheet%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share HTML Cheat Sheet on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fhtml-cheat-sheet%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share HTML Cheat Sheet on telegram"
+            href="https://telegram.me/share/url?text=HTML%20Cheat%20Sheet&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fhtml-cheat-sheet%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

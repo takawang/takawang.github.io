@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iOS on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/ios/</link>
+    <description>Recent content in iOS on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 06 Aug 2022 11:04:15 +0000</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/ios/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>透過 CoreML 在 iOS 上實現即時的物體偵測</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/08/execute-yolov7-model-on-ios-devices/</link>
+      <pubDate>Sat, 06 Aug 2022 11:04:15 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/08/execute-yolov7-model-on-ios-devices/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.jpeg" alt="image"  />
+
+Real-time object detection with CoreML is trickier than you think.</p>
+<p>Usually, you have two choices to build a machine learning app for your mobile device, <strong>inference</strong> can happen either directly on-device or on cloud-based servers. It all depends on your usage scenario, there is no one-size fit all solution. In this article, we will only focus on on-device inference.</p>
+<p>At WWDC 2017 Apple released first Core ML. Core ML is Apple’s machine learning framework for doing on-device inference. Core ML is not the only way to do on-device inference, there are tens of libraries and frameworks that are compatible with iOS, but that’s beyond the scope of this article. From the <a href="https://github.com/WongKinYiu/yolov7">YOLOv7 official repository</a>, we can get the <a href="https://github.com/WongKinYiu/yolov7/blob/main/export.py">export script</a> to convert trained PyTorch model to Core ML format effortlessly. However, keep one thing in mind, YOLOv7 is a popular open source project, new changes and updates are added very quickly. I’m also very glad to send a <a href="https://github.com/WongKinYiu/yolov7/pull/434/commits">PR</a> to improve the export script last night due to this writing 😃.After you got the exported Core ML models, no kidding, you have tons of things in your todo list. <a href="https://twitter.com/mhollemans">Matthijs Hollemans</a> has already written an insightful <a href="https://machinethink.net/blog/bounding-boxes/">article</a> in his blog, be sure to checkout and <a href="https://leanpub.com/coreml-survival-guide">support his efforts</a>! Here is my short list:</p>
+<ul>
+<li>Configure your Core ML model in a particular way. You can either append NMS to your model or write a lot of additional Swift code. IMHO, this is the most difficult part if you know nothing about the object detection model.</li>
+<li>Specify camera resolution, don’t simply select the highest resolution available if your app doesn’t require it.</li>
+<li>Resize or crop your input image to fit network input dimension, it depends on your application.</li>
+<li>Feed modified images to your model in a correct orientation.</li>
+<li>Fix Vision’s weird orin.</li>
+<li>Convert bounding boxes coordinate system for display. This is also a trickier part, you need some iOS development experiences and a pencil for calculation 😎.</li>
+</ul>
+<p>According to Hollemans’s article, there are at least 5 different coordinate systems you need to take care, not to mention how to handle real-time capturing correctly and efficiently is also non-trivial. You can follow these two articles to learn how to create a custom camera view.</p>
+<p><a href="https://developer.apple.com/documentation/vision/recognizing_objects_in_live_capture">Apple Developer Documentation | Recognizing Objects in Live Capture</a></p>
+<p><a href="https://guides.codepath.com/ios/Creating-a-Custom-Camera-View">Creating a Custom Camera View | CodePath iOS Cliffnotes</a>
+At the latest <a href="https://developer.apple.com/videos/play/wwdc2022/10027/">WWDC 2022</a>, Apple introduced even more performance tools to its CoreML toolchain, now you can check your model’s metadata via <strong>performance reports</strong> and <strong>Core ML Instrument</strong> without writing any code. You can also use <code>computeUnits = .cpuAndNeuralEngine</code> if you don’t want to use the GPU but always force the model to run on the CPU and ANE if available.</p>
+<p><img loading="lazy" src="images/2.png#layoutTextWidth" alt="image"  />
+
+Prefer CPU and ANE instead of GPU.</p>
+<p>You can learn more about ANE from the following repository, thank you again Hollemans.</p>
+<p><a href="https://github.com/hollance/neural-engine">GitHub - hollance/neural-engine: Everything we actually know about the Apple Neural Engine (ANE)</a></p>
+<p>Here are snapshots from my model’s performance reports.</p>
+<p><img loading="lazy" src="images/3.png#layoutTextWidth" alt="image"  />
+
+You can evaluate your model via drag-and-drop image files.</p>
+<p>There is no significant inference speed differences among quantization models, but the model size only about half the size. It’s a good thing for your mobile applications.
+<img loading="lazy" src="images/4.png#layoutTextWidth" alt="image"  />
+</p>
+<p><img loading="lazy" src="images/5.png#layoutTextWidth" alt="image"  />
+
+No inference speed improved. (Left is FP32, right is FP16)</p>
+<p><img loading="lazy" src="images/6.png#layoutTextWidth" alt="image"  />
+</p>
+<p><img loading="lazy" src="images/7.png#layoutTextWidth" alt="image"  />
+
+Half the size of the FP32 model.</p>
+<p>Finally, you have a working YOLOv7 Core ML model on the iOS devices, be careful of the heat🔥. Happy coding!</p>
+<p><img loading="lazy" src="images/8.gif#layoutTextWidth" alt="image"  />
+
+<strong>Yolov7-tiny on iPad Mini 6.</strong> Copyrights of <a href="https://youtu.be/hngml3y2Rq8">BBIBBI Dance Practice</a> belongs Kakao Entertainment.</p>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://developer.apple.com/documentation/vision/recognizing_objects_in_live_capture">Recognizing Objects in Live Capture</a></li>
+<li><a href="https://machinethink.net/blog/bounding-boxes/">How to display Vision bounding boxes</a></li>
+<li><a href="https://guides.codepath.com/ios/Creating-a-Custom-Camera-View">Creating a Custom Camera View</a></li>
+<li><a href="https://github.com/hollance/neural-engine">The Neural Engine — what do we know about it?</a></li>
+<li><a href="https://github.com/WongKinYiu/yolov7">WongKinYiu/yolov7</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2022/10027/">WWDC2022 — Optimize your Core ML usage</a></li>
+<li><a href="https://machinethink.net/blog/mobilenet-ssdlite-coreml/">MobileNetV2 + SSDLite with Core ML</a></li>
+<li><a href="https://github.com/dbsystel/yolov5-coreml-tools">yolov5 — CoreML Tools</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>模擬奧運五環無人機燈光秀</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/03/simulated-olympic-rings-drone-light-show/</link>
+      <pubDate>Sat, 19 Mar 2022 12:37:27 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/03/simulated-olympic-rings-drone-light-show/</guid>
+      <description>練習 CALayer &amp;amp; Gesture Recognizer@</description>
+      <content:encoded><![CDATA[<p><strong>學習目標：</strong></p>
+<ul>
+<li>Gesture Recognizer</li>
+<li>CALayer &amp; UIBezierPath</li>
+<li>Class &amp; Function</li>
+</ul>
+<p><strong>練習成果：</strong></p>
+<p><img loading="lazy" src="images/1.gif" alt="image"  />
+</p>
+<p><strong>原始碼：</strong></p>
+<p><a href="https://github.com/takawang/olympic-drone">GitHub - takawang/olympic-drone</a></p>
+<p><strong>緣起：</strong></p>
+<p>這次的練習，主要是看到下面這篇文章的啟發，不過我簡化了觸模散開與加速度這個部分，主要是練習 swift 實作。</p>
+<p><a href="https://velog.io/@heekang/Vanilla-JS-%ED%8F%89%EC%B0%BD%EC%98%AC%EB%A6%BC%ED%94%BD-%EB%93%9C%EB%A1%A0%EC%87%BC-%EB%A7%8C%EB%93%A4%EA%B8%B0">[Vanilla JS] 평창올림픽 드론쇼 만들기</a></p>
+<p><strong>說明：</strong></p>
+<p>實作的構想還算直覺，除了<strong>長壓連續觸發</strong>需要研究一下。</p>
+<ol>
+<li>使用 javascript 的 <strong>canvas getImageData()</strong> 將 SVG 存成 json 檔 (可參考上文連結中的 <strong>getDotPos</strong> 方法。</li>
+<li>在 swift 中，透過讀取 json 檔，存成座標點的類別陣列，這兩步驟也可以用來畫其他圖案，不用手工一直描點。</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            load all points from json file
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">UIKit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Point definition for json object</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Point</span><span class="p">:</span> <span class="n">Decodable</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nv">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">Int</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nv">color</span><span class="p">:</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// load all points from json file.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://stackoverflow.com/a/50042872</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://praveenkommuri.medium.com/how-to-read-parse-local-json-file-in-swift-28f6cec747cf</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">loadFromJson</span><span class="p">(</span><span class="n">fileName</span> <span class="n">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="n">Point</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">guard</span> <span class="kd">let</span> <span class="nv">filePath</span> <span class="p">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="n">forResource</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="n">ofType</span><span class="p">:</span> <span class="s">&#34;json&#34;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">[]</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nv">fileUrl</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="n">fileURLWithPath</span><span class="p">:</span> <span class="n">filePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span> <span class="n">Data</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="n">fileUrl</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nv">points</span> <span class="p">=</span> <span class="k">try</span> <span class="n">JSONDecoder</span><span class="p">().</span><span class="n">decode</span><span class="p">([</span><span class="n">Point</span><span class="p">].</span><span class="kc">self</span><span class="p">,</span> <span class="n">from</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">points</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// should not happen!</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Something went wrong: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="3">
+<li>設計 Drone 類別，讓 Drone <strong>初始位置</strong>是隨機的，<strong>目的位置</strong>是剛剛載入的圖形座標。</li>
+<li>將兩座標分成 20 份，持續按壓連續觸發時，一次移動一份。</li>
+<li>當到達目的座標時，改變 Drone 的顏色。</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            handle long press event
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">UIKit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">touchCountTimer</span><span class="p">:</span> <span class="n">Timer</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">touchBeginTime</span><span class="p">:</span> <span class="nb">Double</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nv">droneCollection</span> <span class="p">=</span> <span class="n">DroneCollectionController</span><span class="p">(</span><span class="n">fromJsonFile</span><span class="p">:</span> <span class="s">&#34;ring&#34;</span><span class="p">)</span> <span class="c1">// composition</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">droneCollection</span><span class="p">.</span><span class="n">attachToLayer</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="kc">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">)</span> <span class="c1">// attach drone layer</span>
+</span></span><span class="line"><span class="cl">    <span class="n">addLongPressGesture</span><span class="p">()</span> <span class="c1">// handle press</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// register gesture recognizer</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: [How can i count time on long-pressed button using UILongPressGestureRecognizer](https://stackoverflow.com/a/53146530)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">func</span> <span class="nf">addLongPressGesture</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">longPress</span> <span class="p">=</span> <span class="n">UILongPressGestureRecognizer</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">longPress</span><span class="p">(</span><span class="n">gesture</span><span class="p">:)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">longPress</span><span class="p">.</span><span class="n">minimumPressDuration</span> <span class="p">=</span> <span class="mf">0.1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">longPress</span><span class="p">.</span><span class="n">numberOfTouchesRequired</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">longPress</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle long press event</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: [How can i count time on long-pressed button using UILongPressGestureRecognizer](https://stackoverflow.com/a/53146530)</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">longPress</span><span class="p">(</span><span class="n">gesture</span><span class="p">:</span> <span class="n">UILongPressGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="n">gesture</span><span class="p">.</span><span class="n">state</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">UIGestureRecognizer</span><span class="p">.</span><span class="n">State</span><span class="p">.</span><span class="n">began</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">touchCountTimer</span> <span class="p">=</span> <span class="n">Timer</span><span class="p">.</span><span class="n">scheduledTimer</span><span class="p">(</span><span class="n">withTimeInterval</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">repeats</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="p">{</span> <span class="p">[</span><span class="kc">self</span><span class="p">]</span> <span class="p">(</span><span class="n">timer</span><span class="p">)</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> - do animation</span>
+</span></span><span class="line"><span class="cl">        <span class="n">droneCollection</span><span class="p">.</span><span class="n">animation</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="p">})</span>
+</span></span><span class="line"><span class="cl">      <span class="n">touchBeginTime</span> <span class="p">=</span> <span class="n">Date</span><span class="p">().</span><span class="n">timeIntervalSince1970</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="p">.</span><span class="n">ended</span><span class="p">,</span> <span class="p">.</span><span class="n">failed</span><span class="p">,</span> <span class="p">.</span><span class="n">cancelled</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">touchCountTimer</span><span class="p">?.</span><span class="n">invalidate</span><span class="p">()</span> <span class="c1">// Stops the timer</span>
+</span></span><span class="line"><span class="cl">      <span class="n">DroneCollectionController</span><span class="p">.</span><span class="n">isArrived</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="p">.</span><span class="n">changed</span><span class="p">:</span> <span class="c1">// wipe</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;unknown&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+]]></content:encoded>
+    </item>
+    <item>
+      <title>iPad上的影片播放器</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/</link>
+      <pubDate>Wed, 16 Mar 2022 10:32:00 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/</guid>
+      <description>練習使用 AVPlayerViewController 製作動態字幕影片</description>
+      <content:encoded><![CDATA[<p><strong>學習目標：</strong></p>
+<ul>
+<li>AVPlayer</li>
+<li>NotificationCenter</li>
+<li>Timer</li>
+<li>Swift Optional</li>
+<li>Function</li>
+<li>Switch Case</li>
+</ul>
+<p><strong>練習成果：</strong></p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/qnXX_HtG1sw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p><strong>原始碼：</strong></p>
+<p><a href="https://github.com/takawang/letter-song">GitHub - takawang/letter-song</a></p>
+<p><strong>歌詞：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">今晚 我想將那天的螢火
+</span></span><span class="line"><span class="cl">送到你的窗前
+</span></span><span class="line"><span class="cl">含意是&#34;我愛你&#34;
+</span></span><span class="line"><span class="cl">我想起我們的初吻
+</span></span><span class="line"><span class="cl">不管何時 只要閉上雙眼
+</span></span><span class="line"><span class="cl">就能奔向那最遙遠的地方
+</span></span><span class="line"><span class="cl">就像我在被浪濤湧來的沙上寫下的字跡般
+</span></span><span class="line"><span class="cl">你感覺也會像他們那樣從此消失
+</span></span><span class="line"><span class="cl">總是想念
+</span></span><span class="line"><span class="cl">雖然無法將我心裡所有的話語，說給你聽
+</span></span><span class="line"><span class="cl">但那裡頭，全都是&#34;我愛你&#34;
+</span></span><span class="line"><span class="cl">我何德何能
+</span></span><span class="line"><span class="cl">能擁有名為你的這份幸運
+</span></span><span class="line"><span class="cl">若我們現在能望著對方
+</span></span><span class="line"><span class="cl">該有多美好
+</span></span><span class="line"><span class="cl">就像我在被浪濤湧來的沙上寫下的字跡般
+</span></span><span class="line"><span class="cl">你感覺也會像他們那樣從此消失
+</span></span><span class="line"><span class="cl">還是想念
+</span></span><span class="line"><span class="cl">雖然無法將我寫在日記上的一字一句
+</span></span><span class="line"><span class="cl">都告訴你
+</span></span><span class="line"><span class="cl">但字字句句都代表著我愛你
+</span></span><span class="line"><span class="cl">今晚 我想將那天的螢火
+</span></span><span class="line"><span class="cl">送到你的窗前
+</span></span><span class="line"><span class="cl">希望今夜的你有個美好的夢
+</span></span></code></pre></div><p><strong>影片來源：</strong><a href="https://www.youtube.com/watch?v=BzYnNdJhZQw">https://www.youtube.com/watch?v=BzYnNdJhZQw</a></p>
+<p><strong>歌詞來源：</strong><a href="https://tinyurl.com/2p9c5d8a">https://tinyurl.com/2p9c5d8a</a></p>
+<p><strong>Storyboard:</strong></p>
+<p><img loading="lazy" src="images/1.png" alt="image"  />
+</p>
+<hr>
+<p><strong>過程：</strong></p>
+<p>本次結合幾個項目，練習 SDK 使用與熟悉 Swift 語法，只用 function print 無法滿足自己的期待，所以上網查了一些資料並搭配上課內容製作，將 AVPlayerViewController 加進 UIView 應該是最困難的部分，原本考慮使用 Container View 去做，但還不知道怎麼控制多個 Controller，並且跟 Storyboard 串接起來。</p>
+<p>主要在 <strong>iPad Pro 12.9</strong> 與 <strong>iPad Mini 6</strong> 實機測試過，iPhone 版面會看不到歌詞。</p>
+<ol>
+<li>新增 UIView，取得 IBOutlet -&gt; Line 12</li>
+<li>將 AVPlayerViewController 加進 UIView -&gt; Line 50</li>
+<li>用 IBAction 控制 影片播放並開始計時 -&gt; Line59</li>
+<li>註冊 View 生命週期與影片播放結束的通知 -&gt; Line 20~28</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Partial script
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">AVFoundation</span>
+</span></span><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">AVKit</span>
+</span></span><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">UIKit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBOutlet</span> <span class="kr">weak</span> <span class="kd">var</span> <span class="nv">lyricsLabel</span><span class="p">:</span> <span class="n">UILabel</span><span class="p">!</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBOutlet</span> <span class="kr">weak</span> <span class="kd">var</span> <span class="nv">videoView</span><span class="p">:</span> <span class="n">UIView</span><span class="p">!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">player</span><span class="p">:</span> <span class="n">AVPlayer</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">timer</span><span class="p">:</span> <span class="n">Timer</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">counter</span> <span class="p">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// listen to active and resign notifications</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://stackoverflow.com/a/45955660</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">openAndCloseActivity</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">didBecomeActiveNotification</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">openAndCloseActivity</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">willResignActiveNotification</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// listen to end play notification</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">videoDidEnd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">NSNotification</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">AVPlayerItemDidPlayToEndTime</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// setup avplayer controller</span>
+</span></span><span class="line"><span class="cl">    <span class="n">initVideoView</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// setup avplayer controller</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// add avplayer controller to the current view and hide playback controls</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">func</span> <span class="nf">initVideoView</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://medium.com/@nabilsafatli/how-to-create-a-custom-control-for-avplayer-1e53b9188ae3</span>
+</span></span><span class="line"><span class="cl">    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">url</span> <span class="p">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="n">forResource</span><span class="p">:</span> <span class="s">&#34;night&#34;</span><span class="p">,</span> <span class="n">withExtension</span><span class="p">:</span> <span class="s">&#34;mp4&#34;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">player</span> <span class="p">=</span> <span class="n">AVPlayer</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//player!.rate = 1 //auto play</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">playerFrame</span> <span class="p">=</span> <span class="n">CGRect</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">videoView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n">videoView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">playerViewController</span> <span class="p">=</span> <span class="n">AVPlayerViewController</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">player</span> <span class="p">=</span> <span class="kc">self</span><span class="p">.</span><span class="n">player</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="p">=</span> <span class="n">playerFrame</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">addChild</span><span class="p">(</span><span class="n">playerViewController</span><span class="p">)</span> <span class="c1">// add player controller to view controller</span>
+</span></span><span class="line"><span class="cl">    <span class="n">videoView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">playerViewController</span><span class="p">.</span><span class="n">view</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">didMove</span><span class="p">(</span><span class="n">toParent</span><span class="p">:</span> <span class="kc">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">showsPlaybackControls</span> <span class="p">=</span> <span class="kc">false</span> <span class="c1">// hide playback controls</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle play click event</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">playVideo</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="n">UIButton</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">!</span><span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// set flag</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="p">=</span> <span class="mf">0.0</span> <span class="c1">// init counter</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">seek</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">CMTime</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">CMTimeValue</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">timescale</span><span class="p">:</span> <span class="mi">1000</span><span class="p">))</span> <span class="c1">// seek to head</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// init timer.</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// ref: https://medium.com/彼得潘的-swift-ios-app-開發教室/透過-timer-設定每幾秒重複執行-function-3c80f449107</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">timer</span> <span class="p">=</span> <span class="n">Timer</span><span class="p">.</span><span class="n">scheduledTimer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">timeInterval</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">updateLyrics</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">userInfo</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">repeats</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// play video</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">play</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;already playing, do nothing...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">updateLyrics</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="c1">// increase counter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">5.0</span><span class="p">...</span><span class="mf">20.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;IU - 夜信&#34;</span> <span class="c1">// 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">24.4</span><span class="p">...</span><span class="mf">37.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;今晚  我想將那天的螢火&#34;</span> <span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">37.5</span><span class="p">...</span><span class="mf">47.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;送到你的窗前&#34;</span> <span class="c1">// 2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">49.6</span><span class="p">...</span><span class="mf">59.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;含意是 </span><span class="se">\&#34;</span><span class="s">我愛你</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="c1">// 3</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">68.8</span><span class="p">...</span><span class="mf">80.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;我想起我們的初吻&#34;</span> <span class="c1">// 4</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">80.9</span><span class="p">...</span><span class="mf">90.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;不管何時 只要閉上雙眼&#34;</span> <span class="c1">// 5</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">93.1</span><span class="p">...</span><span class="mf">103.2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就能奔向那最遙遠的地方&#34;</span> <span class="c1">// 6</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">105.7</span><span class="p">...</span><span class="mf">115.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就像我在被浪濤湧來的沙上寫下的字跡般&#34;</span> <span class="c1">// 7,8</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">115.9</span><span class="p">...</span><span class="mf">123.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;你感覺也會像他們那樣從此消失&#34;</span> <span class="c1">// 9</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">123.5</span><span class="p">...</span><span class="mf">127.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;總是想念&#34;</span> <span class="c1">// 10</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">127.5</span><span class="p">...</span><span class="mf">141.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;雖然無法將我心裡所有的話語  說給你聽&#34;</span> <span class="c1">// 11,12</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">141.2</span><span class="p">...</span><span class="mf">151.3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;但那裡頭全都是 </span><span class="se">\&#34;</span><span class="s">我愛你</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="c1">// 13</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">160.1</span><span class="p">...</span><span class="mf">166.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;我何德何能&#34;</span> <span class="c1">// 14</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">166.1</span><span class="p">...</span><span class="mf">171.7</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;能擁有名為你的這份幸運&#34;</span> <span class="c1">// 15</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">171.8</span><span class="p">...</span><span class="mf">176.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;若我們現在能望著對方&#34;</span> <span class="c1">// 16</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">176.9</span><span class="p">...</span><span class="mf">184.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;該有多美好&#34;</span> <span class="c1">// 17</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">184.1</span><span class="p">...</span><span class="mf">194.1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就像我在被浪濤湧來的沙上寫下的字跡般&#34;</span> <span class="c1">// 18,19</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">194.2</span><span class="p">...</span><span class="mf">202.5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;你感覺也會像他們那樣從此消失&#34;</span> <span class="c1">// 20</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">202.6</span><span class="p">...</span><span class="mf">205.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;還是想念&#34;</span> <span class="c1">// 21</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">205.9</span><span class="p">...</span><span class="mf">212.1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;雖然無法將我寫在日記上的一字一句&#34;</span> <span class="c1">// 22</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">212.2</span><span class="p">...</span><span class="mf">220.5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;都告訴你&#34;</span> <span class="c1">// 23</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">220.6</span><span class="p">...</span><span class="mf">226.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;但字字句句都代表著我愛你&#34;</span> <span class="c1">// 24</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">228.5</span><span class="p">...</span><span class="mf">241.9</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;今晚  我想將那天的螢火&#34;</span> <span class="c1">// 25</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">242.0</span><span class="p">...</span><span class="mf">249.7</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;送到你的窗前&#34;</span> <span class="c1">// 26</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">255.9</span><span class="p">...</span><span class="mf">267.2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;希望今夜的你有個美好的夢&#34;</span> <span class="c1">// 27</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle vidie end notification</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">videoDidEnd</span><span class="p">(</span><span class="n">notification</span><span class="p">:</span> <span class="n">NSNotification</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;video ended&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">timer</span><span class="p">?.</span><span class="n">invalidate</span><span class="p">()</span> <span class="c1">// stop timer</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle activity resume and close</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://stackoverflow.com/a/45955660</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">openAndCloseActivity</span><span class="p">(</span><span class="kc">_</span> <span class="n">notification</span><span class="p">:</span> <span class="n">Notification</span><span class="p">)</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">notification</span><span class="p">.</span><span class="n">name</span> <span class="p">==</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">didBecomeActiveNotification</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;resume activity&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// seek to head</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">seek</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">CMTime</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">CMTimeValue</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">timescale</span><span class="p">:</span> <span class="mi">1000</span><span class="p">))</span> <span class="c1">// ref: https://stackoverflow.com/a/59839041</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;close activity&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">pause</span><span class="p">()</span> <span class="c1">// pause player</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">timer</span><span class="p">?.</span><span class="n">invalidate</span><span class="p">()</span> <span class="c1">// stop timer</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><strong>免責聲明：</strong></p>
+<p>影片使用只為了學習目的，沒有營利行為，版權屬於原創作方 <a href="https://www.youtube.com/channel/UCweOkPb1wVVH0Q0Tlj4a5Pw">1theK</a>.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>仿製 iPad 上的 Apple Music</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/03/replicate-apple-music-ipad-os-app/</link>
+      <pubDate>Sun, 13 Mar 2022 11:35:11 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/03/replicate-apple-music-ipad-os-app/</guid>
+      <description>練習使用 Scroll View &amp;amp; Table View 仿製 iPad 上的 Apple Music App</description>
+      <content:encoded><![CDATA[<p><strong>學習目標：</strong></p>
+<ul>
+<li>練習 Scroll View</li>
+<li>練習 Navigation Controller</li>
+<li>練習 Table View Controller &amp; Static Cells</li>
+<li>練習 Label &amp; Button 樣式</li>
+<li>練習 segue &amp; SF Symbols</li>
+</ul>
+<p><strong>練習成果：</strong></p>
+<p><img loading="lazy" src="images/1.gif" alt="練習成果錄影截圖"  />
+</p>
+<p><a href="https://github.com/takawang/fake-music">GitHub - takawang/fake-music</a></p>
+<p><strong>過程：</strong></p>
+<p>透過直接擷取 iPad Pro 12.9 實機畫面，在 story board 上仿製 Apple Music 上的 IU 專輯頁面，更進一步熟悉了 Navigation Controller 的使用，因為還不會製作符合各種機型的版面，所以就直接 hardcode 只支援 12.9 水平的版面，是有點呆版但也收穫不少。</p>
+<p><img loading="lazy" src="images/2.png" alt="image"  />
+
+限定只支援 iPad 與 Landscape</p>
+<p><img loading="lazy" src="images/3.png" alt="image"  />
+
+修改 Product Name 改變 APP 在桌面的名稱</p>
+<p>需要注意的地方是，在 story board 上的是 point，但螢幕截圖是 pixel，因為沒有 zeplin 之類的設計稿，所以花最多時間還是在抓取與對齊座標，位置不是 pixel perfect，但練習的目的應該是達到了。</p>
+<p><img loading="lazy" src="images/4.png" alt="image"  />
+
+Point 與 pixel 是 2x scale 的關係</p>
+<p><strong>最近播放</strong>的點選，參考下面文章，原本使用 <strong>tap gesture recognizer</strong>，不過大概因為我將 navigation controller 放錯地方，總是看不到 back 選單，最後選擇<strong>透明按鈕疊在上方</strong>的做法。</p>
+<p><a href="https://medium.com/%E5%BD%BC%E5%BE%97%E6%BD%98%E7%9A%84-swift-ios-app-%E9%96%8B%E7%99%BC%E5%95%8F%E9%A1%8C%E8%A7%A3%E7%AD%94%E9%9B%86/%E5%88%A9%E7%94%A8-segue-%E5%AF%A6%E7%8F%BE%E5%9C%96%E7%89%87%E9%BB%9E%E9%81%B8%E7%9A%84%E6%8F%9B%E9%A0%81%E5%8A%9F%E8%83%BD-84f6991d74d4">利用 segue 實現圖片點選的換頁功能</a></p>
+<p><img loading="lazy" src="images/5.png" alt="image"  />
+
+Navigation Controller 需要從第一個畫面長出來，而不是第二頁</p>
+<p>主畫面有兩個 scoll view，參考連結提供的技巧就可以方便製作，記得將<strong>水平與垂直的捲軸指示</strong>關閉，這樣畫面會比較擬真。</p>
+<p><a href="https://medium.com/%E5%BD%BC%E5%BE%97%E6%BD%98%E7%9A%84-swift-ios-app-%E9%96%8B%E7%99%BC%E5%95%8F%E9%A1%8C%E8%A7%A3%E7%AD%94%E9%9B%86/%E5%9C%A8-storyboard-%E8%A8%AD%E5%AE%9A-content-size-%E5%AF%A6%E7%8F%BE%E6%B0%B4%E5%B9%B3%E6%8D%B2%E5%8B%95%E7%9A%84-scroll-view-2710fa247293">設定 content size，實現水平捲動，上下捲動和分頁的 scroll view</a></p>
+<p><img loading="lazy" src="images/6.png" alt="image"  />
+
+取消勾選水平與垂直 indicator，使得 scroll view 捲動時不會顯示卷軸</p>
+<p>Table View 的第一個 Cell 與最後兩個 Cell 為了版面調整，中間的歌曲列表只需要透過修改 row 數就可以複製，再修改封面照與 label 即可。</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

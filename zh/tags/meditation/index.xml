@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meditation on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/meditation/</link>
+    <description>Recent content in Meditation on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 05 Dec 2023 20:29:32 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/meditation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>35歲的程式設計師都去哪了</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/12/where-is-the-35&#43;-programmer/</link>
+      <pubDate>Tue, 05 Dec 2023 20:29:32 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/12/where-is-the-35&#43;-programmer/</guid>
+      <description>Where is the programmer</description>
+      <content:encoded><![CDATA[<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style type="text/css">
+            .bilibili_shortcodes {
+                position: relative;
+                width: 100%;
+                height: 0;
+                padding-bottom: 66%;
+                margin: 10px auto;  
+                overflow: hidden;
+                text-align: center;
+            }
+            .bilibili_shortcodes iframe {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+            }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div class="bilibili_shortcodes">
+            <iframe
+                src="https://player.bilibili.com/player.html?bvid=BV1QN4y127vL&page=1&high_quality=1&danmaku=0&as_wide=0"
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true"
+            >
+            </iframe>
+        </div>
+    </body>
+</html>
+
+]]></content:encoded>
+    </item>
+    <item>
+      <title>今天你會有好事發生</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/04/you-will-have-a-good-day/</link>
+      <pubDate>Thu, 06 Apr 2023 12:29:10 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/04/you-will-have-a-good-day/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="1.jpeg" alt="image"  />
+</p>
+<p>Today you will have a good day. Jesus spoke to them at once, “Don’t be afraid,” he said. “Take courage! I am here!” (Mark 6:50)</p>
+<p><img loading="lazy" src="2.png" alt="image"  />
+</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

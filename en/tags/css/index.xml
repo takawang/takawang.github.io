@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CSS on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/css/</link>
+    <description>Recent content in CSS on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 12 Nov 2023 15:40:59 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Critical Rendering Path (CRP)</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/11/css-crp/</link>
+      <pubDate>Sun, 12 Nov 2023 15:40:59 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/11/css-crp/</guid>
+      <description>CSS Critical Rendering Path</description>
+      <content:encoded><![CDATA[<blockquote>
+<p><strong>Behind the scenes when a web page is loaded and rendered:</strong></p>
+</blockquote>
+<ol>
+<li>
+<p><code>Load HTML</code></p>
+<ul>
+<li>The browser starts by fetching and loading the HTML file.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse HTML</code></p>
+<ul>
+<li>The HTML file is parsed to create the Document Object Model (DOM). The DOM represents the structure of the document as a tree of objects, where each object corresponds to a part of the document (e.g., elements, attributes).</li>
+</ul>
+</li>
+<li>
+<p><code>Load CSS</code></p>
+<ul>
+<li>If there are linked or inline stylesheets in the HTML, the browser fetches and loads them.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse CSS</code></p>
+<ul>
+<li>The loaded CSS files are parsed to create the CSS Object Model (CSSOM). This represents the styles and layout information defined in the CSS.</li>
+<li><strong>Resolve Conflicting CSS Declarations:</strong>
+<ul>
+<li>If there are conflicting CSS declarations (i.e., rules that apply to the same element and property), the browser uses a specific set of rules to determine which styles take precedence.</li>
+</ul>
+</li>
+<li><strong>Process Final CSS Values:</strong>
+<ul>
+<li>The browser processes the final computed values for each CSS property, taking into account inheritance, specificity, and other rules.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Render Tree</code></p>
+<ul>
+<li>The DOM and CSSOM are combined to create the Render Tree. The Render Tree represents the visual hierarchy of the elements on the page that will be rendered. It includes only the elements that will actually be displayed.</li>
+</ul>
+</li>
+<li>
+<p><code>The Visual Formatting Model</code></p>
+<ul>
+<li>The visual formatting model takes the render tree and calculates the layout of each element on the page. This includes determining the size and position of each element based on its CSS properties.</li>
+<li>The visual formatting model also takes into account factors like the box model (margins, borders, padding), positioning, and floating elements.</li>
+</ul>
+</li>
+<li>
+<p><code>Render the Page</code></p>
+<ul>
+<li>Finally, the browser renders the page by painting each pixel according to the specifications of the visual formatting model.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><img loading="lazy" src="The-critical-rendering-path.png" alt="The critical rendering path"  />
+
+<em>Image source: <a href="https://wp-rocket.me/blog/critical-css/">Critical CSS in WordPress: What It Is and How to Optimize CSS Delivery</a></em></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/categories/notes/</link>
+    <description>Recent content in Notes on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 12 Nov 2023 15:40:59 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/categories/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Some Extension &amp; More</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/extension-and-more/</link>
+      <pubDate>Sun, 29 Oct 2023 16:09:33 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/extension-and-more/</guid>
+      <description>Common VSCode Extension and More&amp;hellip;</description>
+      <content:encoded><![CDATA[<h2 id="vscode-extension">VSCode Extension</h2>
+<h3 id="frontend">Frontend</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ecmel.vscode-html-css">HTML CSS Support</a> (intelligence)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek">CSS Peak</a> (link to style)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a> (format on save)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=vincaslt.highlight-matching-tag">Highlight Matching Tag</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=kisstkondoros.vscode-gutter-preview">Image preview</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight">Color highlight</a> (Highlight web colors in your editor)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag">Auto rename tag</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live server</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">Volar (Vue Language Features)</a></li>
+<li><a href="https://www.toptal.com/developers/keycode">Javascript Key Code</a></li>
+</ul>
+<h2 id="backend">Backend</h2>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client">PHP Intelephense</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django">Django</a></li>
+</ul>
+<h3 id="general">General</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight">TODO Highlight</a></li>
+</ul>
+<h2 id="chrome-extension">Chrome Extension</h2>
+<ul>
+<li><a href="https://chromewebstore.google.com/detail/pesticide-for-chrome/bakpbgckdnepkmkeaiomhmfcnejndkbi?pli=1">Pesticide</a></li>
+<li><a href="https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a></li>
+<li><a href="https://chromewebstore.google.com/detail/live-server-web-extension/fiegdmejfepffgpnejdinekhfieaogmj">Live Server Web Extension</a></li>
+</ul>
+<h2 id="cheat-sheet">Cheat Sheet</h2>
+<ul>
+<li><a href="https://adam-marsden.co.uk/css-cheat-sheet">CSS</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Critical Rendering Path (CRP)</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/11/css-crp/</link>
+      <pubDate>Sun, 12 Nov 2023 15:40:59 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/11/css-crp/</guid>
+      <description>CSS Critical Rendering Path</description>
+      <content:encoded><![CDATA[<blockquote>
+<p><strong>Behind the scenes when a web page is loaded and rendered:</strong></p>
+</blockquote>
+<ol>
+<li>
+<p><code>Load HTML</code></p>
+<ul>
+<li>The browser starts by fetching and loading the HTML file.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse HTML</code></p>
+<ul>
+<li>The HTML file is parsed to create the Document Object Model (DOM). The DOM represents the structure of the document as a tree of objects, where each object corresponds to a part of the document (e.g., elements, attributes).</li>
+</ul>
+</li>
+<li>
+<p><code>Load CSS</code></p>
+<ul>
+<li>If there are linked or inline stylesheets in the HTML, the browser fetches and loads them.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse CSS</code></p>
+<ul>
+<li>The loaded CSS files are parsed to create the CSS Object Model (CSSOM). This represents the styles and layout information defined in the CSS.</li>
+<li><strong>Resolve Conflicting CSS Declarations:</strong>
+<ul>
+<li>If there are conflicting CSS declarations (i.e., rules that apply to the same element and property), the browser uses a specific set of rules to determine which styles take precedence.</li>
+</ul>
+</li>
+<li><strong>Process Final CSS Values:</strong>
+<ul>
+<li>The browser processes the final computed values for each CSS property, taking into account inheritance, specificity, and other rules.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Render Tree</code></p>
+<ul>
+<li>The DOM and CSSOM are combined to create the Render Tree. The Render Tree represents the visual hierarchy of the elements on the page that will be rendered. It includes only the elements that will actually be displayed.</li>
+</ul>
+</li>
+<li>
+<p><code>The Visual Formatting Model</code></p>
+<ul>
+<li>The visual formatting model takes the render tree and calculates the layout of each element on the page. This includes determining the size and position of each element based on its CSS properties.</li>
+<li>The visual formatting model also takes into account factors like the box model (margins, borders, padding), positioning, and floating elements.</li>
+</ul>
+</li>
+<li>
+<p><code>Render the Page</code></p>
+<ul>
+<li>Finally, the browser renders the page by painting each pixel according to the specifications of the visual formatting model.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><img loading="lazy" src="The-critical-rendering-path.png" alt="The critical rendering path"  />
+
+<em>Image source: <a href="https://wp-rocket.me/blog/critical-css/">Critical CSS in WordPress: What It Is and How to Optimize CSS Delivery</a></em></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Faster Whisper With Progress Bar</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/</link>
+      <pubDate>Thu, 19 Oct 2023 19:59:44 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/</guid>
+      <description>How to use faster-whisper and generate a progress bar</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/guillaumekln/faster-whisper">faster-whisper</a> is a reimplementation of OpenAI&rsquo;s Whisper model using <code>CTranslate2</code>, an engine designed for fast inference of Transformer models. The overall speed is significantly improved.</p>
+<p>Below is a simple example of generating subtitles. First, install <code>faster_whisper</code> and <code>pysubs2</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># pip install faster_whisper pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span><span class="o">=</span><span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span>  <span class="c1"># save srt file</span>
+</span></span></code></pre></div><p>You can modify it to display a progress bar using <code>tqdm</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span><span class="o">=</span><span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">timestamps</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># for progress bar</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&#34; audio seconds&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Update progress bar based on segment duration</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">seg</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Handle silence at the end of the audio</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">timestamps</span> <span class="o">&lt;</span> <span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span>  <span class="c1"># save srt file</span>
+</span></span></code></pre></div><p>Additionally, here&rsquo;s a Dockerfile to set up the environment:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Use the official NVIDIA CUDA image as the base image</span>
+</span></span><span class="line"><span class="cl">FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+</span></span><span class="line"><span class="cl">ARG <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install necessary dependencies</span>
+</span></span><span class="line"><span class="cl">RUN apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3-pip <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set the working directory inside the container</span>
+</span></span><span class="line"><span class="cl">WORKDIR /app
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install required Python packages</span>
+</span></span><span class="line"><span class="cl">RUN pip install faster_whisper pysubs2 tqdm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create directories to store the models</span>
+</span></span><span class="line"><span class="cl">RUN mkdir -p /models/faster-whisper-medium
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Download the medium model using wget to the specified directory</span>
+</span></span><span class="line"><span class="cl">RUN wget -O /models/faster-whisper-medium/config.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/config.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/model.bin https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/model.bin <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/tokenizer.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/tokenizer.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/vocabulary.txt https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/vocabulary.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">COPY app.py /app/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run the script</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;python3&#34;</span>, <span class="s2">&#34;app.py&#34;</span><span class="o">]</span>
+</span></span></code></pre></div><p><strong>Source Code</strong>: <a href="https://github.com/taka-wang/docker-whisper">https://github.com/taka-wang/docker-whisper</a></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Install Nvidia Docker on Ubuntu</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/install-nvidia-docker-for-ubuntu/</link>
+      <pubDate>Mon, 16 Oct 2023 14:04:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/install-nvidia-docker-for-ubuntu/</guid>
+      <description>Uninstall Docker sudo systemctl stop docker sudo apt remove --purge -y docker-ce docker-ce-cli containerd.io sudo rm -rf /var/lib/docker sudo rm -rf /etc/docker sudo rm -rf /etc/apt/sources.list.d/docker.list sudo rm -rf /usr/share/keyrings/docker-archive-keyring.gpg sudo apt update docker --version Install Docker (Ubuntu 22.04) sudo apt update sudo apt install -y \ apt-transport-https \ ca-certificates \ curl \ gnupg-agent \ software-properties-common curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg echo &amp;#34;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]</description>
+      <content:encoded><![CDATA[<h2 id="uninstall-docker">Uninstall Docker</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl stop docker
+</span></span><span class="line"><span class="cl">sudo apt remove --purge -y docker-ce docker-ce-cli containerd.io
+</span></span><span class="line"><span class="cl">sudo rm -rf /var/lib/docker
+</span></span><span class="line"><span class="cl">sudo rm -rf /etc/docker
+</span></span><span class="line"><span class="cl">sudo rm -rf /etc/apt/sources.list.d/docker.list
+</span></span><span class="line"><span class="cl">sudo rm -rf /usr/share/keyrings/docker-archive-keyring.gpg
+</span></span><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">docker --version
+</span></span></code></pre></div><h2 id="install-docker-ubuntu-2204">Install Docker (Ubuntu 22.04)</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    apt-transport-https <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ca-certificates <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    curl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gnupg-agent <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    software-properties-common
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&#34;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install -y docker-ce docker-ce-cli containerd.io
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># post install</span>
+</span></span><span class="line"><span class="cl">sudo systemctl status docker
+</span></span><span class="line"><span class="cl">sudo usermod -aG docker <span class="si">${</span><span class="nv">USER</span><span class="si">}</span>
+</span></span></code></pre></div><h2 id="move-docker-data-to-another-location">Move Docker Data to Another Location</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl stop docker
+</span></span><span class="line"><span class="cl">sudo systemctl status docker
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ex: /data/ is another disk, don&#39;t create docker-data folder in advanced</span>
+</span></span><span class="line"><span class="cl">sudo rsync -avxP /var/lib/docker/  /data/docker-data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># edit daemon.json with `data-root` line</span>
+</span></span><span class="line"><span class="cl">sudo nano /etc/docker/daemon.json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;data-root&#34;</span>: <span class="s2">&#34;/data/docker-data&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;runtimes&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;nvidia&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;args&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;path&#34;</span>: <span class="s2">&#34;nvidia-container-runtime&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> docker
+</span></span><span class="line"><span class="cl"><span class="c1"># verify</span>
+</span></span><span class="line"><span class="cl">docker info -f <span class="s1">&#39;{{ .DockerRootDir}}&#39;</span>
+</span></span></code></pre></div><h2 id="install-nvidia-driver--cuda">Install Nvidia Driver &amp; Cuda</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+</span></span><span class="line"><span class="cl">sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+</span></span><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/12.2.2/local_installers/cuda-repo-ubuntu2204-12-2-local_12.2.2-535.104.05-1_amd64.deb
+</span></span><span class="line"><span class="cl">sudo dpkg -i cuda-repo-ubuntu2204-12-2-local_12.2.2-535.104.05-1_amd64.deb
+</span></span><span class="line"><span class="cl">sudo cp /var/cuda-repo-ubuntu2204-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
+</span></span><span class="line"><span class="cl">sudo apt-get update
+</span></span><span class="line"><span class="cl">sudo apt-get -y install cuda
+</span></span></code></pre></div><h2 id="install-nvidia-docker-toolkit">Install Nvidia Docker Toolkit</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="o">&amp;&amp;</span> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sed <span class="s1">&#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&#39;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sudo apt-get update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt-get install -y nvidia-container-toolkit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify</span>
+</span></span><span class="line"><span class="cl">docker run --rm --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
+</span></span></code></pre></div><h2 id="install-docker-compose">Install Docker Compose</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># https://docs.docker.com/compose/install/</span>
+</span></span><span class="line"><span class="cl">sudo curl -L <span class="s2">&#34;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-</span><span class="k">$(</span>uname -s<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname -m<span class="k">)</span><span class="s2">&#34;</span> -o /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chmod +x /usr/local/bin/docker-compose
+</span></span></code></pre></div><hr>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=Ubuntu&amp;target_version=22.04&amp;target_type=deb_local">CUDA Toolkit 12.2 Update 2 Downloads</a></li>
+<li><a href="https://jackfrisht.medium.com/install-nvidia-driver-via-ppa-in-ubuntu-18-04-fc9a8c4658b9">安裝 Nvidia driver 535 CUDA 12.2 cudnn 12.x on Ubuntu 22.04</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>How to Setup Gitlab Runner in Container</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/install-gitlab-runner/</link>
+      <pubDate>Sat, 14 Oct 2023 21:13:26 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/install-gitlab-runner/</guid>
+      <description>Setup Gitlab Runner in Container</description>
+      <content:encoded><![CDATA[<ol>
+<li>Use local system volume mounts to start the runner container.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d --name gitlab-runner --restart always <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  gitlab/gitlab-runner:latest
+</span></span></code></pre></div><ol start="2">
+<li>Create a group runner with a runner <code>authentication token</code>.</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="group runner"  />
+</p>
+<p>👉 <em>Add group runner tag</em></p>
+<p><img loading="lazy" src="2.png" alt="add tag"  />
+</p>
+<p>👉 <em>Get authentication token</em></p>
+<p><img loading="lazy" src="3.png" alt="get token"  />
+
+You may refer to this <a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">article</a>.</p>
+<ol start="3">
+<li>Register a runner</li>
+</ol>
+<p>Don&rsquo;t forget to change the authentication token.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">RUNNER_TOKEN</span><span class="o">=</span><span class="s2">&#34;glrt-vTJPYBaajfypaShJH2xx&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --non-interactive <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --url <span class="s2">&#34;https://gitlab.com/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --token <span class="s2">&#34;</span><span class="nv">$RUNNER_TOKEN</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --executor <span class="s2">&#34;docker&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --docker-image docker:stable-dind <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --description <span class="s2">&#34;docker-runner&#34;</span>
+</span></span></code></pre></div><ol start="4">
+<li>Edit <code>/srv/gitlab-runner/config/config.toml</code></li>
+</ol>
+<p>Modify the following configurations:</p>
+<ul>
+<li><code>concurrent</code>: optional</li>
+<li><code>privileged</code></li>
+<li><code>volumes</code>: docker in docker</li>
+<li><code>network_mode</code>: optional</li>
+</ul>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            /srv/gitlab-runner/config/config.toml
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">4</span> <span class="c"># change</span>
+</span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">shutdown_timeout</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">session_server</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://gitlab.com/&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">28470179</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-vTJPYBaajfypaShJH2Ge&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2023-10-14T12:45:43Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MaxUploadedArchiveSize</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">docker</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_verify</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">image</span> <span class="p">=</span> <span class="s2">&#34;docker:stable-dind&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">privileged</span> <span class="p">=</span> <span class="kc">true</span> <span class="c"># change</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_entrypoint_overwrite</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">oom_kill_disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_cache</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="c">#volumes = [&#34;/cache&#34;] # change</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">,</span> <span class="s2">&#34;/var/run/docker.sock:/run/docker.sock&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">shm_size</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">network_mode</span> <span class="p">=</span> <span class="s2">&#34;host&#34;</span> <span class="c"># add</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="6">
+<li>Restart Runner</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker restart gitlab-runner
+</span></span></code></pre></div><h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/">Install GitLab Runner</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/docker.html">Run GitLab Runner in a container</a></li>
+<li><a href="https://docs.gitlab.com/runner/register/index.html">Registering runners </a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">Create a group runner with a runner authentication token</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Install Powerlevel10K on Ubuntu</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/install-powerlevel10k-on-ubuntu/</link>
+      <pubDate>Fri, 13 Oct 2023 15:40:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/install-powerlevel10k-on-ubuntu/</guid>
+      <description>How to configure zsh and Powerlevel10k on Ubuntu</description>
+      <content:encoded><![CDATA[<h2 id="install-powerlevel10k-">Install Powerlevel10K 🚀</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install Oh My Zsh:</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install theme</span>
+</span></span><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>Install Zsh:</strong></p>
+<p>If you don&rsquo;t have Zsh installed, install it using:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Install Oh My Zsh:</strong></p>
+<p>Install Oh My Zsh by running the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Install Powerlevel10k Theme:</strong></p>
+<p>Clone the Powerlevel10k repository into the custom themes directory of Oh My Zsh:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Set Zsh Theme:</strong></p>
+<p>Open your <code>~/.zshrc</code> file in a text editor:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ~/.zshrc
+</span></span></code></pre></div><p>Find the line that begins with <code>ZSH_THEME</code> and change it to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;powerlevel10k/powerlevel10k&#34;</span>
+</span></span></code></pre></div><p>Save the file and exit.</p>
+</li>
+<li>
+<p><strong>Install Required Fonts:</strong></p>
+<p>Powerlevel10k uses special characters, so you need to install a font that includes these characters. Nerd Fonts are commonly used. Follow the instructions on the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts GitHub repository</a> to install a compatible font.</p>
+</li>
+<li>
+<p><strong>Configure Powerlevel10k (Optional):</strong></p>
+<p>When you start a new terminal session, Powerlevel10k will offer to run a configuration wizard. Follow the instructions to customize your prompt to your liking.</p>
+</li>
+<li>
+<p><strong>Restart Zsh:</strong></p>
+<p>Restart your terminal or run <code>source ~/.zshrc</code> to apply the changes.</p>
+</li>
+</ol>
+<p>Now you should have Powerlevel10k installed and configured on your Ubuntu 22.04 system.</p>
+<h2 id="install-zsh-autosuggestions-">Install zsh-autosuggestions 🚀</h2>
+<p>Powerlevel10k does not change the default behavior of Zsh in terms of tab-completion; rather, it enhances and customizes the appearance of the prompt. The behavior of tab-completion is primarily controlled by the Zsh configuration.</p>
+<p>If you want to enable suggestions during tab-completion in Zsh, you can use the <code>zsh-autosuggestions</code> plugin. This plugin provides fish-like autosuggestions as you type, and it works well with Powerlevel10k.</p>
+<p>Here are the steps to install and configure <code>zsh-autosuggestions</code>:</p>
+<ol>
+<li>
+<p><strong>Install zsh-autosuggestions:</strong></p>
+<p>You can install it using your preferred method. One common way is via a plugin manager like <code>oh-my-zsh</code>.</p>
+<p>If you are using <code>oh-my-zsh</code>, you can also manually clone the repository:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Enable zsh-autosuggestions:</strong></p>
+<p>Update your <code>~/.zshrc</code> file to enable the plugin. Add or modify the <code>plugins</code> line to include <code>zsh-autosuggestions</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>zsh-autosuggestions<span class="o">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Restart Zsh or Reload Configuration:</strong></p>
+<p>Either restart your terminal or run the following command to apply the changes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
+</span></span></code></pre></div></li>
+</ol>
+<p>Now, as you type, you should see autosuggestions appearing based on your command history.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Configuring a custom domain for your GitHub Pages site</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/custom-domain-for-github-pages/</link>
+      <pubDate>Fri, 13 Oct 2023 14:02:18 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/custom-domain-for-github-pages/</guid>
+      <description>This article show you how to set up a custom domain for a GitHub Page, using Godaddy as an example.</description>
+      <content:encoded><![CDATA[<p>Setting up a CNAME for your GitHub Pages does not require additional payment, but you need to have a private domain first. Here, we assume that we have already purchased a domain from <a href="https://www.godaddy.com/">Godaddy</a>, so let&rsquo;s go to the <a href="https://sg.godaddy.com/help/manage-dns-records-680">Godaddy DNS settings page</a> to configure it.</p>
+<ol>
+<li>First, query GitHub&rsquo;s IP address via Terminal:</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            dig {Your Domain}.github.io
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dig xxxx.github.io
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><img loading="lazy" src="4.png" alt="dig"  />
+</p>
+<ol start="2">
+<li>Go to the Godaddy DNS page and set up 4 <code>A Records</code> and 1 <code>CNAME Record</code>, please refer to the image.</li>
+</ol>
+<p><img loading="lazy" src="3.png" alt="godaddy setting"  />
+</p>
+<ol start="3">
+<li>Add a <code>CNAME</code> file with <code>xxx.{Domain Name}</code> to the private repo, ex. <code>blog.xxx.com</code>.</li>
+</ol>
+<p><img loading="lazy" src="5.png" alt="CNAME File"  />
+</p>
+<ol start="4">
+<li>Set up CNAME on the page and check the <code>Enforce HTTPS</code> option.</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="github pages"  />
+
+<img loading="lazy" src="2.png" alt="custom domain setting"  />
+</p>
+<p>It might take some time to take effect. If everything is set up correctly, the DNS Check in step 4 should pass.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"></code></pre></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Hugo Deployment Guide</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/hugo-get-started/</link>
+      <pubDate>Tue, 10 Oct 2023 20:01:46 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/hugo-get-started/</guid>
+      <description>This guide will walk you through the process of creating a private website on GitHub and deploying it to GitHub Pages</description>
+      <content:encoded><![CDATA[<p>Welcome to the world of Hugo, where you can swiftly create your personal website! This guide will walk you through the process of creating a private website on GitHub and deploying it to GitHub Pages.</p>
+<h2 id="whats-included-in-this-guide">What&rsquo;s included in this guide</h2>
+<ul>
+<li><code>.gitignore</code>: Excludes files from version control.</li>
+<li><code>.github/workflows/hugo.yml</code>: Uses GitHub Actions to deploy your private Hugo repository to a public GitHub Pages repository.</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<ol>
+<li>
+<p>Create a private repository <code>hugo-site</code> on <a href="https://github.com/">GitHub</a> to manage your website source code, ensuring to include the README.md file.</p>
+</li>
+<li>
+<p>Create a public repository <code>{YOUR_USER_NAME}.github.io</code> on <a href="https://github.com/">GitHub</a> to upload your static web pages to <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+</li>
+<li>
+<p>Clone <code>hugo-site</code> to your local machine:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone https://github.com/<span class="o">{</span>YOUR_USER_NAME<span class="o">}</span>/hugo-site.git
+</span></span></code></pre></div><p>Alternatively, if you are using Git Submodules:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone --recursive https://github.com/<span class="o">{</span>YOUR_USER_NAME<span class="o">}</span>/hugo-site.git
+</span></span></code></pre></div></li>
+<li>
+<p>Create a Hugo project in the same directory as <code>hugo-site</code> (not inside <code>hugo-site</code>):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo new site hugo-site --force
+</span></span></code></pre></div></li>
+<li>
+<p>Add an example theme. Here, we&rsquo;ll use PaperMod as an example:</p>
+</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Add theme
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> hugo-site
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">git submodule add --depth<span class="o">=</span><span class="m">1</span> https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;theme : &#39;PaperMod&#39;&#34;</span> &gt;&gt; hugo.yaml
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="6">
+<li>
+<p>Copy the <a href="https://raw.githubusercontent.com/taka-wang/example-hugo-site/main/.gitignore">.gitignore</a> file into <code>hugo-site</code>.</p>
+</li>
+<li>
+<p>[Optional] Set up GitHub Action for automatic deployment:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"> mkdir -p .github/workflows/
+</span></span><span class="line"><span class="cl"> touch .github/workflows/hugo.yml
+</span></span></code></pre></div><p>Copy the contents of <a href="https://raw.githubusercontent.com/taka-wang/example-hugo-site/main/.github/workflows/hugo.yml">hugo.yml</a> into the newly created <code>hugo.yml</code> file. Remember to modify these two parts:</p>
+<ul>
+<li><strong>token: ${{ secrets.ACCESS_TOKEN }}</strong>: Use a personal access token for this private repository.</li>
+<li><strong>repository-name: YOUR_USER_NAME}}/YOUR_USER_NAME.github.io</strong>: Replace <code>YOUR_USER_NAME</code> with your GitHub username.</li>
+</ul>
+</li>
+<li>
+<p>Test your Hugo website:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo server -D
+</span></span></code></pre></div></li>
+<li>
+<p>Start writing your own posts:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo new posts/20231006/index.md
+</span></span></code></pre></div><p>Begin writing in <code>index.md</code> inside <code>content/posts/20231006</code>, and place images in the same folder.</p>
+</li>
+<li>
+<p>Congratulations, you&rsquo;ve configured your private repository! Don&rsquo;t forget to commit your changes to the private repository. Best of luck creating your beautiful website!</p>
+</li>
+</ol>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/JamesIves/github-pages-deploy-action/issues/624#issuecomment-791982883">How to setup ACCESS Token</a></li>
+<li><a href="https://blog.euc-rt.me/post/github-actions-publish-private-hugo-repo-to-public-pages-site/">Using GitHub Actions to Publish Hugo Site From Private to Public Repo</a></li>
+<li><a href="https://gohugo.io/getting-started/quick-start/">Learn to create a Hugo site in minutes.</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>How to Install Hugo</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/how-to-install-hugo/</link>
+      <pubDate>Tue, 10 Oct 2023 19:41:05 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/how-to-install-hugo/</guid>
+      <description>We will introduce how to install hugo on your system in this post.</description>
+      <content:encoded><![CDATA[<h2 id="macos">MacOS</h2>
+<p>Installing via <code>Homebrew</code> Package Manager is the most convenient method.</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Homebrew on macOS
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install homebrew</span>
+</span></span><span class="line"><span class="cl">/bin/bash -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">brew install hugo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e+extended darwin/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-09-24T15:20:17Z <span class="nv">VendorInfo</span><span class="o">=</span>brew
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<h2 id="windows">Windows</h2>
+<p>Open <strong>powershell</strong> with Task Manager: Press <code>win + x</code>, navigate to Windows PowerShell (Admin), make sure to select <strong>Run as administrator</strong>.</p>
+<p>Check the execution policy:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Get-ExecutionPolicy
+</span></span></code></pre></div><p>If it shows <strong>Restricted</strong>, run the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy AllSigned
+</span></span></code></pre></div><p>Install Chocolatey:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy Bypass -Scope Process -Force<span class="p">;</span> iex <span class="o">((</span>New-Object System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://chocolatey.org/install.ps1&#39;</span><span class="o">))</span>
+</span></span></code></pre></div><p>Verify the installation by typing in <strong>powershell</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">choco
+</span></span><span class="line"><span class="cl"><span class="c1"># If you receive a response, the installation is successful</span>
+</span></span></code></pre></div><p>Now, you can install Hugo using Chocolatey! 👇👇👇</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Chocolatey on Windows
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">choco install hugo-extended
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e...
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<hr>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://gohugo.io/installation/macos/">Install Hugo on macOS</a></li>
+<li><a href="https://gohugo.io/installation/windows/">Install Hugo on Windows</a></li>
+<li><a href="https://blog.darkthread.net/blog/choco-install-notes-for-new-windows/">我的 Windows 新裝機 Chocolatey 安裝清單</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Design Patterns Explained - CH8</title>
+      <link>https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/</link>
+      <pubDate>Sat, 21 Jan 2017 20:12:53 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/</guid>
+      <description>&lt;h1 id=&#34;expanding-our-horizons&#34;&gt;Expanding Our Horizons&lt;/h1&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Object&lt;/li&gt;
+&lt;li&gt;Encapsulation&lt;/li&gt;
+&lt;li&gt;Inheritance&lt;/li&gt;
+&lt;li&gt;Handling variation&lt;/li&gt;
+&lt;li&gt;Commonality and variability analysis&lt;/li&gt;
+&lt;li&gt;Abstract class and its derived classes&lt;/li&gt;
+&lt;/ul&gt;</description>
+      <content:encoded><![CDATA[<h1 id="expanding-our-horizons">Expanding Our Horizons</h1>
+<h2 id="overview">Overview</h2>
+<ul>
+<li>Object</li>
+<li>Encapsulation</li>
+<li>Inheritance</li>
+<li>Handling variation</li>
+<li>Commonality and variability analysis</li>
+<li>Abstract class and its derived classes</li>
+</ul>
+<h2 id="objects-traditional-view-and-new-view">Objects: Traditional view and new view</h2>
+<h3 id="traditional-view">Traditional View</h3>
+<ul>
+<li>Data with methods - <strong>smart data</strong></li>
+<li>too narrow from <strong>implementation</strong> perspective</li>
+</ul>
+<h3 id="broad-view">Broad View</h3>
+<ul>
+<li>From <strong>conceptual</strong> perspective</li>
+<li>an object is an <em>entity that has responsibilities</em> (責任), these responsibilities define the behavior of the object. Or an <em>entity that has specific behavior</em> (特定行為).</li>
+</ul>
+<h2 id="focus-on-intentionmotivation-not-implementation">Focus on intention/motivation not implementation</h2>
+<p>This view enables us to build software in two steps:</p>
+<ol>
+<li>Make a preliminary design without worrying about all the details involved.</li>
+<li>Implement the design.</li>
+</ol>
+<p>The reason this works is that we only have to focus on the object’s <strong>public interface</strong> — the communication window through which I ask the object to do something.</p>
+<p>Hiding implementations behind interfaces essentially <strong>decouples</strong> them from the using objects.</p>
+<hr>
+<h2 id="encapsulation-traditional-view-and-new-view">Encapsulation: Traditional view and new view</h2>
+<h3 id="traditional-view-1">Traditional View</h3>
+<ul>
+<li>data hiding</li>
+</ul>
+<h3 id="broad-view-1">Broad View</h3>
+<ul>
+<li><strong>any kind of hiding</strong>
+<ul>
+<li>Implementations (data, methods..)</li>
+<li><strong>Drived</strong> classes (<strong>Encapsulation of type</strong> is achieved when there is an <em>abstract class</em> with derivations (or an interface with implementations) that are used <em>polymorphically</em>)</li>
+<li>Design details</li>
+<li>Instantiation rules (ex. creational patterns)</li>
+</ul>
+</li>
+</ul>
+<h2 id="advantage">Advantage</h2>
+<p>It gives us a better way to split up (decompose) our programs. The <strong>encapsulating layers</strong> become the <strong>interfaces</strong> we design to. (封裝層成為設計需要遵循的介面)</p>
+<p>By encapsulating different kinds of subclasses (<strong>encapsulation of type</strong>), we can add new ones without changing any of the client programs using them. (<em>GoF typically means when they mention encapsulation</em>)</p>
+<hr>
+<h2 id="inheritance">Inheritance</h2>
+<h3 id="traditional-view-2">Traditional View</h3>
+<ul>
+<li><strong>reuse</strong> of classes</li>
+<li>achived by creating classes and then deriving new (<em>spcialized</em>) classes bases on these base (<em>generalized</em>) classes</li>
+</ul>
+<h3 id="broad-view-2">Broad View</h3>
+<ul>
+<li>using inheritance for specialization, however
+<ul>
+<li>can cause weak cohesion</li>
+<li>reduces possibility of reuse</li>
+<li>does not scale well with variation</li>
+</ul>
+</li>
+<li><em>to classify classes as things that behave the same way</em>. (<strong>placeholder</strong>)</li>
+</ul>
+<hr>
+<h2 id="find-what-is-varying-and-encapsulate-it">Find What Is Varying and Encapsulate It</h2>
+<blockquote>
+<p>Consider <strong>what</strong> should be variable in your design. This approach is the opposite of focusing on the <strong>cause</strong> of redesign. Instead of considering what might force a change to a design, consider what you want to be <strong><em>able</em></strong> to change without redesign. The focus here is on <strong><em>encapsulating the concept that varies</em></strong>, a theme of many design patterns.
+&ndash; GoF, Design Patterns</p>
+</blockquote>
+<hr>
+<h2 id="more-about-gofs-encapsulation">More about GoF&rsquo;s Encapsulation</h2>
+<ul>
+<li>Design Patterns use inheritance to classify variations in behaviors.</li>
+<li>Hiding classes with an abstract class or interface — <strong>type encapsulation</strong>.</li>
+<li>Containing a reference of this <em>abstract class</em> or <em>interface</em> type (aggregation) <strong>hides</strong> these <em>derived classes</em> that represent <strong>variations</strong> in behavior.</li>
+<li>In effect, many design patterns <em>use encapsulation to create layers</em> between objects.</li>
+</ul>
+<hr>
+<h2 id="containing-variation-in-data-vs-containing-variation-in-behavior">Containing variation in data vs containing variation in behavior</h2>
+<h3 id="handling-variation-in-data">Handling variation in data</h3>
+<ul>
+<li>Have a data member that tells me what type of movement my object has.</li>
+<li>Have two different types of <strong>Animals</strong> (both derived from the base <strong>Animal</strong> class) — one for walking and one for flying.</li>
+</ul>
+<h3 id="handling-variation-in-behavior-with-objects">Handling variation in behavior with objects</h3>
+<p>Using objects to contain variation in attributes and using objects to contain variation in behavior are very similar. Don&rsquo;t afraid.</p>
+<hr>
+<h2 id="commonality-and-variability">Commonality and Variability</h2>
+<p>Identify <strong>where</strong> things vary (commonality analysis) and then identify <strong>how</strong> they vary (variability analysis).</p>
+<p><strong>Commonality analysis</strong> is the search for common elements that helps us understand how family members are the same.</p>
+<p><strong>Variability analysis</strong> reveals how family members vary. Variability only makes sense within a given commonality.</p>
+<p>Ex. Whiteboard marker, pencil, ballpoint pen</p>
+<ul>
+<li>Commonality: writing instrument</li>
+<li>Variability: material to write, shape..</li>
+</ul>
+<h2 id="commonality-and-variability-and-abstract-class">Commonality and Variability and Abstract class</h2>
+<p><strong>Commonality analysis</strong> seeks structure that is unlikely to change over time, while <strong>variability analysis</strong> captures structure that is likely to change. <strong><em>Variability analysis makes sense only in terms of the context defined by the associated commonality analysis</em></strong>.
+In other words, if variations are the specific concrete cases in the domain, commonality defines the concepts in the domain that tie them together. The <strong><em>common concepts</em></strong> will be represented by <strong>abstract classes</strong>. The <strong><em>variations</em></strong> found by variability analysis will be implemented by the <strong>concrete classes</strong>.</p>
+<h2 id="relationship-between-commonality-and-variability-perspectives-and-abstract-classes">Relationship between Commonality and Variability, perspectives, and abstract classes</h2>
+<p><img loading="lazy" src="relationship.png" alt="relationship"  />
+</p>
+<hr>
+<h2 id="benefits-of-using-abstract-classes-for-specialization">Benefits of using abstract classes for specialization</h2>
+<p><img loading="lazy" src="benefits.png" alt="benefits"  />
+</p>
+<hr>
+<h2 id="two-step-procedure-for-design">Two-Step Procedure for Design</h2>
+<p>Ask yourself:</p>
+<ul>
+<li>When defining an <strong>abstract class</strong> (commonality):
+<ul>
+<li>What <strong>interface</strong> is needed to handle all the responsibilities (core concepts from the conceptual perspective) of this class?</li>
+</ul>
+</li>
+<li>When defining <strong>derived classes</strong>:
+<ul>
+<li>Given this particular implementation (this <strong>variation</strong>), how can I implement it (variation) with the given specification?</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="take-away">Take away</h2>
+<p>Think object-oriented in a broad way.</p>
+<ul>
+<li>Object: an <em>entity that has responsibilities (specific behavior)</em></li>
+<li>Encapsulation: <strong>any</strong> kind of <strong>hiding</strong> (instantiation rule, type..)</li>
+<li>Inheritance: use for <strong>specialization</strong> and <em>classify classes as things that behave the same way</em>.</li>
+</ul>
+<p><strong>Find what is varying and encapsulate it</strong> (in behavior).</p>
+<p>Commonality, variability and abstract class: use inheritance to classify variations in behaviors.</p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

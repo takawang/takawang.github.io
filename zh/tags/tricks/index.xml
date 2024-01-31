@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tricks on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/tricks/</link>
+    <description>Recent content in Tricks on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 13 Nov 2023 12:27:06 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/tricks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSS Tricks</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-tricks/</link>
+      <pubDate>Mon, 13 Nov 2023 12:27:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-tricks/</guid>
+      <description>CSS Tricks (reset, center, faded overlay &amp;hellip;)</description>
+      <content:encoded><![CDATA[<h2 id="css-reset">CSS Reset</h2>
+<blockquote>
+<p>Do not set the font property in the universal selector. Instead, set it in the body selector for inheritance and performance.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="o">*,</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="p">::</span><span class="nd">before</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="p">::</span><span class="nd">after</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">inherit</span><span class="p">;</span> <span class="c">/* border-box */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">html</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">62.5</span><span class="kt">%</span><span class="p">;</span> <span class="c">/* 10px = 16px * 62.5% */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span> <span class="c">/* here */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-family</span><span class="p">:</span> <span class="o">....</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-weight</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">line-height</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="element-center-簡易版">Element Center (簡易版)</h2>
+<ul>
+<li>The easiest way to center anything with the transform, top and left properties.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">text-box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span> <span class="c">/* relative to parent container */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">top</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transfrom</span><span class="p">:</span> <span class="nb">translate</span><span class="p">(</span><span class="mi">-50</span><span class="kt">%</span><span class="p">,</span> <span class="mi">-50</span><span class="kt">%</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="faded-overlay-on-image">Faded overlay on image</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">header</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">height</span><span class="p">:</span> <span class="mi">95</span><span class="kt">vh</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-image</span><span class="p">:</span> <span class="nb">linear-gradient</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">to</span> <span class="kc">right</span> <span class="kc">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">rgba</span><span class="p">(</span><span class="mi">126</span><span class="p">,</span> <span class="mi">213</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">rgba</span><span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">133</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span> <span class="nb">url</span><span class="p">(</span><span class="sx">img/hero.jpg</span><span class="p">);</span> <span class="c">/* two layers */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-size</span><span class="p">:</span> <span class="kc">cover</span><span class="p">;</span> <span class="c">/* 背景圖片會被縮放以完全覆蓋背景區，可能背景圖片部分看不見 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-position</span><span class="p">:</span> <span class="kc">top</span><span class="p">;</span> <span class="c">/* 縮放時，上半部不會被裁切 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="fade-in-animation">Fade in Animation</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">@</span><span class="k">keyframes</span> <span class="nt">moveInLeft</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">0</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">opacity</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translateX</span><span class="p">(</span><span class="mi">-100</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">80</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translateX</span><span class="p">(</span><span class="mi">20</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">100</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">opacity</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c">/* reset */</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">who-need-this-animation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c">/* animation */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-name</span><span class="p">:</span> <span class="n">moveInLeft</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-duration</span><span class="p">:</span> <span class="mi">1</span><span class="kt">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-timing-function</span><span class="p">:</span> <span class="kc">ease-out</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="rwd-grid">RWD Grid</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

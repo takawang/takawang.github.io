@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Django - Data Modelling | Liberation Notes</title>
+<meta name="keywords" content="Backend, Python, Django">
+<meta name="description" content="Django - Data Modelling">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Django - Data Modelling" />
+<meta property="og:description" content="Django - Data Modelling" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-25T02:47:41+01:00" />
+<meta property="article:modified_time" content="2020-10-25T02:47:41+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="Django - Data Modelling"/>
+<meta name="twitter:description" content="Django - Data Modelling"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Django - Data Modelling",
+      "item": "https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Django - Data Modelling",
+  "name": "Django - Data Modelling",
+  "description": "Django - Data Modelling",
+  "keywords": [
+    "Backend", "Python", "Django"
+  ],
+  "articleBody": "Create Model 會自動產生 primary key，因為繼承自 models.Model。若想要自訂 primary key，可以參考 sku 的寫法 # playground/models.py from django.db import models # Create your models here. class Product(models.Model): #sku = models.CharField(max_length=10, primary_key=True) # use this primary key title = models.CharField(max_length=300) description = models.TextField() price = models.DecimalField(max_digits=6, decimal_places=2) inventory = models.IntegerField() last_updated = models.DateTimeField(auto_now=True) # update every time Choices field class Customer(models.Model): # best practice to prevent hardcode MEMBERSHIP_BRONZE = 'B' MEMBERSHIP_SILVER = 'S' MEMBERSHIP_GOLD = 'G' MEMBERSHIP_CHOICES = [ (MEMBERSHIP_BRONZE, 'Bronze'), (MEMBERSHIP_SILVER, 'Silver'), (MEMBERSHIP_GOLD, 'Gold'), ] first_name = models.CharField(max_length=100) last_name = models.CharField(max_length=100) email = models.EmailField(max_length=100,unique=True) phone = models.CharField(max_length=15, unique=True) birth_date = models.DateTimeField(null=True, blank=True) membership = models.CharField(max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE) One-to-One relationship class Address(models.Model): street = models.CharField(max_length=255) city = models.CharField(max_length=255) # address is the child, customer is the parent customr = models.OneToOneField( Customer, on_delete=models.CASCADE, primary_key=True) on_delete=models.CASCADE (層級刪除): 當父模型被刪除時，與之相關聯的子模型也會被刪除 on_delete=models.PROTECT (保護模式): 防止刪除父模型，除非先刪除所有與之相關的子模型。 on_delete=models.SET_NULL (設為空值): 當父模型被刪除時，與之相關聯的子模型的外鍵欄位（即OneToOneField）會被設為 NULL。 範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。 on_delete=models.SET_DEFAULT (設為預設值): 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為預設值。 範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。 on_delete=models.SET() (設定為特定值): 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為特定的值（通常是另一個存在的模型實例）。 範例：一個論壇系統，如果一個用戶帳號被刪除，與之相關聯的文章的作者欄位會被設為論壇的預設用戶，這個預設用戶的 ID 為 1。 class Child(models.Model): parent = models.OneToOneField(Parent, on_delete=models.CASCADE) ... class Child(models.Model): parent = models.OneToOneField(Parent, on_delete=models.PROTECT) ... class Child(models.Model): parent = models.OneToOneField(Parent, on_delete=models.SET_NULL, null=True) ... class Child(models.Model): parent = models.OneToOneField(Parent, on_delete=models.SET_DEFAULT, default=1) ... class Child(models.Model): parent = models.OneToOneField(Parent, on_delete=models.SET(DefaultParent.objects.get(pk=1))) ... One-to-many relationship one collection can have many products\nUse foreignkey\nif you can not modify the order of declaration for the collection model, you can employ a string argument within the ForeignKey field:\ncollection = models.ForeignKey('Collection', on_delete=models.PROTECT)\nclass Collection(models.Model): title = models.CharField(max_length=300) class Product(models.Model): ... collection = models.ForeignKey(Collection, on_delete=models.PROTECT) Many-to-Many relationship Use ManyToManyField to customize the name of the reverse relation. Instead of the default product_set, you can use the related_name field class Promotion(models.Model): description = models.CharField(max_length=255) discount = models.FloatField() # product_set class Product(models.Model): ... collection = models.ForeignKey('Collection', on_delete=models.PROTECT) #promotions = models.ManyToManyField(Promotion, related_name='products') promotions = models.ManyToManyField(Promotion) Generic Relationship from django.contrib.contenttypes.models import ContentType from django.contrib.contenttypes.fields import GenericForeignKey from django.contrib.auth.models import User class LikeItem(models.Model): user = models.ForeignKey(User, on_delete=models.CASCADE) # type (Table) content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE) # ID (record) object_id = models.PositiveSmallIntegerField() # Pointer content_object = GenericForeignKey() ContentType (內容類型): 在 Django 中，ContentType 是一個模型，它用來表示其他模型的類型。在這個程式碼中，content_type 欄位是一個外鍵，關聯到 ContentType 模型。這麼做的好處是，它允許你動態地參照其他模型，而不是在程式碼中直接寫死模型的名稱。這樣的設計可以增加彈性，讓你的程式碼更容易擴展和修改，而不需要改動太多程式碼。\nGenericForeignKey (通用外鍵): GenericForeignKey 是一個用於關聯任意模型的特殊欄位。在這個例子中，content_object 欄位使用了 GenericForeignKey。這意味著 LikeItem 模型可以與任何其他模型建立關聯，而不僅僅是固定的一個或幾個模型。通過 content_type 和 object_id 這兩個欄位，你可以動態地建立與不同模型的關聯。\nLikeItem 模型: LikeItem 是一個用戶點贊的模型，它關聯到了使用者 (user) 和其他模型 (content_type 和 object_id 確定的模型)。這樣的設計允許你在不確定具體模型的情況下，保存用戶對不同類型物件的喜愛。\n在 LikeItem 模型中，content_type 是一個外鍵欄位，關聯到 ContentType 模型，用來指定被點贊物件的類型（例如，是一篇文章還是一張圖片等等）。而 object_id 是一個正整數欄位，用來指定具體的被點贊物件的 ID。\nGenericForeignKey 的作用就是把 content_type 和 object_id 這兩個欄位關聯到一個具體的模型實例上，這樣你就可以在 LikeItem 中使用 content_object 這個屬性，直接訪問被點贊的具體物件，而不需要關心它是哪種模型。\n例如，如果 content_type 指定為文章，object_id 指定為某篇文章的 ID，那麼 content_object 就可以直接訪問該篇文章的所有屬性和方法。這樣，你可以在不確定具體模型的情況下，動態地建立關聯，使得程式碼更加靈活和可擴展。\n你可以將 content_object 想像成程式語言中的指標 pointer。在這個上下文中，content_object 實際上是一個通用指標，指向了應用中的任何一個模型的特定實例。這樣的設計使得你可以動態地指向和訪問不同模型的物件，而不需要知道具體是哪個類型的物件。\n就像指標在程式語言中可以指向不同的變數或數據結構，content_object 允許你在 LikeItem 模型中指向任何類型的物件，從而實現彈性的資料模型。這樣的抽象設計使得程式碼更具通用性，可以應對多種不同的情況，同時也使得程式碼更容易擴展和維護。\nGeneric Relationship - Example 假設你的對象是 Article（文章）模型，你可以使用 GenericForeignKey 來建立 LikeItem 與 Article 之間的關聯。以下是一個簡單的範例：\n首先，定義你的 Article 模型：\nfrom django.db import models class Article(models.Model): # 文章的屬性，例如標題、內容等等 title = models.CharField(max_length=100) content = models.TextField() def __str__(self): return self.title 然後，定義你的 LikeItem 模型，使用 GenericForeignKey 來建立通用外鍵關聯：\nfrom django.contrib.contenttypes.fields import GenericForeignKey from django.contrib.contenttypes.models import ContentType from django.contrib.auth.models import User from django.db import models class LikeItem(models.Model): user = models.ForeignKey(User, on_delete=models.CASCADE) content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE) object_id = models.PositiveIntegerField() content_object = GenericForeignKey('content_type', 'object_id') 在這個例子中，LikeItem 模型可以關聯到任何模型的實例，包括 Article。當你想要為某篇文章建立一個 LikeItem 時，你可以這樣做：\n# 創建一篇文章 article = Article.objects.create(title=\"標題\", content=\"文章內容\") # 創建一個 LikeItem 關聯到這篇文章 like_item = LikeItem.objects.create(user=user, content_type=ContentType.objects.get_for_model(article), object_id=article.id) # 使用 GenericForeignKey 訪問被點贊的物件 liked_article = like_item.content_object print(liked_article.title) # 輸出: 標題 在這個例子中，content_type 指定為 Article 模型的類型，object_id 指定為具體文章的 ID。通過 GenericForeignKey，你可以使用 content_object 直接訪問到被點贊的文章的屬性。這樣，你可以動態地建立與不同模型的關聯，而不需要為每種模型都定義一個單獨的外鍵。\nReverse Relationship - Example 在 Django 中，反向關係(reverse relationship) 通常是自動產生的，無論是在一對一（One-to-One）、一對多（One-to-Many）還是多對多（Many-to-Many）的關係中，Django 都會自動為你建立反向關係。這意味著你可以從一個模型對象訪問與之相關聯的其他模型對象。\n假設你有兩個模型，一個是Author，另一個是Book。Book模型有一個外鍵欄位指向Author模型：\nfrom django.db import models class Author(models.Model): name = models.CharField(max_length=100) class Book(models.Model): title = models.CharField(max_length=100) author = models.ForeignKey(Author, on_delete=models.CASCADE) 在這個例子中，Book模型有一個外鍵欄位author指向Author模型。Django 會自動為Author模型生成一個反向關係。這意味著你可以透過Author模型來訪問所有與之相關聯的書籍，即使你並沒有在Author模型中定義相關的欄位。\n例如，如果你有一個Author的實例author，你可以這樣獲取所有與這個作者相關的書籍：\nbooks = author.book_set.all() 在這裡，book_set就是 Django 自動為Author模型生成的反向關係。這個名稱的格式是小寫的模型名稱_set，它可以讓你訪問到所有與這個模型相關的對象。這種反向關係的自動生成使得在 Django 中進行模型之間的查詢和操作更加方便。\n然而，有一個特殊的情況是如果你已經使用了 related_name 參數來定義了自定義的反向關係名稱，反向關係的名稱就不再是默認的 小寫的模型名稱_set 格式。在這種情況下，你必須通過自定義的名稱來訪問反向關係。\n舉例來說：\nfrom django.db import models class Person(models.Model): name = models.CharField(max_length=100) class Passport(models.Model): number = models.CharField(max_length=20) person = models.OneToOneField(Person, on_delete=models.CASCADE, related_name='passport') 在這個例子中，Passport 模型有一個一對一的外鍵關係，並且使用了 related_name='passport' 參數。這樣，在 Person 模型中就不會自動生成默認的反向關係。要訪問這個關係，你需要使用 passport 這個自定義的名稱：\nperson = Person.objects.get(pk=1) passport = person.passport # 訪問一對一關係的反向關係 在其他情況下（包括一對多和多對多關係），Django 都會自動生成默認的反向關係，你可以直接使用模型的名稱（小寫）作為反向關係的名稱。\nrelated_name field in ForeignKey 在一對多關係中，related_name 可以被用來定義反向關係的名稱，使你能夠更具意義地訪問相關對象。在多對多關係中，related_name 可以被用來定義通過中間表訪問相關對象時的名稱。\n以下是一個一對多和多對多關係中 related_name 的使用示例：\n一對多（One-to-Many）關係：\nfrom django.db import models class Author(models.Model): name = models.CharField(max_length=100) class Book(models.Model): title = models.CharField(max_length=100) author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books') 在這個例子中，Book 模型的 author 欄位定義了外鍵關係，並且使用了 related_name='books' 參數。這樣，你就可以透過 author.books.all() 來訪問一位作者的所有書籍。\n多對多（Many-to-Many）關係：\nfrom django.db import models class Person(models.Model): name = models.CharField(max_length=100) groups = models.ManyToManyField('Group', related_name='memberships') class Group(models.Model): name = models.CharField(max_length=100) # 其他欄位和方法 在這個例子中，Person 模型和 Group 模型之間建立了多對多的關係。Person 模型的 groups 欄位使用了 related_name='memberships' 參數。這樣，你可以透過 group.memberships.all() 來訪問一個群組中的所有成員。\n",
+  "wordCount" : "3121",
+  "inLanguage": "zh",
+  "datePublished": "2020-10-25T02:47:41+01:00",
+  "dateModified": "2020-10-25T02:47:41+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Django - Data Modelling
+    </h1>
+    <div class="post-meta"><span title='2020-10-25 02:47:41 +0100 +0100'>2020-10-25</span>&nbsp;·&nbsp;3121 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目錄</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#create-model" aria-label="Create Model">Create Model</a></li>
+                <li>
+                    <a href="#choices-field" aria-label="Choices field">Choices field</a></li>
+                <li>
+                    <a href="#one-to-one-relationship" aria-label="One-to-One relationship">One-to-One relationship</a></li>
+                <li>
+                    <a href="#one-to-many-relationship" aria-label="One-to-many relationship">One-to-many relationship</a></li>
+                <li>
+                    <a href="#many-to-many-relationship" aria-label="Many-to-Many relationship">Many-to-Many relationship</a></li>
+                <li>
+                    <a href="#generic-relationship" aria-label="Generic Relationship">Generic Relationship</a></li>
+                <li>
+                    <a href="#generic-relationship---example" aria-label="Generic Relationship - Example">Generic Relationship - Example</a></li>
+                <li>
+                    <a href="#reverse-relationship---example" aria-label="Reverse Relationship - Example">Reverse Relationship - Example</a></li>
+                <li>
+                    <a href="#related_name-field-in-foreignkey" aria-label="related_name field in ForeignKey">related_name field in ForeignKey</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="create-model">Create Model<a hidden class="anchor" aria-hidden="true" href="#create-model">#</a></h2>
+<ul>
+<li>會自動產生 primary key，因為繼承自 <strong>models.Model</strong>。若想要自訂 <code>primary key</code>，可以參考 sku 的寫法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># playground/models.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create your models here.</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#sku = models.CharField(max_length=10, primary_key=True) # use this primary key</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inventory</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">last_updated</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># update every time</span>
+</span></span></code></pre></div><h2 id="choices-field"><code>Choices</code> field<a hidden class="anchor" aria-hidden="true" href="#choices-field">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># best practice to prevent hardcode</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_BRONZE</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_SILVER</span> <span class="o">=</span> <span class="s1">&#39;S&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_GOLD</span> <span class="o">=</span> <span class="s1">&#39;G&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_BRONZE</span><span class="p">,</span> <span class="s1">&#39;Bronze&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_SILVER</span><span class="p">,</span> <span class="s1">&#39;Silver&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_GOLD</span><span class="p">,</span> <span class="s1">&#39;Gold&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">birth_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">membership</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">MEMBERSHIP_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">MEMBERSHIP_BRONZE</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="one-to-one-relationship"><code>One-to-One</code> relationship<a hidden class="anchor" aria-hidden="true" href="#one-to-one-relationship">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">street</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># address is the child, customer is the parent</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customr</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Customer</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>on_delete=models.CASCADE</code> (層級刪除)</strong>: 當父模型被刪除時，與之相關聯的子模型也會被刪除</li>
+<li><strong><code>on_delete=models.PROTECT</code> (保護模式)</strong>: 防止刪除父模型，除非先刪除所有與之相關的子模型。</li>
+<li><strong><code>on_delete=models.SET_NULL</code> (設為空值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位（即<code>OneToOneField</code>）會被設為 NULL。
+<ul>
+<li>範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。</li>
+</ul>
+</li>
+<li><strong><code>on_delete=models.SET_DEFAULT</code> (設為預設值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為預設值。
+<ul>
+<li>範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。</li>
+</ul>
+</li>
+<li><strong><code>on_delete=models.SET()</code> (設定為特定值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為特定的值（通常是另一個存在的模型實例）。
+<ul>
+<li>範例：一個論壇系統，如果一個用戶帳號被刪除，與之相關聯的文章的作者欄位會被設為論壇的預設用戶，這個預設用戶的 ID 為 1。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_DEFAULT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET</span><span class="p">(</span><span class="n">DefaultParent</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><h2 id="one-to-many-relationship"><code>One-to-many</code> relationship<a hidden class="anchor" aria-hidden="true" href="#one-to-many-relationship">#</a></h2>
+<p>one collection can have many products</p>
+<ul>
+<li>
+<p>Use <code>foreignkey</code></p>
+</li>
+<li>
+<p>if you can not modify the order of declaration for the <code>collection</code> model, you can employ a <code>string argument</code> within the <code>ForeignKey</code> field:</p>
+<p><code>collection = models.ForeignKey('Collection', on_delete=models.PROTECT)</code></p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">collection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Collection</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="many-to-many-relationship"><code>Many-to-Many</code> relationship<a hidden class="anchor" aria-hidden="true" href="#many-to-many-relationship">#</a></h2>
+<ul>
+<li>Use <code>ManyToManyField</code></li>
+<li>to customize the name of the reverse relation. Instead of the default <code>product_set</code>, you can use the <code>related_name</code> field</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Promotion</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">discount</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># product_set</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">collection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Collection&#39;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#promotions = models.ManyToManyField(Promotion, related_name=&#39;products&#39;)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">promotions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Promotion</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="generic-relationship"><code>Generic</code> Relationship<a hidden class="anchor" aria-hidden="true" href="#generic-relationship">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="kn">import</span> <span class="n">ContentType</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="kn">import</span> <span class="n">GenericForeignKey</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LikeItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># type (Table)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ID (record)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Pointer</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">()</span>
+</span></span></code></pre></div><ol>
+<li>
+<p><strong><code>ContentType</code> (內容類型)</strong>: 在 Django 中，<code>ContentType</code> 是一個模型，它用來表示其他模型的類型。在這個程式碼中，<code>content_type</code> 欄位是一個外鍵，關聯到 <code>ContentType</code> 模型。這麼做的好處是，它允許你動態地參照其他模型，而不是在程式碼中直接寫死模型的名稱。這樣的設計可以增加彈性，讓你的程式碼更容易擴展和修改，而不需要改動太多程式碼。</p>
+</li>
+<li>
+<p><strong><code>GenericForeignKey</code> (通用外鍵)</strong>: <code>GenericForeignKey</code> 是一個用於關聯任意模型的特殊欄位。在這個例子中，<code>content_object</code> 欄位使用了 <code>GenericForeignKey</code>。這意味著 <code>LikeItem</code> 模型可以與任何其他模型建立關聯，而不僅僅是固定的一個或幾個模型。通過 <code>content_type</code> 和 <code>object_id</code> 這兩個欄位，你可以動態地建立與不同模型的關聯。</p>
+</li>
+<li>
+<p><strong><code>LikeItem</code> 模型</strong>: <code>LikeItem</code> 是一個用戶點贊的模型，它關聯到了使用者 (<code>user</code>) 和其他模型 (<code>content_type</code> 和 <code>object_id</code> 確定的模型)。這樣的設計允許你在不確定具體模型的情況下，保存用戶對不同類型物件的喜愛。</p>
+</li>
+</ol>
+<p>在 <code>LikeItem</code> 模型中，<code>content_type</code> 是一個外鍵欄位，關聯到 <code>ContentType</code> 模型，用來指定被點贊物件的類型（例如，是一篇文章還是一張圖片等等）。而 <code>object_id</code> 是一個正整數欄位，用來指定具體的被點贊物件的 ID。</p>
+<p><code>GenericForeignKey</code> 的作用就是把 <code>content_type</code> 和 <code>object_id</code> 這兩個欄位關聯到一個具體的模型實例上，這樣你就可以在 <code>LikeItem</code> 中使用 <code>content_object</code> 這個屬性，直接訪問被點贊的具體物件，而不需要關心它是哪種模型。</p>
+<p>例如，如果 <code>content_type</code> 指定為文章，<code>object_id</code> 指定為某篇文章的 ID，那麼 <code>content_object</code> 就可以直接訪問該篇文章的所有屬性和方法。這樣，你可以在不確定具體模型的情況下，動態地建立關聯，使得程式碼更加靈活和可擴展。</p>
+<p>你可以將 <code>content_object</code> 想像成程式語言中的指標 <code>pointer</code>。在這個上下文中，<code>content_object</code> 實際上是一個通用指標，指向了應用中的任何一個模型的特定實例。這樣的設計使得你可以動態地指向和訪問不同模型的物件，而不需要知道具體是哪個類型的物件。</p>
+<p>就像指標在程式語言中可以指向不同的變數或數據結構，<code>content_object</code> 允許你在 <code>LikeItem</code> 模型中指向任何類型的物件，從而實現彈性的資料模型。這樣的抽象設計使得程式碼更具通用性，可以應對多種不同的情況，同時也使得程式碼更容易擴展和維護。</p>
+<hr>
+<h2 id="generic-relationship---example">Generic Relationship - <strong>Example</strong><a hidden class="anchor" aria-hidden="true" href="#generic-relationship---example">#</a></h2>
+<p>假設你的對象是 <code>Article</code>（文章）模型，你可以使用 <code>GenericForeignKey</code> 來建立 <code>LikeItem</code> 與 <code>Article</code> 之間的關聯。以下是一個簡單的範例：</p>
+<p>首先，定義你的 <code>Article</code> 模型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 文章的屬性，例如標題、內容等等</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</span></span></code></pre></div><p>然後，定義你的 <code>LikeItem</code> 模型，使用 <code>GenericForeignKey</code> 來建立通用外鍵關聯：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="kn">import</span> <span class="n">GenericForeignKey</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="kn">import</span> <span class="n">ContentType</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LikeItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">(</span><span class="s1">&#39;content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;object_id&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>LikeItem</code> 模型可以關聯到任何模型的實例，包括 <code>Article</code>。當你想要為某篇文章建立一個 <code>LikeItem</code> 時，你可以這樣做：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 創建一篇文章</span>
+</span></span><span class="line"><span class="cl"><span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&#34;標題&#34;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&#34;文章內容&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 創建一個 LikeItem 關聯到這篇文章</span>
+</span></span><span class="line"><span class="cl"><span class="n">like_item</span> <span class="o">=</span> <span class="n">LikeItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">article</span><span class="p">),</span> <span class="n">object_id</span><span class="o">=</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 GenericForeignKey 訪問被點贊的物件</span>
+</span></span><span class="line"><span class="cl"><span class="n">liked_article</span> <span class="o">=</span> <span class="n">like_item</span><span class="o">.</span><span class="n">content_object</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">liked_article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>  <span class="c1"># 輸出: 標題</span>
+</span></span></code></pre></div><p>在這個例子中，<code>content_type</code> 指定為 <code>Article</code> 模型的類型，<code>object_id</code> 指定為具體文章的 ID。通過 <code>GenericForeignKey</code>，你可以使用 <code>content_object</code> 直接訪問到被點贊的文章的屬性。這樣，你可以動態地建立與不同模型的關聯，而不需要為每種模型都定義一個單獨的外鍵。</p>
+<hr>
+<h2 id="reverse-relationship---example">Reverse Relationship - <strong>Example</strong><a hidden class="anchor" aria-hidden="true" href="#reverse-relationship---example">#</a></h2>
+<p>在 Django 中，<strong>反向關係(reverse relationship)</strong> 通常是自動產生的，無論是在一對一（One-to-One）、一對多（One-to-Many）還是多對多（Many-to-Many）的關係中，Django 都會自動為你建立反向關係。這意味著你可以從一個模型對象訪問與之相關聯的其他模型對象。</p>
+<p>假設你有兩個模型，一個是<code>Author</code>，另一個是<code>Book</code>。<code>Book</code>模型有一個外鍵欄位指向<code>Author</code>模型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Author</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Book</code>模型有一個外鍵欄位<code>author</code>指向<code>Author</code>模型。Django 會自動為<code>Author</code>模型生成一個反向關係。這意味著你可以透過<code>Author</code>模型來訪問所有與之相關聯的書籍，即使你並沒有在<code>Author</code>模型中定義相關的欄位。</p>
+<p>例如，如果你有一個<code>Author</code>的實例<code>author</code>，你可以這樣獲取所有與這個作者相關的書籍：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">books</span> <span class="o">=</span> <span class="n">author</span><span class="o">.</span><span class="n">book_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span></span></code></pre></div><p>在這裡，<code>book_set</code>就是 Django 自動為<code>Author</code>模型生成的反向關係。這個名稱的格式是<code>小寫的模型名稱_set</code>，它可以讓你訪問到所有與這個模型相關的對象。這種反向關係的自動生成使得在 Django 中進行模型之間的查詢和操作更加方便。</p>
+<hr>
+<p>然而，有一個特殊的情況是如果你已經使用了 <code>related_name</code> 參數來定義了自定義的反向關係名稱，反向關係的名稱就不再是默認的 <code>小寫的模型名稱_set</code> 格式。在這種情況下，你必須通過自定義的名稱來訪問反向關係。</p>
+<p>舉例來說：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Passport</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;passport&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Passport</code> 模型有一個一對一的外鍵關係，並且使用了 <code>related_name='passport'</code> 參數。這樣，在 <code>Person</code> 模型中就不會自動生成默認的反向關係。要訪問這個關係，你需要使用 <code>passport</code> 這個自定義的名稱：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">passport</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">passport</span>  <span class="c1"># 訪問一對一關係的反向關係</span>
+</span></span></code></pre></div><p>在其他情況下（包括一對多和多對多關係），Django 都會自動生成默認的反向關係，你可以直接使用模型的名稱（小寫）作為反向關係的名稱。</p>
+<h2 id="related_name-field-in-foreignkey"><code>related_name</code> field in <strong>ForeignKey</strong><a hidden class="anchor" aria-hidden="true" href="#related_name-field-in-foreignkey">#</a></h2>
+<p>在一對多關係中，<code>related_name</code> 可以被用來定義反向關係的名稱，使你能夠更具意義地訪問相關對象。在多對多關係中，<code>related_name</code> 可以被用來定義通過中間表訪問相關對象時的名稱。</p>
+<p>以下是一個一對多和多對多關係中 <code>related_name</code> 的使用示例：</p>
+<p><strong>一對多（One-to-Many）關係：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Author</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;books&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Book</code> 模型的 <code>author</code> 欄位定義了外鍵關係，並且使用了 <code>related_name='books'</code> 參數。這樣，你就可以透過 <code>author.books.all()</code> 來訪問一位作者的所有書籍。</p>
+<p><strong>多對多（Many-to-Many）關係：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">groups</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;memberships&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 其他欄位和方法</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Person</code> 模型和 <code>Group</code> 模型之間建立了多對多的關係。<code>Person</code> 模型的 <code>groups</code> 欄位使用了 <code>related_name='memberships'</code> 參數。這樣，你可以透過 <code>group.memberships.all()</code> 來訪問一個群組中的所有成員。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/backend/">Backend</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/python/">Python</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/django/">Django</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2020/11/javascript-note-1/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>Javascript Notes</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2020/10/django-fundamental/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>Django - Fundamental</span>
+  </a>
+</nav>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

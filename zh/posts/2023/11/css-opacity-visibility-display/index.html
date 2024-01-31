@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>CSS 透明度、可見性和顯示的區別 | Liberation Notes</title>
+<meta name="keywords" content="CSS, Float, Opacity, Note">
+<meta name="description" content="Unveiling the Veil: Understanding CSS Opacity, Visibility, and Display">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="CSS 透明度、可見性和顯示的區別" />
+<meta property="og:description" content="Unveiling the Veil: Understanding CSS Opacity, Visibility, and Display" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-13T13:50:46+08:00" />
+<meta property="article:modified_time" content="2023-11-13T13:50:46+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="CSS 透明度、可見性和顯示的區別"/>
+<meta name="twitter:description" content="Unveiling the Veil: Understanding CSS Opacity, Visibility, and Display"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CSS 透明度、可見性和顯示的區別",
+      "item": "https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CSS 透明度、可見性和顯示的區別",
+  "name": "CSS 透明度、可見性和顯示的區別",
+  "description": "Unveiling the Veil: Understanding CSS Opacity, Visibility, and Display",
+  "keywords": [
+    "CSS", "Float", "Opacity", "Note"
+  ],
+  "articleBody": " key differences between opacity: 0, visibility: hidden, and display: none:\nProperty Visibility Layout Interaction opacity: 0 Invisible Yes Yes visibility: hidden Invisible Yes No display: none Hidden No No ",
+  "wordCount" : "29",
+  "inLanguage": "zh",
+  "datePublished": "2023-11-13T13:50:46+08:00",
+  "dateModified": "2023-11-13T13:50:46+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      CSS 透明度、可見性和顯示的區別
+    </h1>
+    <div class="post-meta"><span title='2023-11-13 13:50:46 +0800 CST'>2023-11-13</span>&nbsp;·&nbsp;29 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>key differences between opacity: 0, visibility: hidden, and display: none:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Visibility</th>
+<th>Layout</th>
+<th>Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opacity: 0</code></td>
+<td>Invisible</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>visibility: hidden</code></td>
+<td>Invisible</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>display: none</code></td>
+<td>Hidden</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  	
+	
+
+	
+		<script src="/shortcode-gallery/jquery-3.7.1.min.js"></script>
+	
+	
+	
+		<script src="/shortcode-gallery/lazy/jquery.lazy.min.js"></script>
+	
+
+	<script src="/shortcode-gallery/swipebox/js/jquery.swipebox.min.js"></script>
+	<link rel="stylesheet" href="/shortcode-gallery/swipebox/css/swipebox.min.css">
+
+	<script src="/shortcode-gallery/justified_gallery/jquery.justifiedGallery.min.js"></script>
+	<link rel="stylesheet" href="/shortcode-gallery/justified_gallery/justifiedGallery.min.css"/>
+
+
+<style>
+	
+
+	
+</style>
+
+
+
+
+
+<div id="gallery-57e5c498e48c692d40f88275ec05b1ba-0-wrapper" class="gallery-wrapper">
+<div id="gallery-57e5c498e48c692d40f88275ec05b1ba-0" class="justified-gallery">
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5596.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW85baOp7U7Y/8AdNQJI7W4kMsqAEgiMLzz7ilW8RCCzzttzkELz9cUrEKCsS7G/umkpyXsU25VDA4yMjrVMXhx/q/1pMmSsShPKtNpkKtu6gkd/aoP3hkISdz/AMDkP9MVcPIwenpQvy/dOPpTTKU0LCJDEwaQtgEYIP8AMis8W0uPufqK0Nzf3jSUmTKVz//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5596_hu7f4b4d2c2edffd83f5f66cd9c9c8f952_101146_30f7c86a5701abf58c25bf6fb91e4d3d.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5597.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRDhiBxmk89DjAZs9MKTWHqmhaV4gukkv7COaVI9qszsMDOccEepq9puj2Oj2Zs9Og&#43;zQkltqOx5IAzyfYUJIyUb6miTgKSCN3QEYNFZ6wtYgETzTFj/AMtpC2OD0p/2qX2/KlJJPQnW2qsLFC8cwZxtG0/0qV7iGP78uMjP3GP8hU&#43;0EgntRtTg7EyOh2jihNWKUrEFxCZFiKupDHIP4VH9jf8AvLVvBONzZ29OMUUmJu5//9k="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5597_hu22ab2c40678546e28814141d2446a7d5_76103_c1eb864404517c88e9a3583bdee9471c.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5598.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW85baOp7U7Y/8AdNQRyM1sJGklTkg&#43;WF9fekW6Qf8ALa4IK9wv50kkQoKxPsb&#43;6aSmW83mFyss7gAkhwuB&#43;QzUAvDj/V/rQ1YUo22JlTyrTaZCpz1BI7&#43;1RDOc/aWz/wBdHqyeRtPT0pNi&#43;g/IUJjU0LbqGic&#43;azsARjeeOPQ1QFtLj7n6ir4G0kjjPXFFJkylc//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5598_hu527bec6fd37ae742d2fcf60d9695602a_110500_38b02e9ad1cb679d2879b74d2cae9d2a.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5599.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRDhmAOM037TFkAEkt0AGaw9Q8O6LrmoC5v9OSaYx7S5kYcDoOCPU1j3WneB/C15atdwpZ3YHmRMnnNg/wB4YyOuetJJGSj1O4JwFJBG7oCMGiuNh8c&#43;GbbPl61NOc8&#43;dHK23j3X3rpftUvt&#43;VEkk9CdbaqwsULxzBnG0bT/AEqSWeJFIabYSuQQjH29KsbQSCe1G1ODsTI6HaOKaasUpGfFp80Uahr03IdtylhjHXP86l&#43;xv/eWreCcbmzt6cYopSd3clJJWR//2Q=="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5599_hu284c77e05f0ad30b2052bcd08d739c2c_92186_c8ec880758f8528062bf2056374d9532.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5600.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW6KjgeV41cRCTrnkD&#43;YqfL7QRarnJyCwpcpmoNjKKnZVEZbYoOM9KzhenH3P1pEuNiUQoLXy5Io5eehbBqNIYkyRp8RznIMgP86s0UXK5xIRGFci3hgYgj5SMn8qpfZpcfc/UVeooJcrn/2Q=="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5600_hudec4ab41b4aa45b76de306d12467581b_76953_07f3d38208f727062ea2dda30dbc63de.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5601.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRPvHHBNNFxGSAMsT/dGaytS0nTPEEsI1OyScQKxTc7DbnGehHoKr6b4a0DQpxc2dqttcmIoXjaQ8EjOOvcUJaGSR0JOApII3dARg0VQW3axjR1uZZxIeDLIXxwelO&#43;1S&#43;35UpJJ6E621Vh0ETxzAuowVPU/SpZHiX&#43;O3QgZXeV49&#43;e2alKhuvpimm3hYgtGCR0yTTTSQ0yr5N&#43;6It1JA3OU8tcDoc/0p32N/wC8tW8DCgAAJ0AopSd3cVraI//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5601_huae7c82c443566df6f80c0c29e6cd7c27_89040_8c9ba488dda40dec35566121c146d557.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+</div>
+</div>
+
+<script>
+	if (!jQuery) {
+		alert("jquery is not loaded");
+	}
+
+	$( document ).ready(() => {
+		const gallery = $("#gallery-57e5c498e48c692d40f88275ec05b1ba-0");
+		
+
+		
+		let swipeboxInstance = null;
+
+		
+		
+		gallery.on('jg.complete', () => {
+			
+				
+				
+				$(() => {
+					$('.lazy').Lazy({
+						visibleOnly: true,
+						afterLoad: element => element.css({filter: "none", transition: "filter 1.0s ease-in-out"})
+					});
+				});
+			
+
+			swipeboxInstance = $('.galleryImg').swipebox(
+				jQuery.extend({},
+					{  }
+				)
+			);
+		});
+
+		
+		gallery.justifiedGallery({
+			rowHeight : "300",
+			margins : "5",
+			border : 0,
+			randomize :  false ,
+			waitThumbnailsLoad : false,
+			lastRow : "justify",
+			captions : false,
+			
+			
+		});
+
+		
+		
+	});
+</script>
+
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/css/">CSS</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2023/11/css-grid/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>CSS Grid</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2023/11/css-units/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>CSS Units</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share CSS 透明度、可見性和顯示的區別 on x"
+            href="https://x.com/intent/tweet/?text=CSS%20%e9%80%8f%e6%98%8e%e5%ba%a6%e3%80%81%e5%8f%af%e8%a6%8b%e6%80%a7%e5%92%8c%e9%a1%af%e7%a4%ba%e7%9a%84%e5%8d%80%e5%88%a5&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f11%2fcss-opacity-visibility-display%2f&amp;hashtags=CSS">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share CSS 透明度、可見性和顯示的區別 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f11%2fcss-opacity-visibility-display%2f&amp;title=CSS%20%e9%80%8f%e6%98%8e%e5%ba%a6%e3%80%81%e5%8f%af%e8%a6%8b%e6%80%a7%e5%92%8c%e9%a1%af%e7%a4%ba%e7%9a%84%e5%8d%80%e5%88%a5&amp;summary=CSS%20%e9%80%8f%e6%98%8e%e5%ba%a6%e3%80%81%e5%8f%af%e8%a6%8b%e6%80%a7%e5%92%8c%e9%a1%af%e7%a4%ba%e7%9a%84%e5%8d%80%e5%88%a5&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f11%2fcss-opacity-visibility-display%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share CSS 透明度、可見性和顯示的區別 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f11%2fcss-opacity-visibility-display%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share CSS 透明度、可見性和顯示的區別 on telegram"
+            href="https://telegram.me/share/url?text=CSS%20%e9%80%8f%e6%98%8e%e5%ba%a6%e3%80%81%e5%8f%af%e8%a6%8b%e6%80%a7%e5%92%8c%e9%a1%af%e7%a4%ba%e7%9a%84%e5%8d%80%e5%88%a5&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f11%2fcss-opacity-visibility-display%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

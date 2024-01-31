@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Whisper on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/whisper/</link>
+    <description>Recent content in Whisper on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 19 Oct 2023 19:59:44 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/whisper/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Faster Whisper With Progress Bar</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/</link>
+      <pubDate>Thu, 19 Oct 2023 19:59:44 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/</guid>
+      <description>How to use faster-whisper and generate a progress bar</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/guillaumekln/faster-whisper">faster-whisper</a> is a reimplementation of OpenAI&rsquo;s Whisper model using <code>CTranslate2</code>, an engine designed for fast inference of Transformer models. The overall speed is significantly improved.</p>
+<p>Below is a simple example of generating subtitles. First, install <code>faster_whisper</code> and <code>pysubs2</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># pip install faster_whisper pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span><span class="o">=</span><span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span>  <span class="c1"># save srt file</span>
+</span></span></code></pre></div><p>You can modify it to display a progress bar using <code>tqdm</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span><span class="o">=</span><span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">timestamps</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># for progress bar</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&#34; audio seconds&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Update progress bar based on segment duration</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">seg</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Handle silence at the end of the audio</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">timestamps</span> <span class="o">&lt;</span> <span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span>  <span class="c1"># save srt file</span>
+</span></span></code></pre></div><p>Additionally, here&rsquo;s a Dockerfile to set up the environment:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Use the official NVIDIA CUDA image as the base image</span>
+</span></span><span class="line"><span class="cl">FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+</span></span><span class="line"><span class="cl">ARG <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install necessary dependencies</span>
+</span></span><span class="line"><span class="cl">RUN apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3-pip <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set the working directory inside the container</span>
+</span></span><span class="line"><span class="cl">WORKDIR /app
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install required Python packages</span>
+</span></span><span class="line"><span class="cl">RUN pip install faster_whisper pysubs2 tqdm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create directories to store the models</span>
+</span></span><span class="line"><span class="cl">RUN mkdir -p /models/faster-whisper-medium
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Download the medium model using wget to the specified directory</span>
+</span></span><span class="line"><span class="cl">RUN wget -O /models/faster-whisper-medium/config.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/config.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/model.bin https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/model.bin <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/tokenizer.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/tokenizer.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/vocabulary.txt https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/vocabulary.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">COPY app.py /app/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run the script</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;python3&#34;</span>, <span class="s2">&#34;app.py&#34;</span><span class="o">]</span>
+</span></span></code></pre></div><p><strong>Source Code</strong>: <a href="https://github.com/taka-wang/docker-whisper">https://github.com/taka-wang/docker-whisper</a></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

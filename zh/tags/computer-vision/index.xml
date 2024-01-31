@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Computer Vision on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/computer-vision/</link>
+    <description>Recent content in Computer Vision on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 29 Dec 2022 13:14:24 +0000</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/computer-vision/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>配置USB-FS以適用於USB3 Vision相機</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/12/configuring-usb-fs-for-usb3-vision-camera/</link>
+      <pubDate>Thu, 29 Dec 2022 13:14:24 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/12/configuring-usb-fs-for-usb3-vision-camera/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.jpeg" alt="image"  />
+</p>
+<p>This post explains how to increase the buffer memory for USB-FS devices on Linux systems in order to make full use of the imaging hardware’s capabilities. By default, USB-FS on Linux systems only allows 16 MB of buffer memory for all USB devices, which may not be sufficient for high-resolution cameras or multiple-camera set ups, resulting in image acquisition issues. To configure USB-FS and increase the buffer memory limit, the following steps should be taken:</p>
+<p>Note that GRUB is for desktop PC architecture. ARM embedded systems use a different bootloader, as GRUB requires a system with a BIOS, and embedded systems do not have one.</p>
+<ol>
+<li>Create the file <code>/etc/rc.local</code> with the command <code>sudo touch /etc/rc.local</code>. This will create the file, allowing it to be edited.</li>
+<li>Change the permissions of the file with the command <code>sudo chmod 744 /etc/rc.local</code>. This will ensure that the file has the correct permissions to be edited.</li>
+<li>Change the buffer memory limit with the command <code>echo 1000 &amp;gt; /sys/module/usbcore/parameters/usbfs_memory_mb</code>. This command will set the memory limit to 1000 MB, which should be enough to prevent image acquisition issues.`</li>
+</ol>
+<h2 id="etcrclocal-file-contents-example">/etc/rc.local file contents example</h2>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            /etc/rc.local
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh -e
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">1000</span> &gt; /sys/module/usbcore/parameters/usbfs_memory_mb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>After changing the memory limit, it is important to confirm the changes have been made correctly. This can be done by running the command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /sys/module/usbcore/parameters/usbfs_memory_mb
+</span></span></code></pre></div><p>which will display the current memory limit. If the limit is still 16 MB, then the changes will need to be made again. Additionally, further information about USB-FS on Linux can be found in the following sources:</p>
+<ul>
+<li><a href="https://www.flir.asia/support-center/iis/machine-vision/application-note/understanding-usbfs-on-linux/">Understanding USBFS on Linux</a></li>
+<li><a href="https://importgeek.wordpress.com/2017/02/26/increase-usbfs-memory-limit-in-ubuntu/">Increase USBFS Memory Limit in Ubuntu</a></li>
+<li><a href="https://forums.developer.nvidia.com/t/change-kernel-cmdline-by-edit-etc-default-grub-failed/159831/2">Change Kernel Cmdline by Edit /etc/default/grub Failed</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>透過 CoreML 在 iOS 上實現即時的物體偵測</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/08/execute-yolov7-model-on-ios-devices/</link>
+      <pubDate>Sat, 06 Aug 2022 11:04:15 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/08/execute-yolov7-model-on-ios-devices/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.jpeg" alt="image"  />
+
+Real-time object detection with CoreML is trickier than you think.</p>
+<p>Usually, you have two choices to build a machine learning app for your mobile device, <strong>inference</strong> can happen either directly on-device or on cloud-based servers. It all depends on your usage scenario, there is no one-size fit all solution. In this article, we will only focus on on-device inference.</p>
+<p>At WWDC 2017 Apple released first Core ML. Core ML is Apple’s machine learning framework for doing on-device inference. Core ML is not the only way to do on-device inference, there are tens of libraries and frameworks that are compatible with iOS, but that’s beyond the scope of this article. From the <a href="https://github.com/WongKinYiu/yolov7">YOLOv7 official repository</a>, we can get the <a href="https://github.com/WongKinYiu/yolov7/blob/main/export.py">export script</a> to convert trained PyTorch model to Core ML format effortlessly. However, keep one thing in mind, YOLOv7 is a popular open source project, new changes and updates are added very quickly. I’m also very glad to send a <a href="https://github.com/WongKinYiu/yolov7/pull/434/commits">PR</a> to improve the export script last night due to this writing 😃.After you got the exported Core ML models, no kidding, you have tons of things in your todo list. <a href="https://twitter.com/mhollemans">Matthijs Hollemans</a> has already written an insightful <a href="https://machinethink.net/blog/bounding-boxes/">article</a> in his blog, be sure to checkout and <a href="https://leanpub.com/coreml-survival-guide">support his efforts</a>! Here is my short list:</p>
+<ul>
+<li>Configure your Core ML model in a particular way. You can either append NMS to your model or write a lot of additional Swift code. IMHO, this is the most difficult part if you know nothing about the object detection model.</li>
+<li>Specify camera resolution, don’t simply select the highest resolution available if your app doesn’t require it.</li>
+<li>Resize or crop your input image to fit network input dimension, it depends on your application.</li>
+<li>Feed modified images to your model in a correct orientation.</li>
+<li>Fix Vision’s weird orin.</li>
+<li>Convert bounding boxes coordinate system for display. This is also a trickier part, you need some iOS development experiences and a pencil for calculation 😎.</li>
+</ul>
+<p>According to Hollemans’s article, there are at least 5 different coordinate systems you need to take care, not to mention how to handle real-time capturing correctly and efficiently is also non-trivial. You can follow these two articles to learn how to create a custom camera view.</p>
+<p><a href="https://developer.apple.com/documentation/vision/recognizing_objects_in_live_capture">Apple Developer Documentation | Recognizing Objects in Live Capture</a></p>
+<p><a href="https://guides.codepath.com/ios/Creating-a-Custom-Camera-View">Creating a Custom Camera View | CodePath iOS Cliffnotes</a>
+At the latest <a href="https://developer.apple.com/videos/play/wwdc2022/10027/">WWDC 2022</a>, Apple introduced even more performance tools to its CoreML toolchain, now you can check your model’s metadata via <strong>performance reports</strong> and <strong>Core ML Instrument</strong> without writing any code. You can also use <code>computeUnits = .cpuAndNeuralEngine</code> if you don’t want to use the GPU but always force the model to run on the CPU and ANE if available.</p>
+<p><img loading="lazy" src="images/2.png#layoutTextWidth" alt="image"  />
+
+Prefer CPU and ANE instead of GPU.</p>
+<p>You can learn more about ANE from the following repository, thank you again Hollemans.</p>
+<p><a href="https://github.com/hollance/neural-engine">GitHub - hollance/neural-engine: Everything we actually know about the Apple Neural Engine (ANE)</a></p>
+<p>Here are snapshots from my model’s performance reports.</p>
+<p><img loading="lazy" src="images/3.png#layoutTextWidth" alt="image"  />
+
+You can evaluate your model via drag-and-drop image files.</p>
+<p>There is no significant inference speed differences among quantization models, but the model size only about half the size. It’s a good thing for your mobile applications.
+<img loading="lazy" src="images/4.png#layoutTextWidth" alt="image"  />
+</p>
+<p><img loading="lazy" src="images/5.png#layoutTextWidth" alt="image"  />
+
+No inference speed improved. (Left is FP32, right is FP16)</p>
+<p><img loading="lazy" src="images/6.png#layoutTextWidth" alt="image"  />
+</p>
+<p><img loading="lazy" src="images/7.png#layoutTextWidth" alt="image"  />
+
+Half the size of the FP32 model.</p>
+<p>Finally, you have a working YOLOv7 Core ML model on the iOS devices, be careful of the heat🔥. Happy coding!</p>
+<p><img loading="lazy" src="images/8.gif#layoutTextWidth" alt="image"  />
+
+<strong>Yolov7-tiny on iPad Mini 6.</strong> Copyrights of <a href="https://youtu.be/hngml3y2Rq8">BBIBBI Dance Practice</a> belongs Kakao Entertainment.</p>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://developer.apple.com/documentation/vision/recognizing_objects_in_live_capture">Recognizing Objects in Live Capture</a></li>
+<li><a href="https://machinethink.net/blog/bounding-boxes/">How to display Vision bounding boxes</a></li>
+<li><a href="https://guides.codepath.com/ios/Creating-a-Custom-Camera-View">Creating a Custom Camera View</a></li>
+<li><a href="https://github.com/hollance/neural-engine">The Neural Engine — what do we know about it?</a></li>
+<li><a href="https://github.com/WongKinYiu/yolov7">WongKinYiu/yolov7</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2022/10027/">WWDC2022 — Optimize your Core ML usage</a></li>
+<li><a href="https://machinethink.net/blog/mobilenet-ssdlite-coreml/">MobileNetV2 + SSDLite with Core ML</a></li>
+<li><a href="https://github.com/dbsystel/yolov5-coreml-tools">yolov5 — CoreML Tools</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>YOLOv7 TensorRT 的性能測試</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/</link>
+      <pubDate>Mon, 25 Jul 2022 10:30:00 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.gif#layoutTextWidth" alt="image"  />
+
+YOLOv7 TensorRT Performance Benchmarking.</p>
+<p>Object detection is one of the fundamental problems of computer vision. Instead of region detection and object classification separately in two stage detectors, object classification and bounding-box regression are done directly without using pre-generated region proposals in one stage detectors. YOLO (You Only Look Once) is one of the representative models of one-stage architecture. The YOLO family has continued to evolve since 2016, this summer we’ve got its latest update to version 7.</p>
+<p><a href="https://github.com/WongKinYiu/yolov7">GitHub - WongKinYiu/yolov7: Implementation of paper - YOLOv7: Trainable bag-of-freebies sets new…</a></p>
+<p>If you are trying to learn how to train your model on a custom dataset from the beginning, there are already many tutorials, notebooks and videos available online. In <a href="https://nilvana.ai/">Nilvana</a>, we really care about its real-world performance on the embedded devices, especially Nvidia Jetson family devices. So we conducted a series performance testing of YOLOv7 variants models on different devices, from cloud GPUs A100 to the latest tiny powerhouse <a href="https://developer.nvidia.com/embedded/jetson-orin">AGX Orin</a>.</p>
+<p><a href="https://www.seeedstudio.com/NVIDIA-Jetson-AGX-Orin-Developer-Kit-p-5314.html">NVIDIA® Jetson AGX Orin™ Developer Kit: smallest and most powerful AI edge computer</a></p>
+<blockquote>
+<p>The main reason YOLOv7 is more accurate, compare to other models with similar AP, YOLOv7 has only about half computational cost. — <a href="https://github.com/WongKinYiu/yolov7/issues/207#issuecomment-1186934294">WongKinYiu</a> &gt; <img loading="lazy" src="images/2.png#layoutTextWidth" alt="image"  />
+
+Input and Output shape of YOLOv7 (80 class)</p>
+</blockquote>
+<p>According to the results table, Xavier NX can run YOLOv7-tiny model pretty well. AGX Orin can even run YOLOv7x model more than 30 FPS, it’s amazing!</p>
+<p><img loading="lazy" src="images/3.png" alt="image"  />
+
+<em>End-to-End Performance on 1080P video, Batch Size=1</em></p>
+<p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/OypXod2zaoQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<em>Performance Benchmarking Playlist</em></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

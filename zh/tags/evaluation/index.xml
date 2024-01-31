@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Evaluation on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/evaluation/</link>
+    <description>Recent content in Evaluation on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 25 Jul 2022 10:30:00 +0000</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/evaluation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>YOLOv7 TensorRT 的性能測試</title>
+      <link>https://blog2.cmwang.net/zh/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/</link>
+      <pubDate>Mon, 25 Jul 2022 10:30:00 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.gif#layoutTextWidth" alt="image"  />
+
+YOLOv7 TensorRT Performance Benchmarking.</p>
+<p>Object detection is one of the fundamental problems of computer vision. Instead of region detection and object classification separately in two stage detectors, object classification and bounding-box regression are done directly without using pre-generated region proposals in one stage detectors. YOLO (You Only Look Once) is one of the representative models of one-stage architecture. The YOLO family has continued to evolve since 2016, this summer we’ve got its latest update to version 7.</p>
+<p><a href="https://github.com/WongKinYiu/yolov7">GitHub - WongKinYiu/yolov7: Implementation of paper - YOLOv7: Trainable bag-of-freebies sets new…</a></p>
+<p>If you are trying to learn how to train your model on a custom dataset from the beginning, there are already many tutorials, notebooks and videos available online. In <a href="https://nilvana.ai/">Nilvana</a>, we really care about its real-world performance on the embedded devices, especially Nvidia Jetson family devices. So we conducted a series performance testing of YOLOv7 variants models on different devices, from cloud GPUs A100 to the latest tiny powerhouse <a href="https://developer.nvidia.com/embedded/jetson-orin">AGX Orin</a>.</p>
+<p><a href="https://www.seeedstudio.com/NVIDIA-Jetson-AGX-Orin-Developer-Kit-p-5314.html">NVIDIA® Jetson AGX Orin™ Developer Kit: smallest and most powerful AI edge computer</a></p>
+<blockquote>
+<p>The main reason YOLOv7 is more accurate, compare to other models with similar AP, YOLOv7 has only about half computational cost. — <a href="https://github.com/WongKinYiu/yolov7/issues/207#issuecomment-1186934294">WongKinYiu</a> &gt; <img loading="lazy" src="images/2.png#layoutTextWidth" alt="image"  />
+
+Input and Output shape of YOLOv7 (80 class)</p>
+</blockquote>
+<p>According to the results table, Xavier NX can run YOLOv7-tiny model pretty well. AGX Orin can even run YOLOv7x model more than 30 FPS, it’s amazing!</p>
+<p><img loading="lazy" src="images/3.png" alt="image"  />
+
+<em>End-to-End Performance on 1080P video, Batch Size=1</em></p>
+<p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/OypXod2zaoQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<em>Performance Benchmarking Playlist</em></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Architecture on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/architecture/</link>
+    <description>Recent content in Architecture on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 19 Nov 2023 22:01:42 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/architecture/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DHH: Microservices vs. Monolith</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/dhh-microservice/</link>
+      <pubDate>Sun, 19 Nov 2023 22:01:42 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/dhh-microservice/</guid>
+      <description>David Heinemeier Hansson: Microservices vs. Monolith</description>
+      <content:encoded><![CDATA[
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/rkXGSLf-rVQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>微服務與單體架構辯論</p>
+<h2 id="組織結構考慮">組織結構考慮</h2>
+<p>DHH 強調選擇微服務或單體架構更多地涉及組織結構而非程式碼組織。微服務適合大團隊，而對於 10 至 100 名開發人員的小團隊，單體架構更簡單、更高效。</p>
+<h2 id="單體架構的簡易性">單體架構的簡易性</h2>
+<p>DHH 主張單體架構的簡易性，表示對於較小的團隊，避免在微服務中替換方法呼叫為網路呼叫的複雜性可以簡化開發。單體架構消除了管理基本功能的網路連線的需要，減少了複雜性並簡化了偵錯過程。</p>
+<h2 id="模式的適用性">模式的適用性</h2>
+<p>DHH 警告不要將為大型組織（如 Netflix）設計的模式應用於較小的團隊，因為這樣做通常會導致不良結果。他認為在沒有相應組織上下文的情況下採用微服務可能會帶來不必要的複雜性。</p>
+<h2 id="宏偉的單體架構-the-majestic-monolith">宏偉的單體架構 (The Majestic Monolith)</h2>
+<p>DHH 表達了對單體架構的強烈偏好，創造了<strong>The Majestic Monolith</strong>這一術語。他主張在儘可能長的時間內保持儘可能簡單，並表示單體架構對於較小的開發團隊特別有益。</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

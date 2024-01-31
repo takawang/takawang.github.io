@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>搬回 Github Pages | Liberation Notes</title>
+<meta name="keywords" content="Hugo">
+<meta name="description" content="2023 重新回到靜態網頁的懷抱，Hugo 讓人感覺愉快。">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog2.cmwang.net/en/posts/2023/10/blog-reboot-2023/">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="搬回 Github Pages" />
+<meta property="og:description" content="2023 重新回到靜態網頁的懷抱，Hugo 讓人感覺愉快。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-10T16:33:39+08:00" />
+<meta property="article:modified_time" content="2023-10-10T16:33:39+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="搬回 Github Pages"/>
+<meta name="twitter:description" content="2023 重新回到靜態網頁的懷抱，Hugo 讓人感覺愉快。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "搬回 Github Pages",
+      "item": "https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "搬回 Github Pages",
+  "name": "搬回 Github Pages",
+  "description": "2023 重新回到靜態網頁的懷抱，Hugo 讓人感覺愉快。",
+  "keywords": [
+    "Hugo"
+  ],
+  "articleBody": "經過幾天的實驗，正式將 Blog 重啟在 Github Pages，總是思考要在什麼平台紀錄或者該熟悉怎樣的格式，都比不上持續記錄的實在。\n有個可以掌握在自己手中的筆記本，除了可以抒發心情也可以記錄學習的點滴。Hugo 真的是一個很棒的工具，整體體驗比起多年前的 Hexo 好很多，接下來我會分享幾篇如何自己動手配置的簡單紀錄。\n",
+  "wordCount" : "145",
+  "inLanguage": "zh",
+  "datePublished": "2023-10-10T16:33:39+08:00",
+  "dateModified": "2023-10-10T16:33:39+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      搬回 Github Pages
+    </h1>
+    <div class="post-meta"><span title='2023-10-10 16:33:39 +0800 CST'>2023-10-10</span>&nbsp;·&nbsp;145 字&nbsp;·&nbsp;Taka&nbsp;|&nbsp;語言:
+<ul class="i18n_list">
+    <li>
+        <a href="https://blog2.cmwang.net/en/posts/2023/10/blog-reboot-2023/">English</a>
+    </li>
+</ul>
+
+</div>
+  </header> 
+  <div class="post-content"><p>經過幾天的實驗，正式將 <a href="https://medium.com/@takawang">Blog</a> 重啟在 <a href="https://pages.github.com/">Github Pages</a>，總是思考要在什麼平台紀錄或者該熟悉怎樣的格式，都比不上持續記錄的實在。</p>
+<p>有個可以掌握在自己手中的筆記本，除了可以抒發心情也可以記錄學習的點滴。<a href="https://gohugo.io/">Hugo</a> 真的是一個很棒的工具，整體體驗比起多年前的 <a href="https://hexo.io/index.html">Hexo</a> 好很多，接下來我會分享幾篇如何自己動手配置的簡單紀錄。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/hugo/">Hugo</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/feeling/">Feeling</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2023/10/grown-ups/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>Grown Ups - AI (Lee Ji Eun)</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2023/10/hugo-test/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>Hugo 測試</span>
+  </a>
+</nav>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

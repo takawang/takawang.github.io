@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Frontend on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/frontend/</link>
+    <description>Recent content in Frontend on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 21 Oct 2023 22:53:02 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/frontend/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>前端開發歷史</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/frontend-history/</link>
+      <pubDate>Sat, 21 Oct 2023 22:53:02 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/frontend-history/</guid>
+      <description>回顧前端開發歷史</description>
+      <content:encoded><![CDATA[<h2 id="石器時代-90-年代">石器時代 (90 年代)</h2>
+<h3 id="時間軸">時間軸</h3>
+<ul>
+<li>1990: 第一個 Web Browser 出現</li>
+<li>1994: Navigator 發布</li>
+<li>1995: Javascript 由 Brendan Eich 開發</li>
+<li>2002: IE 贏得瀏覽器大戰，市佔超過 96%</li>
+</ul>
+<h3 id="主流設計概念">主流設計概念</h3>
+<ul>
+<li>MVC，由 Model 負責 Data</li>
+<li>除了 html, css, javascript 外，開始用到 JSP 與 Smarty 模板。雖然此時已經可以顯示後端數據，但是此時要刷新整個頁面，耗費頁面載入時間。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>smarty<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    his name is {$name}
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><ul>
+<li>2004 Google 發布 Gmail，此時可以透過 <code>Ajax</code> 異步獲取數據刷新頁面，前端不再受限後端模板，宣告 <code>Web 2.0</code> 時代到來。</li>
+</ul>
+<h2 id="鐵器時代">鐵器時代</h2>
+<ul>
+<li><code>jQuery</code> 出現，解決瀏覽器兼容性問題，是 <code>jQuery</code> + <code>Bootstrap</code> 的主流時期</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#alert-btn&#34;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&#34;click&#34;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#app .input&#34;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s2">&#34;hi&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><ul>
+<li>2009 年，<code>AngularJS</code> 與 <code>Node.js</code> 誕生，開始了前端的工業革命時代。</li>
+</ul>
+<h2 id="工業時代">工業時代</h2>
+<ul>
+<li>AngularJS 引領前端的 MV<code>VM</code> 模式的流行，此時 Angular，React，Vue 開始出現</li>
+<li>MVVM 將 <code>Controller</code> 變成 <code>View-Model</code> layer，作為 Model 與 View 的橋樑，由 <code>VM</code> 來同步 View 與 Model 層。</li>
+</ul>
+<hr>
+<h2 id="前端三大框架比較">前端三大框架比較</h2>
+<h3 id="主流設計概念-1">主流設計概念</h3>
+<p>目標一致：數據驅動頁面</p>
+<p><img loading="lazy" src="data-driven.png" alt="data-driven"  />
+</p>
+<h3 id="框架比較">框架比較</h3>
+<h4 id="angular1">Angular1</h4>
+<ul>
+<li>使用 <code>Dirty Check</code>，只要數據變化，就去更新 DOM 一次。</li>
+</ul>
+<h4 id="angular2">Angular(2)</h4>
+<ul>
+<li>向前不相容，引入了 <code>TypeScript</code> 與 <code>RxJS</code></li>
+</ul>
+<h4 id="vue1">Vue1</h4>
+<ul>
+<li>響應式，使用 <code>watcher</code> 監聽數據的屬性變化，就可以知道哪個 <code>Key</code> 改變了，再去修改對應的 <code>DOM</code>。</li>
+</ul>
+<p><img loading="lazy" src="vue1.png" alt="vue1"  />
+</p>
+<h4 id="react">React</h4>
+<ul>
+<li>
+<p>在 Browser 的 DOM 之上，提出了 <code>Virtual DOM</code> 概念，使用 Javascript Object 去描述整個 DOM Tree，透過 Virtual DOM 計算出變化的數據，去修改頁面。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;item&#34;</span><span class="p">&gt;</span>item1<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;item&#34;</span><span class="p">&gt;</span>item2<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>此時的 Virtual DOM 長成這樣：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tag&#34;</span><span class="p">:</span> <span class="s2">&#34;div&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;attrs&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;app&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tag&#34;</span><span class="p">:</span> <span class="s2">&#34;p&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;attrs&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;className&#34;</span><span class="p">:</span> <span class="s2">&#34;item&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;item1&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tag&#34;</span><span class="p">:</span> <span class="s2">&#34;p&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;attrs&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;className&#34;</span><span class="p">:</span> <span class="s2">&#34;item&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;item2&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<p><img loading="lazy" src="diff.png" alt="diff"  />
+</p>
+<p>計算 Diff ，可以減少 DOM 修改，使得效率提高。</p>
+<h4 id="vue-與-react-對比">Vue 與 React 對比</h4>
+<ul>
+<li>Vue 情況下，如果數據變化，框架會透過 Watcher 主動告訴你哪些數據變化了。但是當項目大時，太多 Watcher 會影響效能。</li>
+<li>Vue2 使用 Virtual DOM 在 <code>Component</code> 內，Component 間使用 <code>watcher</code> 達到響應式更新，從而降低 watcher 數量。</li>
+<li>React 情況下，只能透過新舊數據 virtual DOM Diff 被動得知。如果 Virtual DOM Tree 太大，會使得計算時間太久，造成性能卡頓。</li>
+<li>React 引入了 <code>Fiber</code> 架構，將 virtual DOM 變成 Chain，利用空閑時間計算 Diff。</li>
+</ul>
+<!--
+`TODO`: 圖片，React Chain
+
+`TODO`: 圖片，Fiber
+
+`TODO`: 圖片，Vue2
+
+`TODO`: 圖片，`Template` <- -> `JSX`
+
+`TODO`: 圖片，`Runtime` vs `Compile` -->
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Html Form Cheat Sheet</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/html-form-cheat-sheet/</link>
+      <pubDate>Wed, 21 Oct 2020 17:14:50 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/html-form-cheat-sheet/</guid>
+      <description>HTML Form Cheat Sheet</description>
+      <content:encoded><![CDATA[<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1.0&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Simple Form<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Contact Us<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- The &#39;action&#39; attribute specifies where the form data will be sent --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- The &#39;method&#39; attribute specifies the HTTP method to be used (GET or POST) --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/submit_form&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;post&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Text Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;name&#34;</span><span class="p">&gt;</span>Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">required</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Email Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email&#34;</span><span class="p">&gt;</span>Email:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">required</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Password Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;password&#34;</span><span class="p">&gt;</span>Password:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_password&#34;</span> <span class="na">required</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Radio Buttons --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Preferred Contact Method:<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;contact_email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;contact_method&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">value</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">checked</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;contact_email&#34;</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;contact_phone&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;contact_method&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">value</span><span class="o">=</span><span class="s">&#34;phone&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;contact_phone&#34;</span><span class="p">&gt;</span>Phone<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Checkbox --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;checkbox&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="na">checked</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span><span class="p">&gt;</span>Subscribe to our newsletter<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Textarea for Longer Text --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;message&#34;</span><span class="p">&gt;</span>Message:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">textarea</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;message&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_message&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">rows</span><span class="o">=</span><span class="s">&#34;4&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">cols</span><span class="o">=</span><span class="s">&#34;50&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your message&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Submit Button --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><ol>
+<li>
+<p><strong><code>&lt;form&gt;</code> element:</strong> This is the container for your form. The <code>action</code> attribute specifies the URL where the form data will be sent, and the <code>method</code> attribute specifies the HTTP method (usually &ldquo;GET&rdquo; or &ldquo;POST&rdquo;).</p>
+</li>
+<li>
+<p><strong>Text Input (<code>&lt;input type=&quot;text&quot;&gt;</code>):</strong> Used for single-line text input. The <code>id</code> attribute is a unique identifier, and the <code>name</code> attribute is the key that will be used to identify this field when the form is submitted.</p>
+</li>
+<li>
+<p><strong>Email Input (<code>&lt;input type=&quot;email&quot;&gt;</code>):</strong> Similar to text input but specifically designed for email addresses.</p>
+</li>
+<li>
+<p><strong>Password Input (<code>&lt;input type=&quot;password&quot;&gt;</code>):</strong> Used for password input. The text is usually masked for security.</p>
+</li>
+<li>
+<p><strong>Radio Buttons (<code>&lt;input type=&quot;radio&quot;&gt;</code>):</strong> Used when the user must select one option from a group of options. The <code>name</code> attribute groups the radio buttons together.</p>
+</li>
+<li>
+<p><strong>Checkbox (<code>&lt;input type=&quot;checkbox&quot;&gt;</code>):</strong> Allows the user to select multiple options. The <code>checked</code> attribute makes the checkbox initially selected.</p>
+</li>
+<li>
+<p><strong>Textarea (<code>&lt;textarea&gt;</code>):</strong> Used for multi-line text input, suitable for longer messages.</p>
+</li>
+<li>
+<p><strong>Submit Button (<code>&lt;input type=&quot;submit&quot;&gt;</code>):</strong> Submits the form when clicked.</p>
+</li>
+</ol>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>HTML Cheat Sheet</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/</link>
+      <pubDate>Tue, 20 Oct 2020 17:14:50 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/</guid>
+      <description>Cheat Sheet for HTML</description>
+      <content:encoded><![CDATA[<h2 id="document-structure">Document Structure</h2>
+<ul>
+<li>
+<p><code>!</code> 然後 <code>tab</code> 快速鍵，快速產出骨架：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    ....
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="paragraph-element-p">Paragraph element <code>p</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>lorem ...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="heading-element-h1-h2-h6">Heading element <code>h1</code>, <code>h2</code>,&hellip;, <code>h6</code></h2>
+<ul>
+<li>只能有一個 H1</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Taka&#39;s Blog<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="comments">Comments</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- something --&gt;</span>
+</span></span></code></pre></div><h2 id="void-element-br-與-hr">Void Element <code>br</code> 與 <code>hr</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 換行 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">hr</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 分隔線 --&gt;</span>
+</span></span></code></pre></div><h2 id="lists-ul-與-ol">Lists <code>ul</code> 與 <code>ol</code></h2>
+<h3 id="unordered-list">Unordered List</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 3<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="ordered-list">Ordered List</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 1
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 2
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 3
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="emphasis-em">Emphasis <code>em</code></h2>
+<ul>
+<li>不要再使用 <code>&lt;i&gt;lorem&lt;/i&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="bold-strong">Bold <code>strong</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="superscript-subscript-sup-sub">Superscript, Subscript <code>sup</code> <code>sub</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;&lt;/</span><span class="nt">sub</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="image-image">Image <code>image</code></h2>
+<ul>
+<li><code>alt</code> 很重要</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;io.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;something in the folder&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="anchor-links-a">Anchor (links) <code>a</code></h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#examples">The Anchor element - HTML: HyperText Markup Language | MDN</a></p>
+<ul>
+<li>link to other elements，可以用 <code>#</code> link 到某一段落的 <code>id</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;...&#34;</span><span class="p">&gt;</span>go to reddit<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;#pets&#34;</span><span class="p">&gt;</span>My Pets<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- link to section --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pets&#34;</span><span class="p">&gt;</span>Pets<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="image-anchor">image anchor</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://example.com&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;[https://picsum.photos/400](https://picsum.photos/400)&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;pig&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="target">target</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span> <span class="na">target</span><span class="o">=</span><span class="s">&#34;_blank&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="inline-vs-block-elements"><code>Inline</code> vs <code>block</code> elements</h2>
+<ul>
+<li>inline 不會換行</li>
+<li>block elements 會佔滿整行，例如 <code>heading elements</code></li>
+</ul>
+<h2 id="forms">Forms</h2>
+<ul>
+<li>use form to group controls together</li>
+<li><code>name</code> for input，這樣傳遞參數才能區別是哪個 input</li>
+<li><code>placeholder</code> for text input</li>
+<li><code>required</code> 設為必填</li>
+<li>input types:
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types">The Input (Form Input) element - HTML: HyperText Markup Language | MDN</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/register&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;get&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span><span class="p">&gt;</span>Enter your name<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name_input&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- button --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;number&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;color&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;checkbox&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- 🔥 --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="range-input">range input</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;range&#34;</span> <span class="na">min</span><span class="o">=</span><span class="s">&#34;0&#34;</span> <span class="na">max</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">step</span><span class="o">=</span><span class="s">&#34;2&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;volumnvalue&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h3 id="text-area">text area</h3>
+<ul>
+<li>multiple line text input</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">rows</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">cols</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="selects">selects</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>Select your pet<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;pets&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;dog&#34;</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;cat&#34;</span><span class="p">&gt;</span>Cat<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="radio-button">radio button</h3>
+<ul>
+<li>需要給 value 區分是哪個被選中</li>
+<li>若使用同樣的 <code>name</code> ，就可以 group radio button</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;phone&#34;</span><span class="p">&gt;</span>Call me<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email&#34;</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="tables">Tables</h2>
+<ul>
+<li><code>&lt;thead&gt;</code></li>
+<li><code>&lt;tbody&gt;</code></li>
+<li><code>&lt;tfoot&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_1<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_2<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="span-and-divs">Span and Divs</h2>
+<ul>
+<li>
+<p><code>span</code> use for styling purpose, it does not have any meaning</p>
+</li>
+<li>
+<p><code>div</code> generic containers that have no inherent meaning, they are use to group content together for styling.</p>
+</li>
+<li>
+<p>Semantic markup / Semantic elements</p>
+<ul>
+<li>使用有語意的標籤而不是一堆 div</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Glossary/Semantics">Semantics - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a></p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Feeling on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/feeling/</link>
+    <description>Recent content in Feeling on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 10 Oct 2023 16:33:39 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/feeling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Moving Back to Github Pages</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/blog-reboot-2023/</link>
+      <pubDate>Tue, 10 Oct 2023 16:33:39 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/blog-reboot-2023/</guid>
+      <description>In 2023, I&amp;rsquo;m going back to the simplicity of static webpages.</description>
+      <content:encoded><![CDATA[<p>After a few days of experimentation, I have officially relaunched my <a href="https://medium.com/@takawang">Blog</a> on <a href="https://pages.github.com/">Github Pages</a>. I often contemplate which platform to use for recording my thoughts, or what format to become familiar with, but nothing beats the authenticity of continuous documentation.</p>
+<p>Having a notebook that I can control not only allows me to express my feelings but also enables me to record the bits and pieces of my learning journey. <a href="https://gohugo.io/">Hugo</a> is truly an amazing tool; the overall experience is much better than it was with <a href="https://hexo.io/index.html">Hexo</a> several years ago. In the upcoming posts, I will share some simple records on how to configure it on your own.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>You Will Have a Good Day</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/04/you-will-have-a-good-day/</link>
+      <pubDate>Thu, 06 Apr 2023 12:29:10 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/04/you-will-have-a-good-day/</guid>
+      <description>Today you will have a good day. Jesus spoke to them at once, “Don’t be afraid,” he said. “Take courage! I am here!” (Mark 6:50)</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="1.jpeg" alt="image"  />
+</p>
+<p>Today you will have a good day. Jesus spoke to them at once, “Don’t be afraid,” he said. “Take courage! I am here!” (Mark 6:50)</p>
+<p><img loading="lazy" src="2.png" alt="image"  />
+</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

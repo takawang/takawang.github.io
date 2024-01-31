@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Industrial Camera on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/industrial-camera/</link>
+    <description>Recent content in Industrial Camera on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Dec 2022 13:14:24 +0000</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/industrial-camera/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuring USB-FS for USB3 Vision Camera</title>
+      <link>https://blog2.cmwang.net/en/posts/2022/12/configuring-usb-fs-for-usb3-vision-camera/</link>
+      <pubDate>Thu, 29 Dec 2022 13:14:24 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2022/12/configuring-usb-fs-for-usb3-vision-camera/</guid>
+      <description>This post explains how to increase the buffer memory for USB-FS devices on Linux systems.</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="images/1.jpeg" alt="image"  />
+</p>
+<p>This post explains how to increase the buffer memory for USB-FS devices on Linux systems in order to make full use of the imaging hardware’s capabilities. By default, USB-FS on Linux systems only allows 16 MB of buffer memory for all USB devices, which may not be sufficient for high-resolution cameras or multiple-camera set ups, resulting in image acquisition issues. To configure USB-FS and increase the buffer memory limit, the following steps should be taken:</p>
+<p>Note that GRUB is for desktop PC architecture. ARM embedded systems use a different bootloader, as GRUB requires a system with a BIOS, and embedded systems do not have one.</p>
+<ol>
+<li>Create the file <code>/etc/rc.local</code> with the command <code>sudo touch /etc/rc.local</code>. This will create the file, allowing it to be edited.</li>
+<li>Change the permissions of the file with the command <code>sudo chmod 744 /etc/rc.local</code>. This will ensure that the file has the correct permissions to be edited.</li>
+<li>Change the buffer memory limit with the command <code>echo 1000 &amp;gt; /sys/module/usbcore/parameters/usbfs_memory_mb</code>. This command will set the memory limit to 1000 MB, which should be enough to prevent image acquisition issues.`</li>
+</ol>
+<h2 id="etcrclocal-file-contents-example">/etc/rc.local file contents example</h2>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            /etc/rc.local
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh -e
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">1000</span> &gt; /sys/module/usbcore/parameters/usbfs_memory_mb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>After changing the memory limit, it is important to confirm the changes have been made correctly. This can be done by running the command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /sys/module/usbcore/parameters/usbfs_memory_mb
+</span></span></code></pre></div><p>which will display the current memory limit. If the limit is still 16 MB, then the changes will need to be made again. Additionally, further information about USB-FS on Linux can be found in the following sources:</p>
+<ul>
+<li><a href="https://www.flir.asia/support-center/iis/machine-vision/application-note/understanding-usbfs-on-linux/">Understanding USBFS on Linux</a></li>
+<li><a href="https://importgeek.wordpress.com/2017/02/26/increase-usbfs-memory-limit-in-ubuntu/">Increase USBFS Memory Limit in Ubuntu</a></li>
+<li><a href="https://forums.developer.nvidia.com/t/change-kernel-cmdline-by-edit-etc-default-grub-failed/159831/2">Change Kernel Cmdline by Edit /etc/default/grub Failed</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

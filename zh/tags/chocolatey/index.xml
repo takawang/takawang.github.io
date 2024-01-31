@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chocolatey on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/chocolatey/</link>
+    <description>Recent content in Chocolatey on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 10 Oct 2023 19:41:05 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/chocolatey/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何安裝 Hugo 環境</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/how-to-install-hugo/</link>
+      <pubDate>Tue, 10 Oct 2023 19:41:05 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/how-to-install-hugo/</guid>
+      <description>這篇文章會介紹如何安裝 Hugo 環境</description>
+      <content:encoded><![CDATA[<h2 id="macos">MacOS</h2>
+<p>透過 <code>Homebrew</code> Package Manager 安裝是最方便的</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Homebrew on macOS
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install homebrew</span>
+</span></span><span class="line"><span class="cl">/bin/bash -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">brew install hugo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e+extended darwin/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-09-24T15:20:17Z <span class="nv">VendorInfo</span><span class="o">=</span>brew
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<h2 id="windows">Windows</h2>
+<p>以工作管理員開啟 <strong>powershell</strong>
+<code>win + x</code> 游標上下選擇到 windows powershell (工作管理員)，記得要選擇<code>超級管理員</code>的權限。</p>
+<p>確認執行權限：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Get-ExecutionPolicy
+</span></span></code></pre></div><p>如果顯示 <strong>Ristricted</strong>，則再執行以下指令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy AllSigned
+</span></span></code></pre></div><p>安裝 chocolatey：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy Bypass -Scope Process -Force<span class="p">;</span> iex <span class="o">((</span>New-Object System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://chocolatey.org/install.ps1&#39;</span><span class="o">))</span>
+</span></span></code></pre></div><p>確認是否安裝完成，在 <strong>powershell</strong> 輸入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">choco
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果有正常回覆，即安裝完成</span>
+</span></span></code></pre></div><p>接著就可以透過 choco 安裝 hugo 囉！👇👇👇</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Chocolatey on Windows
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">choco install hugo-extended
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e...
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<hr>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://gohugo.io/installation/macos/">Install Hugo on macOS</a></li>
+<li><a href="https://gohugo.io/installation/windows/">Install Hugo on Windows</a></li>
+<li><a href="https://blog.darkthread.net/blog/choco-install-notes-for-new-windows/">我的 Windows 新裝機 Chocolatey 安裝清單</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

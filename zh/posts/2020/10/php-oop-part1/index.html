@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>PHP 物件導向 (上) | Liberation Notes</title>
+<meta name="keywords" content="Backend, PHP, OOP">
+<meta name="description" content="PHP 物件導向上半部">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2020/10/php-oop-part1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2020/10/php-oop-part1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="PHP 物件導向 (上)" />
+<meta property="og:description" content="PHP 物件導向上半部" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2020/10/php-oop-part1/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-16T14:25:53+08:00" />
+<meta property="article:modified_time" content="2020-10-16T14:25:53+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="PHP 物件導向 (上)"/>
+<meta name="twitter:description" content="PHP 物件導向上半部"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "PHP 物件導向 (上)",
+      "item": "https://blog2.cmwang.net/zh/posts/2020/10/php-oop-part1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PHP 物件導向 (上)",
+  "name": "PHP 物件導向 (上)",
+  "description": "PHP 物件導向上半部",
+  "keywords": [
+    "Backend", "PHP", "OOP"
+  ],
+  "articleBody": "魔術方法 (Magic Methods) 魔術方法是在類別中具有特殊名稱的方法，它們在特定的時機被自動呼叫，這些時機通常與類別的操作和生命週期相關。一個常用的魔術方法是建構子（Constructor）。\n建構子 (Constructor) 建構子是一個特殊的方法，它在類別被實例化（物件被建立）時自動被呼叫。建構子通常用於初始化物件的屬性或進行一些初始設定。\nclass MyClass { public function __construct() { echo \"物件已被建立！\"; } } $object = new MyClass(); // 輸出：物件已被建立！ Custom Methods 自訂方法是我們根據類別的需求自行定義的方法。其中的一個常見技巧是使用 return $this，這使得方法可以被鏈式呼叫（Method Chaining）。\n鏈式呼叫(Method Chaining) 指在同一個物件上連續呼叫多個方法，而不需要每次呼叫都賦值給一個變數。\nclass Calculator { private $result = 0; public function add($value) { $this-\u003eresult += $value; return $this; // 返回物件本身以便鏈式呼叫 } public function subtract($value) { $this-\u003eresult -= $value; return $this; // 返回物件本身 } public function getResult() { return $this-\u003eresult; } } $calculator = new Calculator(); $result = $calculator-\u003eadd(10)-\u003esubtract(5)-\u003egetResult(); echo $result; // 輸出：5 在這個例子中，add 和 subtract 方法返回了物件本身 $this，這樣它們可以連續呼叫，而不需要每次呼叫都賦值給一個變數。\n建構子引數的推廣 (Constructor Property Promotion) 在 PHP 8.0 及以上版本中，引入的新特性。\n當使用建構子引數推廣之前，我們需要手動為每個類別的屬性指定建構子引數，然後在建構子中賦值。以下是一個使用前的範例：\nclass User { private string $name; private string $email; private ?string $phoneNumber; public function __construct(string $name, string $email, ?string $phoneNumber) { $this-\u003ename = $name; $this-\u003eemail = $email; $this-\u003ephoneNumber = $phoneNumber; } } // 建立使用者物件 $user = new User('John Doe', 'john@example.com', '123-456-7890'); 在上面的範例中，我們需要手動宣告建構子的引數，然後再將這些引數賦值給類別的屬性。\n使用建構子引數推廣後的範例：\nclass User { public function __construct( private string $name, private string $email, private ?string $phoneNumber = null ) { // 建構子的內容 } } // 建立使用者物件 $user = new User('John Doe', 'john@example.com', '123-456-7890'); 在這個例子中，建構子的引數列表直接宣告瞭類別的屬性。$name 和 $email 屬性是必須的，而 $phoneNumber 屬性是可選的（使用 ?string 表示可以為空）。在建構子中，不需要再手動賦值給這些屬性，PHP 會自動處理。這樣，我們可以簡化建構子的定義，使程式碼更加簡潔和易讀。\n存取修飾符 (Access Modifiers) public（公共) public 修飾符表示該成員(屬性或方法)在類別內外部均可被訪問。這意味著無論是在類別內部、子類別、還是外部程式碼中，都可以直接訪問這個成員，它是預設值。\nclass MyClass { public $publicProperty; public function publicMethod() { // 可以被任何地方訪問 } } protected (受保護) protected 修飾符表示該成員只能在定義它的類別內部和子類別中被訪問。外部程式碼無法直接訪問受保護的成員。\nclass MyClass { protected $protectedProperty; protected function protectedMethod() { // 只能在類別內部和子類別中訪問 } } private（私有) private 修飾符表示該成員指能在定義它的類別內部被訪問，對於外部程式碼和子類別都是不可見的。\nclass MyClass { private $privateProperty; private function privateMethod() { // 只能在類別內部訪問 } } Null-Safe Operator 在 PHP 8.0 版本中，引入了 Null-Safe Operator（空安全運算子），也稱為 Null-Safe Operator（?-\u003e），它是一種簡化程式碼的語法糖，用於在操作可能為 null 的物件時避免產生錯誤。\n在舊版本的 PHP 中，如果你試圖在一個可能為 null 的變數上呼叫方法或訪問屬性，你必須先檢查該變數是否為 null，以避免產生 Fatal Error。例如：\nif (isset($object)) { $value = $object-\u003egetValue(); } else { $value = null; } 使用 Null-Safe Operator，你可以將上面的程式碼簡化為：\n$value = $object?-\u003egetValue(); 這樣，如果$object為 null，表示式的結果將會是 null，而不會丟擲錯誤。Null-Safe Operator 只能用於物件的方法呼叫和屬性訪問，不能用於陣列和函式呼叫。這個語法糖使得處理可能為 null 的物件更加方便和簡潔。\n這裡是一個使用 Null-Safe Operator 的例子：\nclass MyClass { public function getValue(): ?string { // 返回一個可能為null的值 return \"Hello, World!\"; } } $object = null; // 或者一個MyClass的實例 // 使用Null-Safe Operator呼叫可能為null的物件方法 $value = $object?-\u003egetValue(); echo $value; // 輸出 \"Hello, World!\" 或者 null（如果$object為null的話） 在這個例子中，無論$object是一個 MyClass 的實例還是 null，都不會產生錯誤，因為 Null-Safe Operator 會自動處理 null 情況。\nNamespace 在 PHP 中，名稱空間（Namespace）是一種用來解決在不同類別之間命名衝突的機制。名稱空間可以是可選的，但在大型應用程式中，良好的組織和結構是非常重要的。以下是有關 PHP 名稱空間的一些基本概念和最佳實踐：\n在程式檔案的最前面，你可以使用namespace宣告定義一個名稱空間。例如：\ndeclare(strict_types=1); namespace APP; // after strict_types class MyClass { // class implementation } 如果你的應用程式需要更深的組織結構，你可以使用巢狀名稱空間（Nested Namespace）。例如，如果你有一個銀行相關的類別，你可以這樣定義：\nnamespace APP\\Bank; class BankAccount { // class implementation } 當你在不同的名稱空間中使用類別時，你可以使用use關鍵字。例如，如果你要使用APP名稱空間中的Account類別，你可以這樣做：\n# method1 $myAccount = new App\\Account(); # method2 use APP\\Account; $myAccount = new Account(); 在某些情況下(當前在 namespace APP 下)，你可能需要使用 global namespace 中的類別。你可以使用斜線（\\）字首來表示全域性名稱空間。例如：\nnamespace App; # method1 new \\DateTime(); # method2 use DateTime; new DateTime(); 有時候，你可能會想要為一個長命名的類別使用別名（Alias）。這樣可以使你的程式碼更簡潔易讀。例如：\nuse DateTime as DT; new DT(); 如果你需要引入多個名稱空間中的類別，你可以使用逗號（,）分隔它們。例如：\nuse APP\\Account; use APP\\SocialMedia; // 改寫 use APP\\{Account, SocialMedia}; 使用名稱空間和use語句，讓你可以更好地組織你的程式碼，避免命名衝突，使程式碼更易於維護和擴充套件。\nAutoloading Classes 使用自動載入機制（例如 spl_autoload_register 函式）主要是為了方便管理多個類別，特別是當每個類別都儲存在獨立的檔案中時。這樣，你可以根據類別的名稱空間和類別名稱來自動載入相應的檔案。\n然而，如果在同一個檔案中既有類別定義又有函式定義，那麼最好還是在需要的時候手動引入這些檔案。這是因為自動載入機制主要是為了類別而設計的，而不是用來處理函式。如果在自動載入的過程中引入了一個檔案，裡面除了類別定義還包含其他程式碼（如函式定義），可能會導致不必要的程式碼複雜性和不易讀懂的程式碼。\n因此，最佳的做法是：\n將每個類別儲存在獨立的檔案中。 這樣可以使用自動載入機制，方便地根據類別的名稱空間和類別名稱來自動載入相應的檔案。\n如果檔案中既有類別定義又有函式定義，需要時手動引入。 如果檔案中有其他不屬於類別的程式碼（例如函式或常數），最好在需要使用這些程式碼的地方手動引入相應的檔案。這樣可以確保程式碼的可讀性和可維護性。\n以下是一個範例，演示瞭如何使用自動載入機制來載入類別，並在需要的時候手動引入檔案中的函式：\n// require_once 'APP/Account.php'; // require_once 'APP/SocialMedia.php'; // require_once 'APP/..'; spl_autoload_register(function($class){ $formattedClass = str_replace(\"\\\\\", \"/\", $class); $path = \"{$formattedClass}.php\"; require_once $path; }); // 使用自動載入機制載入類別 $account = new \\APP\\Account(); // 手動引入檔案中的函式 require_once 'path/to/file-with-functions.php'; // 現在你可以使用檔案中定義的函式 myFunction(); 常數 (Constants) 在 PHP 中，常數是在類別中定義的不可改變的值，這些值在整個類別中都是固定的。在類別中定義常數使用 const 關鍵字，不可使用 define() 函式。\nclass Account { const INTEREST_RATE = 0.05; // 其他類別成員和方法 } // 存取常數的方式 echo Account::INTEREST_RATE; 在這個範例中，INTEREST_RATE 是 Account 類別的常數，它的值不可更改，可以在整個應用程式中使用，提高了程式碼的可讀性和一致性。\n靜態成員 (Static Members) 靜態屬性 (Static Properties) 靜態屬性是指在整個類別中共用的屬性，可以被所有實例共享。然而，靜態屬性的值可以被修改，因此在使用時需要小心 (能不要用就不要用)。\nclass Account { public static $count = 0; public function __construct() { self::$count++; } public static function getCount() { return self::$count; } } // 使用靜態屬性 $account1 = new Account(); $account2 = new Account(); echo Account::$count; // 輸出：2 在這個例子中，$count 是一個靜態屬性，用來記錄 Account 類別的實例數量。每次建立一個新的 Account 物件時，$count 的值會自動增加。\n靜態方法 (Static Methods) 靜態方法是可以在不建立類別實例的情況下直接呼叫的方法。靜態方法通常用於 utility 類別，這些方法不依賴於特定的實例，而是執行通用的任務。這搭配上前面提到的 Autoloading Class 方法時會相當方便。\nclass Utility { public static function calculateArea($radius) { return pi() * $radius * $radius; } } // 呼叫靜態方法 $area = Utility::calculateArea(5); // 計算半徑為5的圓面積 在這個例子中，calculateArea 是一個靜態方法，可以直接透過 Utility::calculateArea() 的方式呼叫，而不需要建立 Utility 物件。\n",
+  "wordCount" : "3063",
+  "inLanguage": "zh",
+  "datePublished": "2020-10-16T14:25:53+08:00",
+  "dateModified": "2020-10-16T14:25:53+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2020/10/php-oop-part1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      PHP 物件導向 (上)
+    </h1>
+    <div class="post-meta"><span title='2020-10-16 14:25:53 +0800 CST'>2020-10-16</span>&nbsp;·&nbsp;3063 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目錄</span>
+        </summary>
+
+        <div class="inner"><ul><ul>
+                <li>
+                    <a href="#%e9%ad%94%e8%a1%93%e6%96%b9%e6%b3%95-magic-methods" aria-label="魔術方法 (Magic Methods)">魔術方法 (Magic Methods)</a><ul>
+                        
+                <li>
+                    <a href="#%e5%bb%ba%e6%a7%8b%e5%ad%90-constructor" aria-label="建構子 (Constructor)">建構子 (Constructor)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#custom-methods" aria-label="Custom Methods">Custom Methods</a></li></ul>
+                    
+                <li>
+                    <a href="#%e5%bb%ba%e6%a7%8b%e5%ad%90%e5%bc%95%e6%95%b8%e7%9a%84%e6%8e%a8%e5%bb%a3-constructor-property-promotion" aria-label="建構子引數的推廣 (Constructor Property Promotion)">建構子引數的推廣 (Constructor Property Promotion)</a></li>
+                <li>
+                    <a href="#%e5%ad%98%e5%8f%96%e4%bf%ae%e9%a3%be%e7%ac%a6-access-modifiers" aria-label="存取修飾符 (Access Modifiers)">存取修飾符 (Access Modifiers)</a><ul>
+                        
+                <li>
+                    <a href="#public%e5%85%ac%e5%85%b1" aria-label="public（公共)">public（公共)</a></li>
+                <li>
+                    <a href="#protected-%e5%8f%97%e4%bf%9d%e8%ad%b7" aria-label="protected (受保護)">protected (受保護)</a></li>
+                <li>
+                    <a href="#private%e7%a7%81%e6%9c%89" aria-label="private（私有)">private（私有)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#null-safe-operator" aria-label="Null-Safe Operator">Null-Safe Operator</a></li>
+                <li>
+                    <a href="#namespace" aria-label="Namespace">Namespace</a></li>
+                <li>
+                    <a href="#autoloading-classes" aria-label="Autoloading Classes">Autoloading Classes</a></li>
+                <li>
+                    <a href="#%e5%b8%b8%e6%95%b8-constants" aria-label="常數 (Constants)">常數 (Constants)</a></li>
+                <li>
+                    <a href="#%e9%9d%9c%e6%85%8b%e6%88%90%e5%93%a1-static-members" aria-label="靜態成員 (Static Members)">靜態成員 (Static Members)</a><ul>
+                        
+                <li>
+                    <a href="#%e9%9d%9c%e6%85%8b%e5%b1%ac%e6%80%a7-static-properties" aria-label="靜態屬性 (Static Properties)">靜態屬性 (Static Properties)</a></li>
+                <li>
+                    <a href="#%e9%9d%9c%e6%85%8b%e6%96%b9%e6%b3%95-static-methods" aria-label="靜態方法 (Static Methods)">靜態方法 (Static Methods)</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="魔術方法-magic-methods">魔術方法 (Magic Methods)<a hidden class="anchor" aria-hidden="true" href="#魔術方法-magic-methods">#</a></h3>
+<p>魔術方法是在類別中具有特殊名稱的方法，它們在特定的時機被自動呼叫，這些時機通常與類別的操作和生命週期相關。一個常用的魔術方法是建構子（Constructor）。</p>
+<h4 id="建構子-constructor">建構子 (Constructor)<a hidden class="anchor" aria-hidden="true" href="#建構子-constructor">#</a></h4>
+<p>建構子是一個特殊的方法，它在類別被實例化（物件被建立）時自動被呼叫。建構子通常用於初始化物件的屬性或進行一些初始設定。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;物件已被建立！&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyClass</span><span class="p">();</span> <span class="c1">// 輸出：物件已被建立！
+</span></span></span></code></pre></div><h3 id="custom-methods">Custom Methods<a hidden class="anchor" aria-hidden="true" href="#custom-methods">#</a></h3>
+<p>自訂方法是我們根據類別的需求自行定義的方法。其中的一個常見技巧是使用 <code>return $this</code>，這使得方法可以被鏈式呼叫（Method Chaining）。</p>
+<p><strong>鏈式呼叫(Method Chaining)</strong> 指在同一個物件上連續呼叫多個方法，而不需要每次呼叫都賦值給一個變數。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Calculator</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">result</span> <span class="o">+=</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span> <span class="c1">// 返回物件本身以便鏈式呼叫
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">subtract</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">result</span> <span class="o">-=</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span> <span class="c1">// 返回物件本身
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getResult</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$calculator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Calculator</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$calculator</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">subtract</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getResult</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">// 輸出：5
+</span></span></span></code></pre></div><p>在這個例子中，<code>add</code> 和 <code>subtract</code> 方法返回了物件本身 <code>$this</code>，這樣它們可以連續呼叫，而不需要每次呼叫都賦值給一個變數。</p>
+<h2 id="建構子引數的推廣-constructor-property-promotion">建構子引數的推廣 (Constructor Property Promotion)<a hidden class="anchor" aria-hidden="true" href="#建構子引數的推廣-constructor-property-promotion">#</a></h2>
+<p>在 PHP 8.0 及以上版本中，引入的新特性。</p>
+<p>當使用建構子引數推廣之前，我們需要手動為每個類別的屬性指定建構子引數，然後在建構子中賦值。以下是一個使用前的範例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nx">string</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nx">string</span> <span class="nv">$email</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="o">?</span><span class="nx">string</span> <span class="nv">$phoneNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$name</span><span class="p">,</span> <span class="nx">string</span> <span class="nv">$email</span><span class="p">,</span> <span class="o">?</span><span class="nx">string</span> <span class="nv">$phoneNumber</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">email</span> <span class="o">=</span> <span class="nv">$email</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">phoneNumber</span> <span class="o">=</span> <span class="nv">$phoneNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 建立使用者物件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john@example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-7890&#39;</span><span class="p">);</span>
+</span></span></code></pre></div><p>在上面的範例中，我們需要手動宣告建構子的引數，然後再將這些引數賦值給類別的屬性。</p>
+<p>使用建構子引數推廣後的範例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="nx">string</span> <span class="nv">$name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="nx">string</span> <span class="nv">$email</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="o">?</span><span class="nx">string</span> <span class="nv">$phoneNumber</span> <span class="o">=</span> <span class="k">null</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 建構子的內容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 建立使用者物件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john@example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-7890&#39;</span><span class="p">);</span>
+</span></span></code></pre></div><p>在這個例子中，建構子的引數列表直接宣告瞭類別的屬性。<code>$name</code> 和 <code>$email</code> 屬性是必須的，而 <code>$phoneNumber</code> 屬性是可選的（使用 <code>?string</code> 表示可以為空）。在建構子中，不需要再手動賦值給這些屬性，PHP 會自動處理。這樣，我們可以簡化建構子的定義，使程式碼更加簡潔和易讀。</p>
+<h2 id="存取修飾符-access-modifiers">存取修飾符 (Access Modifiers)<a hidden class="anchor" aria-hidden="true" href="#存取修飾符-access-modifiers">#</a></h2>
+<h3 id="public公共">public（公共)<a hidden class="anchor" aria-hidden="true" href="#public公共">#</a></h3>
+<p><code>public</code> 修飾符表示該成員(屬性或方法)在類別內外部均可被訪問。這意味著無論是在類別內部、子類別、還是外部程式碼中，都可以直接訪問這個成員，<strong>它是預設值</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$publicProperty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">publicMethod</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 可以被任何地方訪問
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="protected-受保護">protected (受保護)<a hidden class="anchor" aria-hidden="true" href="#protected-受保護">#</a></h3>
+<p><code>protected</code> 修飾符表示該成員只能在定義它的<code>類別內部</code>和<code>子類別</code>中被訪問。外部程式碼無法直接訪問受保護的成員。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="nv">$protectedProperty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">protectedMethod</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 只能在類別內部和子類別中訪問
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="private私有">private（私有)<a hidden class="anchor" aria-hidden="true" href="#private私有">#</a></h3>
+<p><code>private</code> 修飾符表示該成員<strong>指能</strong>在定義它的<code>類別內部</code>被訪問，對於外部程式碼和子類別都是不可見的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$privateProperty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">function</span> <span class="nf">privateMethod</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 只能在類別內部訪問
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="null-safe-operator">Null-Safe Operator<a hidden class="anchor" aria-hidden="true" href="#null-safe-operator">#</a></h2>
+<p>在 <code>PHP 8.0</code> 版本中，引入了 Null-Safe Operator（空安全運算子），也稱為 Null-Safe Operator（<code>?-&gt;</code>），它是一種簡化程式碼的語法糖，用於在操作可能為 null 的物件時避免產生錯誤。</p>
+<p>在舊版本的 PHP 中，如果你試圖在一個可能為 null 的變數上呼叫方法或訪問屬性，你必須先檢查該變數是否為 null，以避免產生 Fatal Error。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$object</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$object</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$value</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>使用 Null-Safe Operator，你可以將上面的程式碼簡化為：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$value</span> <span class="o">=</span> <span class="nv">$object</span><span class="o">?-&gt;</span><span class="na">getValue</span><span class="p">();</span>
+</span></span></code></pre></div><p>這樣，如果<code>$object</code>為 null，表示式的結果將會是 null，而不會丟擲錯誤。<code>Null-Safe Operator 只能用於物件的方法呼叫和屬性訪問，不能用於陣列和函式呼叫</code>。這個語法糖使得處理可能為 null 的物件更加方便和簡潔。</p>
+<p>這裡是一個使用 Null-Safe Operator 的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getValue</span><span class="p">()</span><span class="o">:</span> <span class="o">?</span><span class="nx">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 返回一個可能為null的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="s2">&#34;Hello, World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$object</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span> <span class="c1">// 或者一個MyClass的實例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用Null-Safe Operator呼叫可能為null的物件方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$value</span> <span class="o">=</span> <span class="nv">$object</span><span class="o">?-&gt;</span><span class="na">getValue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$value</span><span class="p">;</span> <span class="c1">// 輸出 &#34;Hello, World!&#34; 或者 null（如果$object為null的話）
+</span></span></span></code></pre></div><p>在這個例子中，無論<code>$object</code>是一個 MyClass 的實例還是 null，都不會產生錯誤，因為 Null-Safe Operator 會自動處理 null 情況。</p>
+<h2 id="namespace">Namespace<a hidden class="anchor" aria-hidden="true" href="#namespace">#</a></h2>
+<p>在 PHP 中，名稱空間（Namespace）是一種用來解決在不同類別之間命名衝突的機制。名稱空間可以是可選的，但在大型應用程式中，良好的組織和結構是非常重要的。以下是有關 PHP 名稱空間的一些基本概念和最佳實踐：</p>
+<p>在程式檔案的最前面，你可以使用<code>namespace</code>宣告定義一個名稱空間。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">declare</span><span class="p">(</span><span class="nx">strict_types</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nx">APP</span><span class="p">;</span> <span class="c1">// after strict_types
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// class implementation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>如果你的應用程式需要更深的組織結構，你可以使用巢狀名稱空間（Nested Namespace）。例如，如果你有一個銀行相關的類別，你可以這樣定義：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nx">APP\Bank</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BankAccount</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// class implementation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>當你在不同的名稱空間中使用類別時，你可以使用<code>use</code>關鍵字。例如，如果你要使用<code>APP</code>名稱空間中的<code>Account</code>類別，你可以這樣做：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1"># method1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$myAccount</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App\Account</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># method2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">use</span> <span class="nx">APP\Account</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$myAccount</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Account</span><span class="p">();</span>
+</span></span></code></pre></div><p>在某些情況下(<strong>當前在 namespace APP 下</strong>)，你可能需要使用 global namespace 中的類別。你可以使用斜線（\）字首來表示全域性名稱空間。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nx">App</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># method1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">new</span> <span class="nx">\DateTime</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># method2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">use</span> <span class="nx">DateTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">DateTime</span><span class="p">();</span>
+</span></span></code></pre></div><p>有時候，你可能會想要為一個長命名的類別使用別名（Alias）。這樣可以使你的程式碼更簡潔易讀。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">DateTime</span> <span class="k">as</span> <span class="nx">DT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">DT</span><span class="p">();</span>
+</span></span></code></pre></div><p>如果你需要引入多個名稱空間中的類別，你可以使用逗號（,）分隔它們。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">APP\Account</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">APP\SocialMedia</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 改寫
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">use</span> <span class="nx">APP\</span><span class="p">{</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">SocialMedia</span><span class="p">};</span>
+</span></span></code></pre></div><p>使用名稱空間和<code>use</code>語句，讓你可以更好地組織你的程式碼，避免命名衝突，使程式碼更易於維護和擴充套件。</p>
+<h2 id="autoloading-classes">Autoloading Classes<a hidden class="anchor" aria-hidden="true" href="#autoloading-classes">#</a></h2>
+<p>使用自動載入機制（例如 <code>spl_autoload_register</code> 函式）主要是為了方便管理多個類別，特別是當每個類別都儲存在獨立的檔案中時。這樣，你可以根據類別的<code>名稱空間</code>和<code>類別名稱</code>來自動載入相應的檔案。</p>
+<p>然而，<strong>如果在同一個檔案中既有類別定義又有函式定義</strong>，那麼最好還是在需要的時候手動引入這些檔案。這是因為自動載入機制主要是為了類別而設計的，而不是用來處理函式。如果在自動載入的過程中引入了一個檔案，裡面除了類別定義還包含其他程式碼（如函式定義），可能會導致不必要的程式碼複雜性和不易讀懂的程式碼。</p>
+<p>因此，最佳的做法是：</p>
+<ol>
+<li>
+<p><strong>將每個類別儲存在獨立的檔案中。</strong> 這樣可以使用自動載入機制，方便地根據類別的名稱空間和類別名稱來自動載入相應的檔案。</p>
+</li>
+<li>
+<p><strong>如果檔案中既有類別定義又有函式定義，需要時手動引入。</strong> 如果檔案中有其他不屬於類別的程式碼（例如函式或常數），最好在需要使用這些程式碼的地方<strong>手動引入</strong>相應的檔案。這樣可以確保程式碼的可讀性和可維護性。</p>
+</li>
+</ol>
+<p>以下是一個範例，演示瞭如何使用自動載入機制來載入類別，並在需要的時候手動引入檔案中的函式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// require_once &#39;APP/Account.php&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// require_once &#39;APP/SocialMedia.php&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// require_once &#39;APP/..&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">spl_autoload_register</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$class</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$formattedClass</span> <span class="o">=</span> <span class="nx">str_replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\\</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$path</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">{</span><span class="nv">$formattedClass</span><span class="si">}</span><span class="s2">.php&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">require_once</span> <span class="nv">$path</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用自動載入機制載入類別
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$account</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\APP\Account</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 手動引入檔案中的函式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">require_once</span> <span class="s1">&#39;path/to/file-with-functions.php&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 現在你可以使用檔案中定義的函式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">myFunction</span><span class="p">();</span>
+</span></span></code></pre></div><h2 id="常數-constants">常數 (Constants)<a hidden class="anchor" aria-hidden="true" href="#常數-constants">#</a></h2>
+<p>在 PHP 中，常數是在類別中定義的不可改變的值，這些值在整個類別中都是固定的。在類別中定義常數使用 <code>const</code> 關鍵字，<strong>不可使用 <code>define()</code> 函式</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Account</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="no">INTEREST_RATE</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 其他類別成員和方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 存取常數的方式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">Account</span><span class="o">::</span><span class="na">INTEREST_RATE</span><span class="p">;</span>
+</span></span></code></pre></div><p>在這個範例中，<code>INTEREST_RATE</code> 是 <code>Account</code> 類別的常數，它的值不可更改，可以在整個應用程式中使用，提高了程式碼的可讀性和一致性。</p>
+<h2 id="靜態成員-static-members">靜態成員 (Static Members)<a hidden class="anchor" aria-hidden="true" href="#靜態成員-static-members">#</a></h2>
+<h3 id="靜態屬性-static-properties">靜態屬性 (Static Properties)<a hidden class="anchor" aria-hidden="true" href="#靜態屬性-static-properties">#</a></h3>
+<p>靜態屬性是指在整個類別中共用的屬性，可以被所有實例共享。然而，靜態屬性的值可以被修改，因此在使用時需要小心 (<strong>能不要用就不要用</strong>)。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Account</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="nv">$count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">self</span><span class="o">::</span><span class="nv">$count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getCount</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">self</span><span class="o">::</span><span class="nv">$count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用靜態屬性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$account1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Account</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$account2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Account</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">Account</span><span class="o">::</span><span class="nv">$count</span><span class="p">;</span> <span class="c1">// 輸出：2
+</span></span></span></code></pre></div><p>在這個例子中，<code>$count</code> 是一個靜態屬性，用來記錄 <code>Account</code> 類別的實例數量。每次建立一個新的 <code>Account</code> 物件時，<code>$count</code> 的值會自動增加。</p>
+<h3 id="靜態方法-static-methods">靜態方法 (Static Methods)<a hidden class="anchor" aria-hidden="true" href="#靜態方法-static-methods">#</a></h3>
+<p>靜態方法是可以在不建立類別實例的情況下直接呼叫的方法。靜態方法通常用於 utility 類別，這些方法不依賴於特定的實例，而是執行通用的任務。這搭配上前面提到的 <code>Autoloading Class</code> 方法時會相當方便。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Utility</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">calculateArea</span><span class="p">(</span><span class="nv">$radius</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">pi</span><span class="p">()</span> <span class="o">*</span> <span class="nv">$radius</span> <span class="o">*</span> <span class="nv">$radius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 呼叫靜態方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$area</span> <span class="o">=</span> <span class="nx">Utility</span><span class="o">::</span><span class="na">calculateArea</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// 計算半徑為5的圓面積
+</span></span></span></code></pre></div><p>在這個例子中，<code>calculateArea</code> 是一個靜態方法，可以直接透過 <code>Utility::calculateArea()</code> 的方式呼叫，而不需要建立 <code>Utility</code> 物件。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/backend/">Backend</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/php/">PHP</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/oop/">OOP</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2020/10/php-cheat-sheet/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>PHP Cheat Sheet</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2020/10/php-fundamental/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>PHP 語法基礎</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share PHP 物件導向 (上) on x"
+            href="https://x.com/intent/tweet/?text=PHP%20%e7%89%a9%e4%bb%b6%e5%b0%8e%e5%90%91%20%28%e4%b8%8a%29&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fphp-oop-part1%2f&amp;hashtags=Backend%2cPHP%2cOOP">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share PHP 物件導向 (上) on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fphp-oop-part1%2f&amp;title=PHP%20%e7%89%a9%e4%bb%b6%e5%b0%8e%e5%90%91%20%28%e4%b8%8a%29&amp;summary=PHP%20%e7%89%a9%e4%bb%b6%e5%b0%8e%e5%90%91%20%28%e4%b8%8a%29&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fphp-oop-part1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share PHP 物件導向 (上) on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fphp-oop-part1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share PHP 物件導向 (上) on telegram"
+            href="https://telegram.me/share/url?text=PHP%20%e7%89%a9%e4%bb%b6%e5%b0%8e%e5%90%91%20%28%e4%b8%8a%29&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2020%2f10%2fphp-oop-part1%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

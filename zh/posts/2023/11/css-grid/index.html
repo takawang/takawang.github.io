@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS Grid | Liberation Notes</title>
+<meta name="keywords" content="CSS, Grid, Note">
+<meta name="description" content="CSS Grid 網格">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2023/11/css-grid/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2023/11/css-grid/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="CSS Grid" />
+<meta property="og:description" content="CSS Grid 網格" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2023/11/css-grid/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-14T11:22:04+08:00" />
+<meta property="article:modified_time" content="2023-11-14T11:22:04+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="CSS Grid"/>
+<meta name="twitter:description" content="CSS Grid 網格"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CSS Grid",
+      "item": "https://blog2.cmwang.net/zh/posts/2023/11/css-grid/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CSS Grid",
+  "name": "CSS Grid",
+  "description": "CSS Grid 網格",
+  "keywords": [
+    "CSS", "Grid", "Note"
+  ],
+  "articleBody": " Terminology 網格項目 (grid item): 網格布局中的元素，可以是任何 HTML 元素。 網格單元格 (grid cell): 網格中的一個矩形區域，由行和列組成。 網格軌道 (grid track): 網格中一行或一列的區域。 Grid Sizing fr 是指 “fractional unit”，它是一種相對單位，用於指定網格容器（grid container）中的列（columns）或行（rows）的大小\n/* auto */ .container { display: grid; grid-template-rows: 100px auto; /* 高的 auto 只會 fit content */ grid-template-columns: 200px auto; /* 寬的 auto 會填滿 100%寬 🔥 */ } /* minmax */ .container { display: grid; grid-template-rows: 200px 400px; grid-template-columns: 200px minmax(400px, 800px); } /* repeat */ .container { display: grid; grid-template-columns: repeat(8, 1fr); /* 8 columns, each 100px wide */ grid-template-rows: repeat(8, 1fr); /* 8 rows, each 100px tall */ } /* grid auto rows 🔥 */ .container { display: grid; grid-template-columns: 200px 200px; grid-template-rows: 200px 200px; grid-auto-rows: 300px; /* 超出的格子，未來設為高度300px 🔥 */ } Position Grid Items 1. 使用 grid-column 和 grid-row 屬性 這種方式通過指定網格項目的起始和終止線的位置來定位它。例如：\n.grid-item { grid-column: 2 / 4; /* 從第 2 col 到第 4 col */ grid-row: 1 / 3; /* 從第 1 row 到第 3 row */ grid-row: 1 / span 2; grid-row: 1 / -1; /* ... 以下參考就好，不要用 ❌ */ grid-column: span 2; grid-column-start: 2; grid-column-end: -1; grid-area: 1 / 3 / 2 / 4; /* row-start, column-start, row-end, column-end */ } 2. 使用命名的網格線（Named Grid Lines） 你可以在 grid-template-columns 和 grid-template-rows 屬性中使用名稱來定義網格線，然後在 grid-column 和 grid-row 屬性中使用這些名稱。例如：\n.grid-container { display: grid; grid-template-columns: [col1] 1fr [col2] 1fr [col3 test] 1fr; grid-template-rows: [row1] 100px [row2] 100px [row3] 100px; } .grid-item { grid-column: col1 / col3 | test; /* 從 col1 到 col3 的列 */ grid-row: row1 / row3; /* 從 row1 到 row3 的行 */ } 3. 使用命名的網格區域（Named Grid Areas）： 你可以在網格容器中使用 grid-template-areas 屬性為不同的區域命名，然後在網格項目中使用 grid-area 屬性引用這些名稱。例如：\n.grid-container { display: grid; grid-template-areas: \"header header .\" /* 用點留白 🔥 */ \"main main sidebar\" \"footer footer footer\"; } .grid-item { grid-area: main; /* 使用 \"main\" 命名的區域 */ } Implicit Grids 在 CSS Grid 中，grid-auto-rows|columns 和 grid-auto-flow 是用於控制網格自動生成的兩個重要屬性。\n1. grid-auto-rows 與grid-auto-columns grid-auto-rows 屬性用於指定網格容器中那些由自動生成的列的高度。當你的網格項目超出了你在 grid-template-rows 中明確定義的列數時，這些額外的列會由 grid-auto-rows 屬性來控制。例如：\n.grid-container { display: grid; grid-template-rows: 100px 100px; /* 兩個明確定義的行 */ grid-auto-rows: 50px; /* 自動生成的行的高度 */ } 在這個例子中，如果你有超過兩個網格項目，額外的行高度將為 50px。\n2. grid-auto-flow grid-auto-flow 屬性用於指定在添加新的網格項目時，它們應該如何放置到網格容器中。這個屬性有四個值：\nrow（預設值）：新的項目將按照行添加。 column：新的項目將按照列添加。 dense：網格容器將嘗試將項目填充到所有的空隙，而不僅僅是按照順序添加。 dense column：組合了 dense 和 column，新的項目將按照列添加，同時容器會嘗試填充所有的空隙。 例如：\n.grid-container { display: grid; grid-auto-flow: column; /* 新的項目將按照直行添加 */ } CSS Grid 中的大小選項 在 CSS Grid 中，min-content、max-content和minmax()函數被用來以一種靈活且具有響應性的方式來定義網格軌道（行或列）的大小。\nmin-content：這個關鍵字將軌道的大小設置為其內容的最小內在大小。換句話說，它使軌道的大小盡可能小，同時仍然容納其內容。\ngrid-template-columns: min-content 1fr min-content; 在這個例子中，第一行和第三行將根據它們包含的最小內容寬度來設置大小，而第二行將占據剩餘的可用空間。\nmax-content：這個關鍵字將軌道的大小設置為其內容的最大內在大小。它使軌道的大小足以容納其內容，而不會溢出。\ngrid-template-columns: max-content 1fr max-content; 類似於min-content，這個例子將基於它們包含的最大內容寬度來設置第一列和第三列的大小，而第二行將占據剩餘的可用空間。\nminmax(min, max)：這個函數允許你為軌道的大小指定一個範圍。它接受兩個參數，即最小大小和最大大小。瀏覽器將根據網格容器中的可用空間在這些值之間分配空間。\nminmax() 可以用以下任何值:\n長度 % fr max-content min-content auto grid-template-rows: minmax(min-content, 200px) 1fr minmax(100px, max-content); 在這個例子中，第一列的大小將基於最小內容寬度，但不會小於內容的內在大小。第二列占據剩餘的空間，而第三列的大小將基於最大內容寬度，但不會大於 200 像素。\nGrid auto-fill 與 auto-fit 在 CSS Grid 中，auto-fill和auto-fit是與grid-template-columns和grid-template-rows屬性一起使用的兩個值。\nAuto-fill\nauto-fill關鍵字用於重複可用的網格軌道（列或行）盡可能多次，以填充可用空間。 它創建盡可能多的軌道，而不會溢出容器。 例子：\n.container { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); } 在此示例中，grid-template-columns屬性設置為repeat(auto-fill, minmax(100px, 1fr));。它創建盡可能多的行，最小大小為100px，最大大小為1fr（可用空間的一部分）。\nAuto-fit\nauto-fit關鍵字與auto-fill類似，但它還會折疊任何空的軌道。如果項目未填滿所有可用的軌道，則空的軌道將被折疊(寬度為 0)，網格僅占據必要的空間。 例子 (RWD Trick 🔥🔥🔥)：\n.container { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); } 類似於前一個例子，這裡使用了auto-fit。它創建盡可能多的行，最小大小為100px，最大大小為1fr，但任何空的軌道都將折疊，網格容器僅占據必要的寬度。\n以下是一些使用 auto-fill 和 auto-fit 的示例：\n創建一個響應式網格，該網格將根據屏幕的寬度自動調整 col 數： .container { display: grid; grid-template-columns: repeat(auto-fill, 1fr); } 創建具有固定 col 數的網格，無論屏幕的寬度是多少： .container { display: grid; grid-template-columns: repeat(4, 1fr); } 創建具有 col 的網格，這些 col 始終具有相同的寬度，無論網格項的數量是多少： .container { display: grid; grid-template-columns: repeat(auto-fit, 100px); } ",
+  "wordCount" : "2021",
+  "inLanguage": "zh",
+  "datePublished": "2023-11-14T11:22:04+08:00",
+  "dateModified": "2023-11-14T11:22:04+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2023/11/css-grid/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      CSS Grid
+    </h1>
+    <div class="post-meta"><span title='2023-11-14 11:22:04 +0800 CST'>2023-11-14</span>&nbsp;·&nbsp;2021 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目錄</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#terminology" aria-label="Terminology">Terminology</a></li>
+                <li>
+                    <a href="#grid-sizing" aria-label="Grid Sizing">Grid Sizing</a></li>
+                <li>
+                    <a href="#position-grid-items" aria-label="Position Grid Items">Position Grid Items</a><ul>
+                        
+                <li>
+                    <a href="#1-%e4%bd%bf%e7%94%a8-grid-column-%e5%92%8c-grid-row-%e5%b1%ac%e6%80%a7" aria-label="1. 使用 grid-column 和 grid-row 屬性">1. 使用 grid-column 和 grid-row 屬性</a></li>
+                <li>
+                    <a href="#2-%e4%bd%bf%e7%94%a8%e5%91%bd%e5%90%8d%e7%9a%84%e7%b6%b2%e6%a0%bc%e7%b7%9anamed-grid-lines" aria-label="2. 使用命名的網格線（Named Grid Lines）">2. 使用命名的網格線（Named Grid Lines）</a></li>
+                <li>
+                    <a href="#3-%e4%bd%bf%e7%94%a8%e5%91%bd%e5%90%8d%e7%9a%84%e7%b6%b2%e6%a0%bc%e5%8d%80%e5%9f%9fnamed-grid-areas" aria-label="3. 使用命名的網格區域（Named Grid Areas）：">3. 使用命名的網格區域（Named Grid Areas）：</a></li></ul>
+                </li>
+                <li>
+                    <a href="#implicit-grids" aria-label="Implicit Grids">Implicit Grids</a><ul>
+                        
+                <li>
+                    <a href="#1-grid-auto-rows-%e8%88%87grid-auto-columns" aria-label="1. grid-auto-rows 與grid-auto-columns">1. grid-auto-rows 與grid-auto-columns</a></li>
+                <li>
+                    <a href="#2-grid-auto-flow" aria-label="2. grid-auto-flow">2. grid-auto-flow</a></li></ul>
+                </li>
+                <li>
+                    <a href="#css-grid-%e4%b8%ad%e7%9a%84%e5%a4%a7%e5%b0%8f%e9%81%b8%e9%a0%85" aria-label="CSS Grid 中的大小選項">CSS Grid 中的大小選項</a></li>
+                <li>
+                    <a href="#grid-auto-fill-%e8%88%87-auto-fit" aria-label="Grid auto-fill 與 auto-fit">Grid auto-fill 與 auto-fit</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><iframe width="100%" height="600px" src="https://takawang.github.io/css/grid/"></iframe>
+<h2 id="terminology">Terminology<a hidden class="anchor" aria-hidden="true" href="#terminology">#</a></h2>
+<ul>
+<li>網格項目 (grid item): 網格布局中的元素，可以是任何 HTML 元素。</li>
+<li>網格單元格 (grid cell): 網格中的一個矩形區域，由行和列組成。</li>
+<li>網格軌道 (grid track): 網格中一行或一列的區域。</li>
+</ul>
+<p><img loading="lazy" src="term.png" alt="CSS Grid terminology"  />
+</p>
+<h2 id="grid-sizing">Grid Sizing<a hidden class="anchor" aria-hidden="true" href="#grid-sizing">#</a></h2>
+<blockquote>
+<p>fr 是指 &ldquo;fractional unit&rdquo;，它是一種相對單位，用於指定網格容器（grid container）中的列（columns）或行（rows）的大小</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* auto */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">100</span><span class="kt">px</span> <span class="kc">auto</span><span class="p">;</span> <span class="c">/* 高的 auto 只會 fit content */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="kc">auto</span><span class="p">;</span> <span class="c">/* 寬的 auto 會填滿 100%寬 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* minmax */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">400</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">400</span><span class="kt">px</span><span class="p">,</span> <span class="mi">800</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* repeat */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span> <span class="c">/* 8 columns, each 100px wide */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span> <span class="c">/* 8 rows, each 100px tall */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* grid auto rows 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-rows</span><span class="p">:</span> <span class="mi">300</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 超出的格子，未來設為高度300px 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="position-grid-items">Position Grid Items<a hidden class="anchor" aria-hidden="true" href="#position-grid-items">#</a></h2>
+<h3 id="1-使用-grid-column-和-grid-row-屬性">1. 使用 <code>grid-column</code> 和 <code>grid-row</code> 屬性<a hidden class="anchor" aria-hidden="true" href="#1-使用-grid-column-和-grid-row-屬性">#</a></h3>
+<p>這種方式通過指定網格項目的起始和終止線的位置來定位它。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span> <span class="c">/* 從第 2 col 到第 4 col */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span> <span class="c">/* 從第 1 row 到第 3 row */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">span</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">-1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">/* ... 以下參考就好，不要用 ❌ */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="n">span</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column-start</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column-end</span><span class="p">:</span> <span class="mi">-1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-area</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span> <span class="c">/* row-start, column-start, row-end, column-end  */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="2-使用命名的網格線named-grid-lines">2. 使用命名的網格線（Named Grid Lines）<a hidden class="anchor" aria-hidden="true" href="#2-使用命名的網格線named-grid-lines">#</a></h3>
+<p>你可以在 <code>grid-template-columns</code> 和 <code>grid-template-rows</code> 屬性中使用名稱來定義網格線，然後在 <code>grid-column</code> 和 <code>grid-row</code> 屬性中使用這些名稱。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="p">[</span><span class="n">col1</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span> <span class="p">[</span><span class="n">col2</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span> <span class="p">[</span><span class="n">col3</span> <span class="n">test</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="p">[</span><span class="n">row1</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span> <span class="p">[</span><span class="n">row2</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span> <span class="p">[</span><span class="n">row3</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="n">col1</span> <span class="o">/</span> <span class="n">col3</span> <span class="o">|</span> <span class="n">test</span><span class="p">;</span> <span class="c">/* 從 col1 到 col3 的列 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="n">row1</span> <span class="o">/</span> <span class="n">row3</span><span class="p">;</span> <span class="c">/* 從 row1 到 row3 的行 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3-使用命名的網格區域named-grid-areas">3. 使用命名的網格區域（Named Grid Areas）：<a hidden class="anchor" aria-hidden="true" href="#3-使用命名的網格區域named-grid-areas">#</a></h3>
+<p>你可以在網格容器中使用 <code>grid-template-areas</code> 屬性為不同的區域命名，然後在網格項目中使用 <code>grid-area</code> 屬性引用這些名稱。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-areas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;header header .&#34;</span> <span class="c">/* 用點留白 🔥 */</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;main main sidebar&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;footer footer footer&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-area</span><span class="p">:</span> <span class="n">main</span><span class="p">;</span> <span class="c">/* 使用 &#34;main&#34; 命名的區域 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="implicit-grids">Implicit Grids<a hidden class="anchor" aria-hidden="true" href="#implicit-grids">#</a></h2>
+<p>在 CSS Grid 中，<code>grid-auto-rows|columns</code> 和 <code>grid-auto-flow</code> 是用於控制網格自動生成的兩個重要屬性。</p>
+<h3 id="1-grid-auto-rows-與grid-auto-columns">1. <code>grid-auto-rows</code> 與<code>grid-auto-columns</code><a hidden class="anchor" aria-hidden="true" href="#1-grid-auto-rows-與grid-auto-columns">#</a></h3>
+<p><code>grid-auto-rows</code> 屬性用於指定網格容器中那些由<strong>自動生成</strong>的列的高度。當你的網格項目超出了你在 <code>grid-template-rows</code> 中明確定義的列數時，這些額外的列會由 <code>grid-auto-rows</code> 屬性來控制。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">100</span><span class="kt">px</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 兩個明確定義的行 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-rows</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 自動生成的行的高度 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這個例子中，如果你有超過兩個網格項目，額外的行高度將為 50px。</p>
+<h3 id="2-grid-auto-flow">2. <code>grid-auto-flow</code><a hidden class="anchor" aria-hidden="true" href="#2-grid-auto-flow">#</a></h3>
+<p><code>grid-auto-flow</code> 屬性用於指定在添加新的網格項目時，它們應該如何放置到網格容器中。這個屬性有四個值：</p>
+<ul>
+<li><code>row</code>（預設值）：新的項目將按照行添加。</li>
+<li><code>column</code>：新的項目將按照列添加。</li>
+<li><code>dense</code>：網格容器將嘗試將項目填充到所有的空隙，而不僅僅是按照順序添加。</li>
+<li><code>dense column</code>：組合了 <code>dense</code> 和 <code>column</code>，新的項目將按照列添加，同時容器會嘗試填充所有的空隙。</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-flow</span><span class="p">:</span> <span class="kc">column</span><span class="p">;</span> <span class="c">/* 新的項目將按照直行添加 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="css-grid-中的大小選項">CSS Grid 中的大小選項<a hidden class="anchor" aria-hidden="true" href="#css-grid-中的大小選項">#</a></h2>
+<p>在 CSS Grid 中，<code>min-content</code>、<code>max-content</code>和<code>minmax()</code>函數被用來以一種靈活且具有響應性的方式來定義網格軌道（行或列）的大小。</p>
+<ol>
+<li>
+<p><strong><code>min-content</code></strong>：這個關鍵字將軌道的大小設置為其內容的<strong>最小內在</strong>大小。換句話說，它使軌道的大小盡可能小，同時仍然容納其內容。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-columns</span><span class="o">:</span> <span class="nt">min-content</span> <span class="nt">1fr</span> <span class="nt">min-content</span><span class="o">;</span>
+</span></span></code></pre></div><p>在這個例子中，第一行和第三行將根據它們包含的最小內容寬度來設置大小，而第二行將占據剩餘的可用空間。</p>
+</li>
+<li>
+<p><strong><code>max-content</code></strong>：這個關鍵字將軌道的大小設置為其內容的<strong>最大內在</strong>大小。它使軌道的大小足以容納其內容，而不會溢出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-columns</span><span class="o">:</span> <span class="nt">max-content</span> <span class="nt">1fr</span> <span class="nt">max-content</span><span class="o">;</span>
+</span></span></code></pre></div><p>類似於<code>min-content</code>，這個例子將基於它們包含的最大內容寬度來設置第一列和第三列的大小，而第二行將占據剩餘的可用空間。</p>
+</li>
+<li>
+<p><strong><code>minmax(min, max)</code></strong>：這個函數允許你為軌道的大小指定一個範圍。它接受兩個參數，即<strong>最小大小</strong>和<strong>最大大小</strong>。瀏覽器將根據網格容器中的可用空間在這些值之間分配空間。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>minmax() 可以用以下任何值:</p>
+<ul>
+<li>長度</li>
+<li>%</li>
+<li>fr</li>
+<li>max-content</li>
+<li>min-content</li>
+<li>auto</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-rows</span><span class="o">:</span> <span class="nt">minmax</span><span class="o">(</span><span class="nt">min-content</span><span class="o">,</span> <span class="nt">200px</span><span class="o">)</span> <span class="nt">1fr</span> <span class="nt">minmax</span><span class="o">(</span><span class="nt">100px</span><span class="o">,</span> <span class="nt">max-content</span><span class="o">);</span>
+</span></span></code></pre></div><p>在這個例子中，第一列的大小將基於最小內容寬度，但不會小於內容的內在大小。第二列占據剩餘的空間，而第三列的大小將基於最大內容寬度，但不會大於 200 像素。</p>
+<h2 id="grid-auto-fill-與-auto-fit">Grid <code>auto-fill</code> 與 <code>auto-fit</code><a hidden class="anchor" aria-hidden="true" href="#grid-auto-fill-與-auto-fit">#</a></h2>
+<p>在 CSS Grid 中，<code>auto-fill</code>和<code>auto-fit</code>是與<code>grid-template-columns</code>和<code>grid-template-rows</code>屬性一起使用的兩個值。</p>
+<ol>
+<li>
+<p><code>Auto-fill</code></p>
+<ul>
+<li><code>auto-fill</code>關鍵字用於重複可用的網格軌道（列或行）盡可能多次，以填充可用空間。</li>
+<li>它創建盡可能多的軌道，而不會溢出容器。</li>
+</ul>
+<p>例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="kc">fill</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在此示例中，<code>grid-template-columns</code>屬性設置為<code>repeat(auto-fill, minmax(100px, 1fr));</code>。它創建盡可能多的行，最小大小為<code>100px</code>，最大大小為<code>1fr</code>（可用空間的一部分）。</p>
+</li>
+<li>
+<p><code>Auto-fit</code></p>
+<ul>
+<li><code>auto-fit</code>關鍵字與<code>auto-fill</code>類似，但它還會折疊任何空的軌道。如果項目未填滿所有可用的軌道，則空的軌道將被折疊(寬度為 0)，<strong>網格僅占據必要的空間</strong>。</li>
+</ul>
+<p>例子 (RWD Trick 🔥🔥🔥)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>類似於前一個例子，這裡使用了<code>auto-fit</code>。它創建盡可能多的行，最小大小為<code>100px</code>，最大大小為<code>1fr</code>，但任何空的軌道都將折疊，網格容器僅占據必要的寬度。</p>
+<hr>
+</li>
+</ol>
+<p>以下是一些使用 <code>auto-fill</code> 和 <code>auto-fit</code> 的示例：</p>
+<ul>
+<li><strong>創建一個響應式網格，該網格將根據屏幕的寬度自動調整 col 數：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="kc">fill</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong>創建具有固定 col 數的網格，無論屏幕的寬度是多少：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong>創建具有 col 的網格，這些 col 始終具有相同的寬度，無論網格項的數量是多少：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="mi">100</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/css/">CSS</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2023/11/astray/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>迷途 (Astray) - AI (Lee Ji Eun)</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>CSS 透明度、可見性和顯示的區別</span>
+  </a>
+</nav>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

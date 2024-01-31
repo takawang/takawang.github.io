@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>How-To on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/how-to/</link>
+    <description>Recent content in How-To on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 29 Oct 2023 16:09:33 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/how-to/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一些擴充及更多</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/extension-and-more/</link>
+      <pubDate>Sun, 29 Oct 2023 16:09:33 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/extension-and-more/</guid>
+      <description>常用的 VSCode 擴充及其他&amp;hellip;</description>
+      <content:encoded><![CDATA[<h2 id="vscode-extension">VSCode Extension</h2>
+<h3 id="web">Web</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ecmel.vscode-html-css">HTML CSS Support</a> (intelligence)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek">CSS Peak</a> (link to style)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a> (format on save)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=vincaslt.highlight-matching-tag">Highlight Matching Tag</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=kisstkondoros.vscode-gutter-preview">Image preview</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight">Color highlight</a> (Highlight web colors in your editor)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag">Auto rename tag</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live server</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></li>
+</ul>
+<h3 id="vue">Vue</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">Volar (Vue Language Features)</a></li>
+</ul>
+<h3 id="php">PHP</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client">PHP Intelephense</a></li>
+</ul>
+<h3 id="python">Python</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django">Django</a></li>
+</ul>
+<h3 id="general">General</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight">TODO Highlight</a></li>
+</ul>
+<h2 id="chrome-extension">Chrome Extension</h2>
+<ul>
+<li><a href="https://chromewebstore.google.com/detail/pesticide-for-chrome/bakpbgckdnepkmkeaiomhmfcnejndkbi?pli=1">Pesticide</a></li>
+<li><a href="https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a></li>
+<li><a href="https://chromewebstore.google.com/detail/live-server-web-extension/fiegdmejfepffgpnejdinekhfieaogmj">Live Server Web Extension</a></li>
+</ul>
+<h2 id="cheat-sheet">Cheat Sheet</h2>
+<ul>
+<li><a href="https://adam-marsden.co.uk/css-cheat-sheet">CSS</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>在 Ubuntu 安裝 Nvidia Docker</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/install-nvidia-docker-for-ubuntu/</link>
+      <pubDate>Mon, 16 Oct 2023 14:04:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/install-nvidia-docker-for-ubuntu/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<h2 id="uninstall-docker">Uninstall Docker</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl stop docker
+</span></span><span class="line"><span class="cl">sudo apt remove --purge -y docker-ce docker-ce-cli containerd.io
+</span></span><span class="line"><span class="cl">sudo rm -rf /var/lib/docker
+</span></span><span class="line"><span class="cl">sudo rm -rf /etc/docker
+</span></span><span class="line"><span class="cl">sudo rm -rf /etc/apt/sources.list.d/docker.list
+</span></span><span class="line"><span class="cl">sudo rm -rf /usr/share/keyrings/docker-archive-keyring.gpg
+</span></span><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">docker --version
+</span></span></code></pre></div><h2 id="install-docker-ubuntu-2204">Install Docker (Ubuntu 22.04)</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    apt-transport-https <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ca-certificates <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    curl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gnupg-agent <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    software-properties-common
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&#34;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install -y docker-ce docker-ce-cli containerd.io
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># post install</span>
+</span></span><span class="line"><span class="cl">sudo systemctl status docker
+</span></span><span class="line"><span class="cl">sudo usermod -aG docker <span class="si">${</span><span class="nv">USER</span><span class="si">}</span>
+</span></span></code></pre></div><h2 id="move-docker-data-to-another-location">Move Docker Data to Another Location</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl stop docker
+</span></span><span class="line"><span class="cl">sudo systemctl status docker
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ex: /data/ is another disk, don&#39;t create docker-data folder in advanced</span>
+</span></span><span class="line"><span class="cl">sudo rsync -avxP /var/lib/docker/  /data/docker-data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># edit daemon.json with `data-root` line</span>
+</span></span><span class="line"><span class="cl">sudo nano /etc/docker/daemon.json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;data-root&#34;</span>: <span class="s2">&#34;/data/docker-data&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;runtimes&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;nvidia&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;args&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;path&#34;</span>: <span class="s2">&#34;nvidia-container-runtime&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> docker
+</span></span><span class="line"><span class="cl"><span class="c1"># verify</span>
+</span></span><span class="line"><span class="cl">docker info -f <span class="s1">&#39;{{ .DockerRootDir}}&#39;</span>
+</span></span></code></pre></div><h2 id="install-nvidia-driver--cuda">Install Nvidia Driver &amp; Cuda</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+</span></span><span class="line"><span class="cl">sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+</span></span><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/12.2.2/local_installers/cuda-repo-ubuntu2204-12-2-local_12.2.2-535.104.05-1_amd64.deb
+</span></span><span class="line"><span class="cl">sudo dpkg -i cuda-repo-ubuntu2204-12-2-local_12.2.2-535.104.05-1_amd64.deb
+</span></span><span class="line"><span class="cl">sudo cp /var/cuda-repo-ubuntu2204-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
+</span></span><span class="line"><span class="cl">sudo apt-get update
+</span></span><span class="line"><span class="cl">sudo apt-get -y install cuda
+</span></span></code></pre></div><h2 id="install-nvidia-docker-toolkit">Install Nvidia Docker Toolkit</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="o">&amp;&amp;</span> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sed <span class="s1">&#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&#39;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sudo apt-get update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo apt-get install -y nvidia-container-toolkit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify</span>
+</span></span><span class="line"><span class="cl">docker run --rm --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
+</span></span></code></pre></div><h2 id="install-docker-compose">Install Docker Compose</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># https://docs.docker.com/compose/install/</span>
+</span></span><span class="line"><span class="cl">sudo curl -L <span class="s2">&#34;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-</span><span class="k">$(</span>uname -s<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname -m<span class="k">)</span><span class="s2">&#34;</span> -o /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chmod +x /usr/local/bin/docker-compose
+</span></span></code></pre></div><hr>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=Ubuntu&amp;target_version=22.04&amp;target_type=deb_local">CUDA Toolkit 12.2 Update 2 Downloads</a></li>
+<li><a href="https://jackfrisht.medium.com/install-nvidia-driver-via-ppa-in-ubuntu-18-04-fc9a8c4658b9">安裝 Nvidia driver 535 CUDA 12.2 cudnn 12.x on Ubuntu 22.04</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>透過 Docker 設定 Gitlab Runner</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/install-gitlab-runner/</link>
+      <pubDate>Sat, 14 Oct 2023 21:13:26 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/install-gitlab-runner/</guid>
+      <description>如何在本機透過 Docker 安裝 Gitlab runner</description>
+      <content:encoded><![CDATA[<ol>
+<li>使用 System Volumn 掛載 Runner Container，執行 Gitlab Runner。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d --name gitlab-runner --restart always <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  gitlab/gitlab-runner:latest
+</span></span></code></pre></div><ol start="2">
+<li>建立一個新的 Group runner。</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="group runner"  />
+</p>
+<p>👉 <em>新增 Group runner 標籤</em></p>
+<p><img loading="lazy" src="2.png" alt="add tag"  />
+</p>
+<p>👉 <em>獲取 token</em></p>
+<p><img loading="lazy" src="3.png" alt="get token"  />
+</p>
+<p>更詳細的步驟可以參考這篇<a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">文章</a>。</p>
+<ol start="3">
+<li>註冊 Runner</li>
+</ol>
+<p>別忘了將 Token 換成上一步得到的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">RUNNER_TOKEN</span><span class="o">=</span><span class="s2">&#34;glrt-vTJPYBaajfypaShJH2xx&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --non-interactive <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --url <span class="s2">&#34;https://gitlab.com/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --token <span class="s2">&#34;</span><span class="nv">$RUNNER_TOKEN</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --executor <span class="s2">&#34;docker&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --docker-image docker:stable-dind <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --description <span class="s2">&#34;docker-runner&#34;</span>
+</span></span></code></pre></div><ol start="4">
+<li>編輯 <code>/srv/gitlab-runner/config/config.toml</code></li>
+</ol>
+<p>修改以下配置：</p>
+<ul>
+<li><code>concurrent</code>：可選</li>
+<li><code>privileged</code></li>
+<li><code>volumes</code>：docker 內部的 docker</li>
+<li><code>network_mode</code>：可選</li>
+</ul>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            /srv/gitlab-runner/config/config.toml
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">4</span> <span class="c"># 更改</span>
+</span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">shutdown_timeout</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">session_server</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://gitlab.com/&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">28470179</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-vTJPYBaajfypaShJH2Ge&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2023-10-14T12:45:43Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MaxUploadedArchiveSize</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">docker</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_verify</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">image</span> <span class="p">=</span> <span class="s2">&#34;docker:stable-dind&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">privileged</span> <span class="p">=</span> <span class="kc">true</span> <span class="c"># 更改</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_entrypoint_overwrite</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">oom_kill_disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_cache</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="c">#volumes = [&#34;/cache&#34;] # 更改</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">,</span> <span class="s2">&#34;/var/run/docker.sock:/run/docker.sock&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">shm_size</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">network_mode</span> <span class="p">=</span> <span class="s2">&#34;host&#34;</span> <span class="c"># 新增</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="6">
+<li>重新啟動 Runner</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker restart gitlab-runner
+</span></span></code></pre></div><hr>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/">Install GitLab Runner</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/docker.html">Run GitLab Runner in a container</a></li>
+<li><a href="https://docs.gitlab.com/runner/register/index.html">Registering runners</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">Create a group runner with a runner authentication token</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>在 Ubuntu 設定 Powerlevel10k</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/install-powerlevel10k-on-ubuntu/</link>
+      <pubDate>Fri, 13 Oct 2023 15:40:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/install-powerlevel10k-on-ubuntu/</guid>
+      <description>記錄如何在 Ubuntu 設定 zsh 與 Powerlevel10k 及 zsh-autosuggestions</description>
+      <content:encoded><![CDATA[<h2 id="安裝-powerlevel10k-">安裝 Powerlevel10K 🚀</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安裝 Oh My Zsh：</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安裝主題</span>
+</span></span><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>安裝 Zsh：</strong></p>
+<p>如果你沒有安裝 Zsh，請使用以下命令安裝：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span></code></pre></div></li>
+<li>
+<p><strong>安裝 Oh My Zsh：</strong></p>
+<p>執行以下命令安裝 Oh My Zsh：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>安裝 Powerlevel10k 主題：</strong></p>
+<p>將 Powerlevel10k Repo Clone 到 Oh My Zsh 的自定義主題目錄：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div></li>
+<li>
+<p><strong>設定 Zsh 主題：</strong></p>
+<p>開啟你的 <code>~/.zshrc</code> 檔案：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ~/.zshrc
+</span></span></code></pre></div><p>找到以 <code>ZSH_THEME</code> 開頭的那一行，並將其改為：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;powerlevel10k/powerlevel10k&#34;</span>
+</span></span></code></pre></div><p>儲存檔案並退出。</p>
+</li>
+<li>
+<p><strong>安裝所需字型：</strong></p>
+<p>Powerlevel10k 使用特殊字元，因此你需要安裝包含這些字元的字型。Nerd Fonts 是常用的選擇。按照 <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts GitHub 倉庫</a> 上的說明安裝相容的字型。</p>
+</li>
+<li>
+<p><strong>配置 Powerlevel10k（可選）：</strong></p>
+<p>當你啟動新的 Terminal 時，Powerlevel10k 將提供執行配置引導的選項。按照指示自定義你的提示符。</p>
+</li>
+<li>
+<p><strong>重啟 Zsh：</strong></p>
+<p>重新啟動你的 Terminal，或者執行 <code>source ~/.zshrc</code> 以套用更改。</p>
+</li>
+</ol>
+<p>現在，Powerlevel10k 應該已經在你的 Ubuntu 22.04 系統上安裝並配置完成。</p>
+<h2 id="安裝-zsh-autosuggestions-">安裝 zsh-autosuggestions 🚀</h2>
+<p>Powerlevel10k 不會改變 Zsh 在自動補齊的預設行為；它主要增強和自定義提示符的外觀。自動補齊的行為主要由 Zsh 配置控制。</p>
+<p>如果你想在 Zsh 的自動補齊啟用建議，你可以使用 <code>zsh-autosuggestions</code> 外掛。該外掛提供類似 fish 的提示，與 Powerlevel10k 配合使用效果很好。</p>
+<p>以下是安裝和配置 <code>zsh-autosuggestions</code> 的步驟：</p>
+<ol>
+<li>
+<p><strong>安裝 zsh-autosuggestions：</strong></p>
+<p>你可以使用你喜歡的方法安裝它。一個常見的方法是透過外掛管理器，比如 <code>oh-my-zsh</code>。</p>
+<p>如果你使用 <code>oh-my-zsh</code>，你也可以手動克隆倉庫：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+</span></span></code></pre></div></li>
+<li>
+<p><strong>啟用 zsh-autosuggestions：</strong></p>
+<p>更新你的 <code>~/.zshrc</code> 檔案以啟用該外掛。在 <code>plugins</code> 行中新增或修改 <code>zsh-autosuggestions</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>zsh-autosuggestions<span class="o">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>重啟 Zsh 或重新載入配置：</strong></p>
+<p>重新啟動你的 Terminal，或者執行以下命令以應用更改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
+</span></span></code></pre></div></li>
+</ol>
+<p>現在，當你鍵入時，你應該會看到基於你的命令歷史的自動建議。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>為 GitHub Pages 網站設定自訂網域</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/custom-domain-for-github-pages/</link>
+      <pubDate>Fri, 13 Oct 2023 14:02:18 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/custom-domain-for-github-pages/</guid>
+      <description>這篇文章記錄如何為 Github Page 設定自訂網域，以 Godaddy 為例</description>
+      <content:encoded><![CDATA[<p>在 Github pages 上設定 CNAME 不用額外付費，只是你需要先擁有一個私人域名。這邊假定我們已經在 <a href="https://www.godaddy.com/">Godaddy</a> 購買了域名，所以先到 <a href="https://sg.godaddy.com/help/manage-dns-records-680">Godaddy DNS 設定頁面</a>設定。</p>
+<ol>
+<li>先透過 Terminal 查詢 Github 的 IP 地址。</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            dig {Your Domain}.github.io
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dig xxxx.github.io
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><img loading="lazy" src="4.png" alt="dig"  />
+</p>
+<ol start="2">
+<li>到 Godaddy DNS 頁面設定 4 個 <code>A Record</code>，1 個 <code>CNAME Record</code>，請參考圖片。</li>
+</ol>
+<p><img loading="lazy" src="3.png" alt="godaddy setting"  />
+</p>
+<ol start="3">
+<li>在私人存儲庫中添加 <code>CNAME</code> 文件，內容為 <code>xxx.{Domain Name}</code>，例如 <code>blog.xxx.com</code>。</li>
+</ol>
+<p><img loading="lazy" src="5.png" alt="CNAME File"  />
+</p>
+<ol start="4">
+<li>在頁面內設定 CNAME 並打勾 <code>Enforce HTTPS</code>。</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="github pages"  />
+
+<img loading="lazy" src="2.png" alt="custom domain setting"  />
+</p>
+<p>需要一點時間才會生效，如果一切都正常，第四步驟的 DNS Check 應該會通過。</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Hugo 部署指南</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/hugo-deployment-guide/</link>
+      <pubDate>Tue, 10 Oct 2023 20:01:46 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/hugo-deployment-guide/</guid>
+      <description>這個指南將引導你完成在 GitHub 上建立私人網站並部署到 GitHub Pages 的過程</description>
+      <content:encoded><![CDATA[<p>歡迎使用 Hugo 快速建立個人網站！這個指南將引導你完成在 GitHub 上建立私人網站並部署到 GitHub Pages 的過程。</p>
+<h2 id="這個指南包括什麼重點">這個指南包括什麼重點</h2>
+<ul>
+<li><code>.gitignore</code>: 排除版本管理的檔案</li>
+<li><code>.github/workflows/hugo.yml</code>: 使用 GitHub Action 將私人 Hugo 存放庫部署到公開的 GitHub Pages 存放庫。</li>
+</ul>
+<h2 id="步驟">步驟</h2>
+<ol>
+<li>
+<p>在 <a href="https://github.com/">GitHub</a> 建立一個私人儲存庫 <code>hugo-site</code> 來管理你的網站原始碼，請記得包含 README.md 檔案。</p>
+</li>
+<li>
+<p>在 <a href="https://github.com/">GitHub</a> 建立一個公開儲存庫 <code>{YOUR_USER_NAME}.github.io</code> 來上傳你的靜態網頁到 <a href="https://pages.github.com/">GitHub Pages</a>。</p>
+</li>
+<li>
+<p>將 <code>hugo-site</code> 複製到本地：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone https://github.com/<span class="o">{</span>YOUR_USER_NAME<span class="o">}</span>/hugo-site.git
+</span></span></code></pre></div><p>或者，如果你已經使用了 Git Submodule，可以使用以下方式複製：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone --recursive https://github.com/<span class="o">{</span>YOUR_USER_NAME<span class="o">}</span>/hugo-site.git
+</span></span></code></pre></div></li>
+<li>
+<p>在 <code>hugo-site</code> 的同一層目錄創建 Hugo 專案（不要放在 <code>hugo-site</code> 裡面）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo new site hugo-site --force --format yaml
+</span></span></code></pre></div></li>
+<li>
+<p>新增範例主題，這邊以 PaperMod 為例：</p>
+</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Add theme
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> hugo-site
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">git submodule add --depth<span class="o">=</span><span class="m">1</span> https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;theme : &#39;PaperMod&#39;&#34;</span> &gt;&gt; hugo.yaml
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="6">
+<li>
+<p>將 <a href="https://raw.githubusercontent.com/taka-wang/example-hugo-site/main/.gitignore">.gitignore</a> 檔案複製到 <code>hugo-site</code>。</p>
+</li>
+<li>
+<p>[可選] 新增 GitHub Action 自動部署：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"> mkdir -p .github/workflows/
+</span></span><span class="line"><span class="cl"> touch .github/workflows/hugo.yml
+</span></span></code></pre></div><p>將 <a href="https://raw.githubusercontent.com/taka-wang/example-hugo-site/main/.github/workflows/hugo.yml">hugo.yml</a> 的內容複製到上述新增的空白 <code>hugo.yml</code>。請記得修改以下兩處：</p>
+<ul>
+<li><strong>token: ${{ secrets.ACCESS_TOKEN }}</strong>: 在這裡使用私人儲存庫的存取權杖（Access Token）。</li>
+<li><strong>repository-name: YOUR_USER_NAME/YOUR_USER_NAME.github.io</strong>: 將 <code>YOUR_USER_NAME</code> 改為你的 GitHub 帳號名稱。</li>
+</ul>
+</li>
+<li>
+<p>測試 Hugo 網站：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo server -D
+</span></span></code></pre></div></li>
+<li>
+<p>開始創建自己的文章：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo new posts/20231006/index.md
+</span></span></code></pre></div><p>在 <code>content/posts/20231006</code> 裡面的 <code>index.md</code> 開始撰寫，並將圖片放在同一個資料夾。</p>
+</li>
+<li>
+<p>恭喜你，已經完成私人儲存庫的設定，請不要忘記將變更提交到私人儲存庫。</p>
+</li>
+</ol>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://github.com/JamesIves/github-pages-deploy-action/issues/624#issuecomment-791982883">如何設定 ACCESS Token</a></li>
+<li><a href="https://blog.euc-rt.me/post/github-actions-publish-private-hugo-repo-to-public-pages-site/">使用 GitHub Actions 將 Hugo 網站從私人儲存庫發佈到公開頁面</a></li>
+<li><a href="https://2ndbrain.cc/posts/2021/04/get-started-hugo/">Hugo 教學 &ndash; 基礎篇</a></li>
+<li><a href="https://gohugo.io/getting-started/quick-start/">學習在幾分鐘內創建 Hugo 網站。</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>如何安裝 Hugo 環境</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/how-to-install-hugo/</link>
+      <pubDate>Tue, 10 Oct 2023 19:41:05 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/how-to-install-hugo/</guid>
+      <description>這篇文章會介紹如何安裝 Hugo 環境</description>
+      <content:encoded><![CDATA[<h2 id="macos">MacOS</h2>
+<p>透過 <code>Homebrew</code> Package Manager 安裝是最方便的</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Homebrew on macOS
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install homebrew</span>
+</span></span><span class="line"><span class="cl">/bin/bash -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">brew install hugo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e+extended darwin/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-09-24T15:20:17Z <span class="nv">VendorInfo</span><span class="o">=</span>brew
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<h2 id="windows">Windows</h2>
+<p>以工作管理員開啟 <strong>powershell</strong>
+<code>win + x</code> 游標上下選擇到 windows powershell (工作管理員)，記得要選擇<code>超級管理員</code>的權限。</p>
+<p>確認執行權限：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Get-ExecutionPolicy
+</span></span></code></pre></div><p>如果顯示 <strong>Ristricted</strong>，則再執行以下指令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy AllSigned
+</span></span></code></pre></div><p>安裝 chocolatey：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Set-ExecutionPolicy Bypass -Scope Process -Force<span class="p">;</span> iex <span class="o">((</span>New-Object System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://chocolatey.org/install.ps1&#39;</span><span class="o">))</span>
+</span></span></code></pre></div><p>確認是否安裝完成，在 <strong>powershell</strong> 輸入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">choco
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果有正常回覆，即安裝完成</span>
+</span></span></code></pre></div><p>接著就可以透過 choco 安裝 hugo 囉！👇👇👇</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Install Packages with Chocolatey on Windows
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># install hugo</span>
+</span></span><span class="line"><span class="cl">choco install hugo-extended
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># verify hugo installation</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl">&gt; hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e...
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<hr>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://gohugo.io/installation/macos/">Install Hugo on macOS</a></li>
+<li><a href="https://gohugo.io/installation/windows/">Install Hugo on Windows</a></li>
+<li><a href="https://blog.darkthread.net/blog/choco-install-notes-for-new-windows/">我的 Windows 新裝機 Chocolatey 安裝清單</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

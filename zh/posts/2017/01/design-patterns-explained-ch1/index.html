@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Design Patterns Explained - CH1 | Liberation Notes</title>
+<meta name="keywords" content="Design Patterns, OOP">
+<meta name="description" content="Object-Oriented Paradigm
+Purpose: Explain why object-oriented paradigm over functional decomposition.">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Design Patterns Explained - CH1" />
+<meta property="og:description" content="Object-Oriented Paradigm
+Purpose: Explain why object-oriented paradigm over functional decomposition." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-01-20T18:12:53+00:00" />
+<meta property="article:modified_time" content="2023-10-09T23:21:45+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="Design Patterns Explained - CH1"/>
+<meta name="twitter:description" content="Object-Oriented Paradigm
+Purpose: Explain why object-oriented paradigm over functional decomposition."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Design Patterns Explained - CH1",
+      "item": "https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Design Patterns Explained - CH1",
+  "name": "Design Patterns Explained - CH1",
+  "description": "Object-Oriented Paradigm Purpose: Explain why object-oriented paradigm over functional decomposition.\n",
+  "keywords": [
+    "Design Patterns", "OOP"
+  ],
+  "articleBody": "Object-Oriented Paradigm Purpose: Explain why object-oriented paradigm over functional decomposition.\nNaive Problem If I were to give you the task of writing code to access a description of shapes that were stored in a database and then display them.\n如果給你一個任務，要編寫一段程式，存取在資料庫中儲存的形狀描述，然後將它顯示出來。\nStructural Programming thinking - possible steps Locate the list of shapes in the database. (在資料庫中找到形狀清單)。 Open up the list of shapes. (打開形狀清單)。 Sort the list according to some rules. (依照某種規則將清單排序)。 Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。 Functional Decomposition (功能分解) 4a. Identify the type of shape. (識別形狀的類型)。 4b. Get the location of the shape. (獲取形狀的位置)。\n4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。\nFunctional Decomposition 的挑戰 它通常會導致一個**主**程式負責控制子程式(subprograms)。 這使得主程式所承受的責任太多了：要協調各 subprograms，還要控制他們的順序 (Why not delegation?)。 «上帝物件：能者多勞» 如果將實作各步驟的所有邏輯都放在一個大 Function 或大 module 的話，則這些步驟的實質性變化，都必須對這個 Function 或 module 進行修改。 «因應變化的能力差» 討論 需求總是在改變 (不變的真理)。 我們可能不知道會發生什麼變化，但我們能夠猜到哪裡會變化。(OO 最大的優點之一，就是可以封裝這些變化區域)。 與其抱怨需要總是改變，不如改變開發流程，有效的因應變化。 Dealing with Changes: Functional Decomposition 4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。\nUsing Modularity to Contain Variation\nfunction: display shape input: type of shape, description of shape action: switch (type of shape) case square: put display function for square here case circle: put display function for circle here 討論 如果要顯示一個新的形狀(例如三角形)，我可能只需要改這個模組(希望是)。 這個模組的輸入是 type of shape, description of shape，如果今天使用不同方式提供輸入(例如 array of points 或其他方式)，該怎麼辦？ Functional Decomposition 兩個可能的問題 Weak cohesion (Cohesion refers to how “closely the operations in a routine are related; cohesion as clarity because the more that operations are related in a routine (or a class), the easier it is to understand things.) Tight Coupling (Coupling refers to “the strength of a connection between two routines. Coupling is a complement to cohesion.) The goal is to create routines with internal integrity (strong cohesion) and small, direct, visible, and flexible relations to other routines (loose coupling).\n從日常生活借鏡 You are an instructor at a conference. People in your class have another class to attend following yours, but don’t know where it is located. One of your responsibilities is to make sure everyone knows how to get to the next class.\n你的責任是確保大家知道怎麼去到下一堂課的位置。\n可能的步驟 Get list of people in the class. For each person on this list, do the following: Find the next class he or she is taking. Find the location of that class. Find the way to get from your classroom to the person’s next class. Tell the person how to get to his or her next class. 所以你可能需要這麼做 A way of getting the list of people in the class. A way of getting the schedule for each person in the class. A program that gives someone directions from your classrom to any other classroom. A control program that works for each person in the class and does the reuqired steps for each person. 不! 你應該會這樣做 你可能會把從這個教室到其他教室的路線貼出來，然後告訴所有人：我們已經將下一堂課的地點和其他教室的位置都貼在後面了，請根據它找到你們下一堂課的教室。\nYou would probably post directions to go from this classroom to the other classrooms and then tell everyone in the class, I have posted the locations of the classes following this in the back of the room, as well as the locations of the other classrooms. Please use them to go to your next classroom.\n兩種策略的差別 Giving explicit directions to everyone. Giving general instructions and then expect the each person will figure out how to do the task individually. (責任轉移 delegation) 需求又改變了 如果我被告知，需要給擔任助教工作的學生一些特殊指示。他們可能需要在下一堂課前收集本堂課學生的評價，並且交到辦公室。\n第一種方式，不得不改控制程式，區別研究生跟大學生，然後給研究生特別的指示。 第二種方式，只需要為研究生再編寫一個程式，但控制程式仍然只需要說: 找到你們的下一堂教室。 為什麼有這麼大的差異 人們對自己的行為負責，而不再由一個中央控制程式負責決定。 控制程式可以與不同類型的學生交流(大學生或研究生)。 控制程式不需要知道學生從這個教室到下一個教室可能需要採取的任何特殊步驟。 軟體開發的三種視角 Conceptual: 表示 domain concepts，不管如何實作。回答這個問題：What am I responsibile for? Specification: 關注軟體的 interface，但還是不管如何實作。回答這個問題：How am I used? Implementation: 我們都很熟。回答這個問題： How do I fulfill my responsibilities?\" 不同視角的用途 概念層次上的溝通：你告訴學生的是「你要他們怎麼做」，而不是「如何去做」。 (you are telling people what you want, not how to do it.)\n在概念層次上交流，而在另一層次(實作)上執行，這樣講師就不需要知道具體的實作細節。只需要一般性，概念性的知道即可。\n效力：只要概念不變，請求者與實作細節的變化就被隔離開來。\nObject-Oriented Paradigm 使用物件的優點在於，可以定義物件負責自己的事務。\n討論 The objects were identified by looking at the entities in the problem domain. I identified the responsibilities (or methods) for each object by looking at what these entities need to do.\n– ☆☆☆ 理解物件的最佳方式 ☆☆☆ 將其看為具有責任的東西。物件應該自己負責自己，而且應該清楚地定義責任。\nApply Fowler’s Perspectives At the conceptual level, an object is a set of responsibilities. (一組責任) At the specification level, an object is a set of methods (behaviors) that can be invoked by other objects or by itself. (一組行為) At the implementation level, an object is code and data and computational interactions between them. Object-Oriented Approach Start the control program. Instantiate the collection of students in the classroom. Tell the collection to have the students go to their next class. The collection tells each student to go to his or her next class. Each student: Finds where his next class is. Determines how to get there. Goes there. Done. Abstract and Polymorphism Student abstract class, GraduageStudent and RegularStudent classes. Abstract classes define what other, related, classes can do. Abstract classes act as placeholders for other classes. Collection 只需要處理 Student 這個 Concept (Abstract)，每一種 Student 都可以按照自己的方式實作功能 (Concrete)。 當我們透過抽象參考，概念性的要求物件做什麼時，將得到不同的行為，具體行為取決於 Derived Class 的實作。(Polymorphism) 回到一開始的問題 Locate the list of shapes in the database. (在資料庫中找到形狀清單)。 Open up the list of shapes. (打開形狀清單)。 Sort the list according to some rules. (依照某種規則將清單排序)。 Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。 Object-Oriented Approach (1/2) Object-Oriented Approach (2/2) 主程式建立一個 ShapeDataBase 物件。 主程式要求 database object 找到我感興趣的一組形狀，並且 instantiate 一個保存這些形狀的 collection 物件. 主程式要求 Collection 物件排序所存放的形狀。 主程式要求 Collection 物件顯示形狀。 Collection 物件要求所存放的每個形狀顯示自己。 每個形狀根據形狀種類顯示自己。 需求又改變了 增加新的形狀 (三角形)\n增加一個新的三角形 Concrete Class 在此 Derived Class 實作自己的顯示方法。 更改排序方式\n修改 Collection 的 Sorting algorithm 結果：The object-oriented approach has limited the impact of changing requirements.\n封裝的優點 使用更容易，因為使用者不再需要擔心實作問題 可以在不考慮呼叫者的情況下修改實作 (因為它一開始就不知道物件怎麼實作的 depend on interface, not implementation) The internals of an object are unknown to other objects. (封裝使物件內部行為的變化對其他物件變得透明了 \u003c不可見\u003e)。 Take away 將物件看為具有責任的東西。物件應該自己負責自己，而且應該清楚地定義責任。 物件真正的威力不在於繼承，而是來自於封裝行為(採取更廣義的封裝定義)。 OO 最大的優點之一，就是可以封裝這些變化區域。 抽象與責任轉嫁的好處 (placeholder and delegation)。 三種視角的應用 (在抽象層次上溝通，在實作層次上執行)。 ",
+  "wordCount" : "2584",
+  "inLanguage": "zh",
+  "datePublished": "2017-01-20T18:12:53Z",
+  "dateModified": "2023-10-09T23:21:45+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Taka"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Design Patterns Explained - CH1
+    </h1>
+    <div class="post-meta"><span title='2017-01-20 18:12:53 +0000 UTC'>2017-01-20</span>&nbsp;·&nbsp;2584 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="object-oriented-paradigm">Object-Oriented Paradigm<a hidden class="anchor" aria-hidden="true" href="#object-oriented-paradigm">#</a></h1>
+<p>Purpose: Explain why object-oriented paradigm over functional decomposition.</p>
+<h2 id="naive-problem">Naive Problem<a hidden class="anchor" aria-hidden="true" href="#naive-problem">#</a></h2>
+<p>If I were to give you the task of writing code to access a description of shapes that were stored in a database and then display them.</p>
+<p>如果給你一個任務，要編寫一段程式，存取在資料庫中儲存的形狀描述，然後將它顯示出來。</p>
+<h2 id="structural-programming-thinking---possible-steps">Structural Programming thinking - possible steps<a hidden class="anchor" aria-hidden="true" href="#structural-programming-thinking---possible-steps">#</a></h2>
+<ol>
+<li>Locate the list of shapes in the database. (在資料庫中找到形狀清單)。</li>
+<li>Open up the list of shapes. (打開形狀清單)。</li>
+<li>Sort the list according to some rules. (依照某種規則將清單排序)。</li>
+<li>Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。</li>
+</ol>
+<h2 id="functional-decomposition-功能分解">Functional Decomposition (功能分解)<a hidden class="anchor" aria-hidden="true" href="#functional-decomposition-功能分解">#</a></h2>
+<p>4a. Identify the type of shape. (識別形狀的類型)。
+4b. Get the location of the shape. (獲取形狀的位置)。</p>
+<p>4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。</p>
+<h2 id="functional-decomposition-的挑戰">Functional Decomposition 的挑戰<a hidden class="anchor" aria-hidden="true" href="#functional-decomposition-的挑戰">#</a></h2>
+<ol>
+<li>它通常會導致一個*<strong>*主**<strong>程式負責控制子程式(subprograms)。 這使得主程式所承受的</strong>責任</strong>太多了：要協調各 subprograms，還要控制他們的順序 (Why not delegation?)。 <strong>&laquo;上帝物件：能者多勞&raquo;</strong></li>
+<li>如果將實作各步驟的所有邏輯都放在一個大 Function 或大 module 的話，則這些步驟的實質性變化，都必須對這個 Function 或 module 進行修改。 <strong>&laquo;因應變化的能力差&raquo;</strong></li>
+</ol>
+<h2 id="討論">討論<a hidden class="anchor" aria-hidden="true" href="#討論">#</a></h2>
+<ol>
+<li>需求總是在改變 <strong>(不變的真理)</strong>。</li>
+<li>我們可能不知道會發生什麼變化，但我們能夠猜到哪裡會變化。<strong>(OO 最大的優點之一，就是可以封裝這些變化區域)。</strong></li>
+<li>與其抱怨需要總是改變，不如改變開發流程，有效的因應變化。</li>
+</ol>
+<h2 id="dealing-with-changes-functional-decomposition">Dealing with Changes: Functional Decomposition<a hidden class="anchor" aria-hidden="true" href="#dealing-with-changes-functional-decomposition">#</a></h2>
+<p>4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。</p>
+<p><strong>Using Modularity to Contain Variation</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nl">function</span><span class="p">:</span> <span class="n">display</span> <span class="n">shape</span>
+</span></span><span class="line"><span class="cl"><span class="nl">input</span><span class="p">:</span> <span class="n">type</span> <span class="n">of</span> <span class="n">shape</span><span class="p">,</span> <span class="n">description</span> <span class="n">of</span> <span class="n">shape</span>
+</span></span><span class="line"><span class="cl"><span class="nl">action</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">   <span class="k">switch</span> <span class="p">(</span><span class="n">type</span> <span class="n">of</span> <span class="n">shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nl">square</span><span class="p">:</span> <span class="n">put</span> <span class="n">display</span> <span class="n">function</span> <span class="k">for</span> <span class="n">square</span> <span class="n">here</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nl">circle</span><span class="p">:</span> <span class="n">put</span> <span class="n">display</span> <span class="n">function</span> <span class="k">for</span> <span class="n">circle</span> <span class="n">here</span>
+</span></span></code></pre></div><h2 id="討論-1">討論<a hidden class="anchor" aria-hidden="true" href="#討論-1">#</a></h2>
+<ol>
+<li>如果要顯示一個新的形狀(例如三角形)，我可能只需要改這個模組(希望是)。</li>
+<li>這個模組的輸入是 type of shape, description of shape，如果今天使用不同方式提供輸入(例如 array of points 或其他方式)，該怎麼辦？</li>
+</ol>
+<hr>
+<h2 id="functional-decomposition-兩個可能的問題">Functional Decomposition 兩個可能的問題<a hidden class="anchor" aria-hidden="true" href="#functional-decomposition-兩個可能的問題">#</a></h2>
+<ol>
+<li><strong>Weak cohesion</strong> (Cohesion refers to how “closely the operations in a routine are related; cohesion as <strong>clarity</strong> because the more that operations are related in a routine (or a class), the easier it is to understand things.)</li>
+<li><strong>Tight Coupling</strong> (Coupling refers to “the strength of a connection between two routines. Coupling is a complement to cohesion.)</li>
+</ol>
+<p>The goal is to create routines with internal integrity <strong>(strong cohesion)</strong> and small, direct, visible, and flexible relations to other routines <strong>(loose coupling)</strong>.</p>
+<hr>
+<h2 id="從日常生活借鏡">從日常生活借鏡<a hidden class="anchor" aria-hidden="true" href="#從日常生活借鏡">#</a></h2>
+<p>You are an instructor at a conference. People in your class have another class to attend following yours, but don’t know where it is located. One of your responsibilities is to make sure everyone knows how to get to the next class.</p>
+<p>你的責任是確保大家知道怎麼去到下一堂課的位置。</p>
+<hr>
+<h2 id="可能的步驟">可能的步驟<a hidden class="anchor" aria-hidden="true" href="#可能的步驟">#</a></h2>
+<ol>
+<li>Get list of people in the class.</li>
+<li>For each person on this list, do the following:
+<ol>
+<li>Find the next class he or she is taking.</li>
+<li>Find the location of that class.</li>
+<li>Find the way to get from your classroom to the person’s next class.</li>
+<li>Tell the person how to get to his or her next class.</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="所以你可能需要這麼做">所以你可能需要這麼做<a hidden class="anchor" aria-hidden="true" href="#所以你可能需要這麼做">#</a></h2>
+<ol>
+<li>A way of getting the list of people in the class.</li>
+<li>A way of getting the schedule for each person in the class.</li>
+<li>A program that gives someone directions from your classrom to any other classroom.</li>
+<li>A control program that works for each person in the class and does the reuqired steps for each person.</li>
+</ol>
+<hr>
+<h2 id="不-你應該會這樣做">不! 你應該會這樣做<a hidden class="anchor" aria-hidden="true" href="#不-你應該會這樣做">#</a></h2>
+<p>你可能會把從這個教室到其他教室的路線貼出來，然後告訴所有人：我們已經將下一堂課的地點和其他教室的位置都貼在後面了，請根據它找到你們下一堂課的教室。</p>
+<p>You would probably post directions to go from this classroom to the other classrooms and then tell everyone in the class, <strong><em>I have posted the locations of the classes following this in the back of the room, as well as the locations of the other classrooms. Please use them to go to your next classroom.</em></strong></p>
+<hr>
+<h2 id="兩種策略的差別">兩種策略的差別<a hidden class="anchor" aria-hidden="true" href="#兩種策略的差別">#</a></h2>
+<ol>
+<li>Giving <strong>explicit directions</strong> to everyone.</li>
+<li>Giving <strong>general instructions</strong> and then expect the each person will figure out how to do the task individually. <strong>(責任轉移 delegation)</strong></li>
+</ol>
+<hr>
+<h2 id="需求又改變了">需求又改變了<a hidden class="anchor" aria-hidden="true" href="#需求又改變了">#</a></h2>
+<p>如果我被告知，需要給擔任助教工作的學生一些特殊指示。他們可能需要在下一堂課前收集本堂課學生的評價，並且交到辦公室。</p>
+<ol>
+<li>第一種方式，不得不改控制程式，<strong>區別研究生跟大學生</strong>，然後給研究生特別的指示。</li>
+<li>第二種方式，只需要為研究生再編寫一個程式，但控制程式仍然只需要說: <strong>找到你們的下一堂教室</strong>。</li>
+</ol>
+<hr>
+<h2 id="為什麼有這麼大的差異">為什麼有這麼大的差異<a hidden class="anchor" aria-hidden="true" href="#為什麼有這麼大的差異">#</a></h2>
+<ol>
+<li>人們對自己的行為負責，而不再由一個中央控制程式負責決定。</li>
+<li>控制程式可以與不同類型的學生交流(大學生或研究生)。</li>
+<li>控制程式不需要知道學生從這個教室到下一個教室可能需要採取的任何特殊步驟。</li>
+</ol>
+<hr>
+<h2 id="軟體開發的三種視角">軟體開發的三種視角<a hidden class="anchor" aria-hidden="true" href="#軟體開發的三種視角">#</a></h2>
+<ol>
+<li><strong>Conceptual:</strong> 表示 domain concepts，不管如何實作。回答這個問題：<strong>What am I responsibile for?</strong></li>
+<li><strong>Specification:</strong> 關注軟體的 interface，但還是不管如何實作。回答這個問題：<strong>How am I used?</strong></li>
+<li><strong>Implementation:</strong> 我們都很熟。回答這個問題： <strong>How do I fulfill my responsibilities?&quot;</strong></li>
+</ol>
+<hr>
+<h2 id="不同視角的用途">不同視角的用途<a hidden class="anchor" aria-hidden="true" href="#不同視角的用途">#</a></h2>
+<p>概念層次上的溝通：你告訴學生的是「你要他們怎麼做」，而不是「如何去做」。 (you are telling people what you want, not how to do it.)</p>
+<p>在概念層次上交流，而在另一層次(實作)上執行，這樣講師就不需要知道具體的實作細節。只需要一般性，概念性的知道即可。</p>
+<p><strong>效力</strong>：只要概念不變，請求者與<strong>實作細節的變化</strong>就被隔離開來。</p>
+<hr>
+<h2 id="object-oriented-paradigm-1">Object-Oriented Paradigm<a hidden class="anchor" aria-hidden="true" href="#object-oriented-paradigm-1">#</a></h2>
+<p>使用物件的優點在於，可以定義物件負責自己的事務。</p>
+<p><img loading="lazy" src="resp.png" alt="resp"  />
+</p>
+<hr>
+<h2 id="討論-2">討論<a hidden class="anchor" aria-hidden="true" href="#討論-2">#</a></h2>
+<p>The <strong>objects</strong> were identified by looking at the entities in the <strong>problem domain</strong>. I identified the <strong>responsibilities (or methods)</strong> for each object by looking at what these entities <strong>need to do</strong>.</p>
+<p>&ndash;
+☆☆☆ 理解物件的最佳方式 ☆☆☆
+<strong>將其看為具有責任的東西</strong>。物件應該自己負責自己，而且應該清楚地定義責任。</p>
+<hr>
+<h2 id="apply-fowlers-perspectives">Apply Fowler&rsquo;s Perspectives<a hidden class="anchor" aria-hidden="true" href="#apply-fowlers-perspectives">#</a></h2>
+<ul>
+<li>At the <strong>conceptual</strong> level, an object is a set of responsibilities. (一組責任)</li>
+<li>At the <strong>specification</strong> level, an object is a set of methods (behaviors) that can be invoked by other objects or by itself. (一組行為)</li>
+<li>At the <strong>implementation</strong> level, an object is code and data and computational interactions between them.</li>
+</ul>
+<hr>
+<h2 id="object-oriented-approach">Object-Oriented Approach<a hidden class="anchor" aria-hidden="true" href="#object-oriented-approach">#</a></h2>
+<ol>
+<li>Start the control program.</li>
+<li>Instantiate the collection of students in the classroom.</li>
+<li>Tell the collection to have the students go to their next class.</li>
+<li>The collection tells each student to go to his or her next class.</li>
+<li>Each student:
+<ol>
+<li>Finds where his next class is.</li>
+<li>Determines how to get there.</li>
+<li>Goes there.</li>
+</ol>
+</li>
+<li>Done.</li>
+</ol>
+<hr>
+<h2 id="abstract-and-polymorphism">Abstract and Polymorphism<a hidden class="anchor" aria-hidden="true" href="#abstract-and-polymorphism">#</a></h2>
+<ul>
+<li>Student abstract class, GraduageStudent and RegularStudent classes.</li>
+<li>Abstract classes define what other, related, classes can do. Abstract classes act as <strong>placeholders</strong> for other classes.</li>
+<li>Collection 只需要處理 Student 這個 Concept (Abstract)，每一種 Student 都可以按照自己的方式實作功能 (Concrete)。</li>
+<li>當我們透過抽象參考，概念性的要求物件做什麼時，將得到不同的行為，具體行為取決於 Derived Class 的實作。<strong>(Polymorphism)</strong></li>
+</ul>
+<hr>
+<h2 id="回到一開始的問題">回到一開始的問題<a hidden class="anchor" aria-hidden="true" href="#回到一開始的問題">#</a></h2>
+<ol>
+<li>Locate the list of shapes in the database. (在資料庫中找到形狀清單)。</li>
+<li>Open up the list of shapes. (打開形狀清單)。</li>
+<li>Sort the list according to some rules. (依照某種規則將清單排序)。</li>
+<li>Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。</li>
+</ol>
+<hr>
+<h2 id="object-oriented-approach-12">Object-Oriented Approach (1/2)<a hidden class="anchor" aria-hidden="true" href="#object-oriented-approach-12">#</a></h2>
+<p><img loading="lazy" src="resp2.png" alt="esp2.png"  />
+</p>
+<hr>
+<h2 id="object-oriented-approach-22">Object-Oriented Approach (2/2)<a hidden class="anchor" aria-hidden="true" href="#object-oriented-approach-22">#</a></h2>
+<ol>
+<li>主程式建立一個 <em>ShapeDataBase</em> 物件。</li>
+<li>主程式要求 database object 找到我感興趣的一組形狀，並且 instantiate 一個保存這些形狀的 collection 物件.</li>
+<li>主程式要求 Collection 物件排序所存放的形狀。</li>
+<li>主程式要求 Collection 物件顯示形狀。</li>
+<li>Collection 物件要求所存放的每個形狀顯示自己。</li>
+<li>每個形狀根據形狀種類顯示自己。</li>
+</ol>
+<hr>
+<h2 id="需求又改變了-1">需求又改變了<a hidden class="anchor" aria-hidden="true" href="#需求又改變了-1">#</a></h2>
+<ul>
+<li>
+<p>增加新的形狀 (三角形)</p>
+<ol>
+<li>增加一個新的三角形 Concrete Class</li>
+<li>在此 Derived Class 實作自己的顯示方法。</li>
+</ol>
+</li>
+<li>
+<p>更改排序方式</p>
+<ol>
+<li>修改 Collection 的 Sorting algorithm</li>
+</ol>
+</li>
+</ul>
+<p><strong>結果</strong>：The object-oriented approach has limited the impact of <strong>changing</strong> requirements.</p>
+<hr>
+<h2 id="封裝的優點">封裝的優點<a hidden class="anchor" aria-hidden="true" href="#封裝的優點">#</a></h2>
+<ol>
+<li>使用更容易，因為使用者不再需要擔心實作問題</li>
+<li>可以在不考慮呼叫者的情況下修改實作 (因為它一開始就不知道物件怎麼實作的 depend on interface, not implementation)</li>
+<li>The internals of an object are unknown to other objects. (封裝使物件內部行為的變化對其他物件變得透明了 <strong>&lt;不可見&gt;</strong>)。</li>
+</ol>
+<hr>
+<h2 id="take-away">Take away<a hidden class="anchor" aria-hidden="true" href="#take-away">#</a></h2>
+<ol>
+<li>將物件看為<strong>具有責任</strong>的東西。物件應該自己負責自己，而且應該清楚地定義責任。</li>
+<li>物件真正的威力不在於繼承，而是來自於<strong>封裝行為</strong>(採取更廣義的封裝定義)。</li>
+<li>OO 最大的優點之一，就是可以<strong>封裝</strong>這些<strong>變化區域</strong>。</li>
+<li>抽象與責任轉嫁的好處 (placeholder and delegation)。</li>
+<li>三種視角的應用 (在抽象層次上溝通，在實作層次上執行)。</li>
+</ol>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/design-patterns/">Design Patterns</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/oop/">OOP</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch8/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>Design Patterns Explained - CH8</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-resources/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>設計模式學習資源</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH1 on x"
+            href="https://x.com/intent/tweet/?text=Design%20Patterns%20Explained%20-%20CH1&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch1%2f&amp;hashtags=DesignPatterns%2cOOP">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH1 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch1%2f&amp;title=Design%20Patterns%20Explained%20-%20CH1&amp;summary=Design%20Patterns%20Explained%20-%20CH1&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH1 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH1 on telegram"
+            href="https://telegram.me/share/url?text=Design%20Patterns%20Explained%20-%20CH1&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch1%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/python/</link>
+    <description>Recent content in Python on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 19 Oct 2023 19:59:44 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>帶有進度條的 Faster Whisper</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/</link>
+      <pubDate>Thu, 19 Oct 2023 19:59:44 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/</guid>
+      <description>如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/guillaumekln/faster-whisper">faster-whisper</a> 使用<code>CTranslate2</code>重新實現 OpenAI 的 Whisper 模型，<code>CTranslate2</code>是一個用於 Transformer 模型快速推論的引擎。整體速度提升不少，前提還是要有 GPU。</p>
+<p>以下是產生字幕的簡單範例，請先安裝 <code>faster_whisper</code> 與 <code>pysubs2</code></p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            transcribe without progress bar
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># pip install faster_whisper pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span> <span class="o">=</span> <span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># to use pysubs2, the argument must be a segment list-of-dicts</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span><span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">end</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span> <span class="c1">#save srt file</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>我們可以這樣改寫，讓他透過 tqdm 產生進度條</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            transcribe with progress bar
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span> <span class="o">=</span> <span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl">  <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">timestamps</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># for progress bar</span>
+</span></span><span class="line"><span class="cl">  <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&#34; audio seconds&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="c1"># Update progress bar based on segment duration</span>
+</span></span><span class="line"><span class="cl">          <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">seg</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">timestamps</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># Handle silence at the end of the audio</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">timestamps</span> <span class="o">&lt;</span> <span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span> <span class="c1">#save srt file</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>順便附上 Docker file</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Dockerfile
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Use the official NVIDIA CUDA image as the base image</span>
+</span></span><span class="line"><span class="cl">FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+</span></span><span class="line"><span class="cl">ARG <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install necessary dependencies</span>
+</span></span><span class="line"><span class="cl">RUN apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3-pip <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set the working directory inside the container</span>
+</span></span><span class="line"><span class="cl">WORKDIR /app
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install required Python packages</span>
+</span></span><span class="line"><span class="cl">RUN pip install faster_whisper pysubs2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create directories to store the models</span>
+</span></span><span class="line"><span class="cl">RUN mkdir -p /models/faster-whisper-medium
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Download the medium model using wget to the specified directory</span>
+</span></span><span class="line"><span class="cl">RUN wget -O /models/faster-whisper-medium/config.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/config.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/model.bin https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/model.bin <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/tokenizer.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/tokenizer.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/vocabulary.txt https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/vocabulary.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">COPY app.py /app/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run script</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;python3&#34;</span>, <span class="s2">&#34;app.py&#34;</span><span class="o">]</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><strong>Source Code</strong>: <a href="https://github.com/taka-wang/docker-whisper">https://github.com/taka-wang/docker-whisper</a></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Django - Data Modelling</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/</link>
+      <pubDate>Sun, 25 Oct 2020 02:47:41 +0100</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/django-data-model/</guid>
+      <description>Django - Data Modelling</description>
+      <content:encoded><![CDATA[<h2 id="create-model">Create Model</h2>
+<ul>
+<li>會自動產生 primary key，因為繼承自 <strong>models.Model</strong>。若想要自訂 <code>primary key</code>，可以參考 sku 的寫法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># playground/models.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create your models here.</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#sku = models.CharField(max_length=10, primary_key=True) # use this primary key</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inventory</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">last_updated</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># update every time</span>
+</span></span></code></pre></div><h2 id="choices-field"><code>Choices</code> field</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># best practice to prevent hardcode</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_BRONZE</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_SILVER</span> <span class="o">=</span> <span class="s1">&#39;S&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_GOLD</span> <span class="o">=</span> <span class="s1">&#39;G&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">MEMBERSHIP_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_BRONZE</span><span class="p">,</span> <span class="s1">&#39;Bronze&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_SILVER</span><span class="p">,</span> <span class="s1">&#39;Silver&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">MEMBERSHIP_GOLD</span><span class="p">,</span> <span class="s1">&#39;Gold&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">birth_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">membership</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">MEMBERSHIP_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">MEMBERSHIP_BRONZE</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="one-to-one-relationship"><code>One-to-One</code> relationship</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">street</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># address is the child, customer is the parent</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customr</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Customer</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>on_delete=models.CASCADE</code> (層級刪除)</strong>: 當父模型被刪除時，與之相關聯的子模型也會被刪除</li>
+<li><strong><code>on_delete=models.PROTECT</code> (保護模式)</strong>: 防止刪除父模型，除非先刪除所有與之相關的子模型。</li>
+<li><strong><code>on_delete=models.SET_NULL</code> (設為空值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位（即<code>OneToOneField</code>）會被設為 NULL。
+<ul>
+<li>範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。</li>
+</ul>
+</li>
+<li><strong><code>on_delete=models.SET_DEFAULT</code> (設為預設值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為預設值。
+<ul>
+<li>範例：一個簡單的部落格系統，如果一篇文章被作者刪除，該文章的作者欄位會被設為 NULL。</li>
+</ul>
+</li>
+<li><strong><code>on_delete=models.SET()</code> (設定為特定值)</strong>: 當父模型被刪除時，與之相關聯的子模型的外鍵欄位會被設為特定的值（通常是另一個存在的模型實例）。
+<ul>
+<li>範例：一個論壇系統，如果一個用戶帳號被刪除，與之相關聯的文章的作者欄位會被設為論壇的預設用戶，這個預設用戶的 ID 為 1。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_DEFAULT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET</span><span class="p">(</span><span class="n">DefaultParent</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><h2 id="one-to-many-relationship"><code>One-to-many</code> relationship</h2>
+<p>one collection can have many products</p>
+<ul>
+<li>
+<p>Use <code>foreignkey</code></p>
+</li>
+<li>
+<p>if you can not modify the order of declaration for the <code>collection</code> model, you can employ a <code>string argument</code> within the <code>ForeignKey</code> field:</p>
+<p><code>collection = models.ForeignKey('Collection', on_delete=models.PROTECT)</code></p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">collection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Collection</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="many-to-many-relationship"><code>Many-to-Many</code> relationship</h2>
+<ul>
+<li>Use <code>ManyToManyField</code></li>
+<li>to customize the name of the reverse relation. Instead of the default <code>product_set</code>, you can use the <code>related_name</code> field</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Promotion</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">discount</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># product_set</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">collection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Collection&#39;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#promotions = models.ManyToManyField(Promotion, related_name=&#39;products&#39;)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">promotions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Promotion</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="generic-relationship"><code>Generic</code> Relationship</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="kn">import</span> <span class="n">ContentType</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="kn">import</span> <span class="n">GenericForeignKey</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LikeItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># type (Table)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ID (record)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Pointer</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">()</span>
+</span></span></code></pre></div><ol>
+<li>
+<p><strong><code>ContentType</code> (內容類型)</strong>: 在 Django 中，<code>ContentType</code> 是一個模型，它用來表示其他模型的類型。在這個程式碼中，<code>content_type</code> 欄位是一個外鍵，關聯到 <code>ContentType</code> 模型。這麼做的好處是，它允許你動態地參照其他模型，而不是在程式碼中直接寫死模型的名稱。這樣的設計可以增加彈性，讓你的程式碼更容易擴展和修改，而不需要改動太多程式碼。</p>
+</li>
+<li>
+<p><strong><code>GenericForeignKey</code> (通用外鍵)</strong>: <code>GenericForeignKey</code> 是一個用於關聯任意模型的特殊欄位。在這個例子中，<code>content_object</code> 欄位使用了 <code>GenericForeignKey</code>。這意味著 <code>LikeItem</code> 模型可以與任何其他模型建立關聯，而不僅僅是固定的一個或幾個模型。通過 <code>content_type</code> 和 <code>object_id</code> 這兩個欄位，你可以動態地建立與不同模型的關聯。</p>
+</li>
+<li>
+<p><strong><code>LikeItem</code> 模型</strong>: <code>LikeItem</code> 是一個用戶點贊的模型，它關聯到了使用者 (<code>user</code>) 和其他模型 (<code>content_type</code> 和 <code>object_id</code> 確定的模型)。這樣的設計允許你在不確定具體模型的情況下，保存用戶對不同類型物件的喜愛。</p>
+</li>
+</ol>
+<p>在 <code>LikeItem</code> 模型中，<code>content_type</code> 是一個外鍵欄位，關聯到 <code>ContentType</code> 模型，用來指定被點贊物件的類型（例如，是一篇文章還是一張圖片等等）。而 <code>object_id</code> 是一個正整數欄位，用來指定具體的被點贊物件的 ID。</p>
+<p><code>GenericForeignKey</code> 的作用就是把 <code>content_type</code> 和 <code>object_id</code> 這兩個欄位關聯到一個具體的模型實例上，這樣你就可以在 <code>LikeItem</code> 中使用 <code>content_object</code> 這個屬性，直接訪問被點贊的具體物件，而不需要關心它是哪種模型。</p>
+<p>例如，如果 <code>content_type</code> 指定為文章，<code>object_id</code> 指定為某篇文章的 ID，那麼 <code>content_object</code> 就可以直接訪問該篇文章的所有屬性和方法。這樣，你可以在不確定具體模型的情況下，動態地建立關聯，使得程式碼更加靈活和可擴展。</p>
+<p>你可以將 <code>content_object</code> 想像成程式語言中的指標 <code>pointer</code>。在這個上下文中，<code>content_object</code> 實際上是一個通用指標，指向了應用中的任何一個模型的特定實例。這樣的設計使得你可以動態地指向和訪問不同模型的物件，而不需要知道具體是哪個類型的物件。</p>
+<p>就像指標在程式語言中可以指向不同的變數或數據結構，<code>content_object</code> 允許你在 <code>LikeItem</code> 模型中指向任何類型的物件，從而實現彈性的資料模型。這樣的抽象設計使得程式碼更具通用性，可以應對多種不同的情況，同時也使得程式碼更容易擴展和維護。</p>
+<hr>
+<h2 id="generic-relationship---example">Generic Relationship - <strong>Example</strong></h2>
+<p>假設你的對象是 <code>Article</code>（文章）模型，你可以使用 <code>GenericForeignKey</code> 來建立 <code>LikeItem</code> 與 <code>Article</code> 之間的關聯。以下是一個簡單的範例：</p>
+<p>首先，定義你的 <code>Article</code> 模型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 文章的屬性，例如標題、內容等等</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</span></span></code></pre></div><p>然後，定義你的 <code>LikeItem</code> 模型，使用 <code>GenericForeignKey</code> 來建立通用外鍵關聯：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="kn">import</span> <span class="n">GenericForeignKey</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="kn">import</span> <span class="n">ContentType</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LikeItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">(</span><span class="s1">&#39;content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;object_id&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>LikeItem</code> 模型可以關聯到任何模型的實例，包括 <code>Article</code>。當你想要為某篇文章建立一個 <code>LikeItem</code> 時，你可以這樣做：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 創建一篇文章</span>
+</span></span><span class="line"><span class="cl"><span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&#34;標題&#34;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&#34;文章內容&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 創建一個 LikeItem 關聯到這篇文章</span>
+</span></span><span class="line"><span class="cl"><span class="n">like_item</span> <span class="o">=</span> <span class="n">LikeItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">article</span><span class="p">),</span> <span class="n">object_id</span><span class="o">=</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 GenericForeignKey 訪問被點贊的物件</span>
+</span></span><span class="line"><span class="cl"><span class="n">liked_article</span> <span class="o">=</span> <span class="n">like_item</span><span class="o">.</span><span class="n">content_object</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">liked_article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>  <span class="c1"># 輸出: 標題</span>
+</span></span></code></pre></div><p>在這個例子中，<code>content_type</code> 指定為 <code>Article</code> 模型的類型，<code>object_id</code> 指定為具體文章的 ID。通過 <code>GenericForeignKey</code>，你可以使用 <code>content_object</code> 直接訪問到被點贊的文章的屬性。這樣，你可以動態地建立與不同模型的關聯，而不需要為每種模型都定義一個單獨的外鍵。</p>
+<hr>
+<h2 id="reverse-relationship---example">Reverse Relationship - <strong>Example</strong></h2>
+<p>在 Django 中，<strong>反向關係(reverse relationship)</strong> 通常是自動產生的，無論是在一對一（One-to-One）、一對多（One-to-Many）還是多對多（Many-to-Many）的關係中，Django 都會自動為你建立反向關係。這意味著你可以從一個模型對象訪問與之相關聯的其他模型對象。</p>
+<p>假設你有兩個模型，一個是<code>Author</code>，另一個是<code>Book</code>。<code>Book</code>模型有一個外鍵欄位指向<code>Author</code>模型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Author</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Book</code>模型有一個外鍵欄位<code>author</code>指向<code>Author</code>模型。Django 會自動為<code>Author</code>模型生成一個反向關係。這意味著你可以透過<code>Author</code>模型來訪問所有與之相關聯的書籍，即使你並沒有在<code>Author</code>模型中定義相關的欄位。</p>
+<p>例如，如果你有一個<code>Author</code>的實例<code>author</code>，你可以這樣獲取所有與這個作者相關的書籍：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">books</span> <span class="o">=</span> <span class="n">author</span><span class="o">.</span><span class="n">book_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span></span></code></pre></div><p>在這裡，<code>book_set</code>就是 Django 自動為<code>Author</code>模型生成的反向關係。這個名稱的格式是<code>小寫的模型名稱_set</code>，它可以讓你訪問到所有與這個模型相關的對象。這種反向關係的自動生成使得在 Django 中進行模型之間的查詢和操作更加方便。</p>
+<hr>
+<p>然而，有一個特殊的情況是如果你已經使用了 <code>related_name</code> 參數來定義了自定義的反向關係名稱，反向關係的名稱就不再是默認的 <code>小寫的模型名稱_set</code> 格式。在這種情況下，你必須通過自定義的名稱來訪問反向關係。</p>
+<p>舉例來說：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Passport</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;passport&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Passport</code> 模型有一個一對一的外鍵關係，並且使用了 <code>related_name='passport'</code> 參數。這樣，在 <code>Person</code> 模型中就不會自動生成默認的反向關係。要訪問這個關係，你需要使用 <code>passport</code> 這個自定義的名稱：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">passport</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">passport</span>  <span class="c1"># 訪問一對一關係的反向關係</span>
+</span></span></code></pre></div><p>在其他情況下（包括一對多和多對多關係），Django 都會自動生成默認的反向關係，你可以直接使用模型的名稱（小寫）作為反向關係的名稱。</p>
+<h2 id="related_name-field-in-foreignkey"><code>related_name</code> field in <strong>ForeignKey</strong></h2>
+<p>在一對多關係中，<code>related_name</code> 可以被用來定義反向關係的名稱，使你能夠更具意義地訪問相關對象。在多對多關係中，<code>related_name</code> 可以被用來定義通過中間表訪問相關對象時的名稱。</p>
+<p>以下是一個一對多和多對多關係中 <code>related_name</code> 的使用示例：</p>
+<p><strong>一對多（One-to-Many）關係：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Author</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;books&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Book</code> 模型的 <code>author</code> 欄位定義了外鍵關係，並且使用了 <code>related_name='books'</code> 參數。這樣，你就可以透過 <code>author.books.all()</code> 來訪問一位作者的所有書籍。</p>
+<p><strong>多對多（Many-to-Many）關係：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">groups</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;memberships&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 其他欄位和方法</span>
+</span></span></code></pre></div><p>在這個例子中，<code>Person</code> 模型和 <code>Group</code> 模型之間建立了多對多的關係。<code>Person</code> 模型的 <code>groups</code> 欄位使用了 <code>related_name='memberships'</code> 參數。這樣，你可以透過 <code>group.memberships.all()</code> 來訪問一個群組中的所有成員。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Django - Fundamental</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/django-fundamental/</link>
+      <pubDate>Sat, 24 Oct 2020 02:47:41 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/django-fundamental/</guid>
+      <description>Django - Fundamental</description>
+      <content:encoded><![CDATA[<h3 id="create-project">Create Project</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">poetry init
+</span></span><span class="line"><span class="cl">portry add django
+</span></span><span class="line"><span class="cl">django-admin startproject my_site . <span class="c1"># period to current directory</span>
+</span></span><span class="line"><span class="cl">python manage.py runserver <span class="o">[</span>9000<span class="o">]</span>   <span class="c1"># port is optional</span>
+</span></span></code></pre></div><ul>
+<li>Every Django project consists of multiple <code>apps</code>.</li>
+</ul>
+<h3 id="create-app">Create APP</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python manage.py startapp playground
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">├── manage.py
+</span></span><span class="line"><span class="cl">├── playground
+</span></span><span class="line"><span class="cl">│   ├── __init__.py
+</span></span><span class="line"><span class="cl">│   ├── admin.py
+</span></span><span class="line"><span class="cl">│   ├── apps.py 						# config setting
+</span></span><span class="line"><span class="cl">│   ├── migrations
+</span></span><span class="line"><span class="cl">│   │   └── __init__.py
+</span></span><span class="line"><span class="cl">│   ├── models.py
+</span></span><span class="line"><span class="cl">│   ├── tests.py
+</span></span><span class="line"><span class="cl">│   └── views.py						# request handlers
+</span></span></code></pre></div><h3 id="register-app">Register APP</h3>
+<ul>
+<li>you can use both methods.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># settings.py</span>
+</span></span><span class="line"><span class="cl"><span class="nv">INSTALLED_APPS</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;playground&#39;</span>,
+</span></span><span class="line"><span class="cl">  <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># settings.py</span>
+</span></span><span class="line"><span class="cl"><span class="nv">INSTALLED_APPS</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;playground.apps.PlaygroundConfig&#39;</span>,
+</span></span><span class="line"><span class="cl">  <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></div><h3 id="views">Views</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python3" data-lang="python3"><span class="line"><span class="cl"><span class="c1"># playground/views.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s1">&#39;Hello World&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="maps-urls-to-views">Maps URLs to Views</h3>
+<ul>
+<li>setup urls.py in the app</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># playground/urls.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="nn">path</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">views</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># URLConf: need to be this variable name 💡</span>
+</span></span><span class="line"><span class="cl"><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="n">path</span><span class="p">(</span><span class="s1">&#39;playground/hello&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">say_hello</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><ul>
+<li>include the app&rsquo;s url in the project level</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># storefront/urls.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span> <span class="c1"># add include</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">path</span><span class="p">(</span><span class="s1">&#39;playground/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;playground.urls&#39;</span><span class="p">))</span> <span class="c1"># add this</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><h3 id="use-templates">Use Templates</h3>
+<ul>
+<li>create templates folder under playground and create a new file hello.html.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- playground/templates/hello.html --&gt;</span>
+</span></span><span class="line"><span class="cl">{% if name %}
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Hello {{ name }}<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">{% else %}
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Hello World<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">{% endif %}
+</span></span></code></pre></div><ul>
+<li>refine the views.py (request handler)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># playground/views.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#from django.http import HttpResponse</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;hello.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jamie&#39;</span><span class="p">})</span>
+</span></span></code></pre></div><h3 id="debug-tools">Debug Tools</h3>
+<ul>
+<li>VSCode: Create a <code>launch.json</code> file -&gt; select <code>django</code></li>
+<li>Django Debug Toolbar: follow the <a href="https://django-debug-toolbar.readthedocs.io/en/latest/installation.html">instructions</a> 💎</li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

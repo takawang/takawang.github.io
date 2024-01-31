@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>powerlevel10k on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/powerlevel10k/</link>
+    <description>Recent content in powerlevel10k on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 13 Oct 2023 15:40:06 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/powerlevel10k/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install Powerlevel10K on Ubuntu</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/install-powerlevel10k-on-ubuntu/</link>
+      <pubDate>Fri, 13 Oct 2023 15:40:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/install-powerlevel10k-on-ubuntu/</guid>
+      <description>How to configure zsh and Powerlevel10k on Ubuntu</description>
+      <content:encoded><![CDATA[<h2 id="install-powerlevel10k-">Install Powerlevel10K 🚀</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install Oh My Zsh:</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install theme</span>
+</span></span><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>Install Zsh:</strong></p>
+<p>If you don&rsquo;t have Zsh installed, install it using:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Install Oh My Zsh:</strong></p>
+<p>Install Oh My Zsh by running the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Install Powerlevel10k Theme:</strong></p>
+<p>Clone the Powerlevel10k repository into the custom themes directory of Oh My Zsh:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Set Zsh Theme:</strong></p>
+<p>Open your <code>~/.zshrc</code> file in a text editor:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ~/.zshrc
+</span></span></code></pre></div><p>Find the line that begins with <code>ZSH_THEME</code> and change it to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;powerlevel10k/powerlevel10k&#34;</span>
+</span></span></code></pre></div><p>Save the file and exit.</p>
+</li>
+<li>
+<p><strong>Install Required Fonts:</strong></p>
+<p>Powerlevel10k uses special characters, so you need to install a font that includes these characters. Nerd Fonts are commonly used. Follow the instructions on the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts GitHub repository</a> to install a compatible font.</p>
+</li>
+<li>
+<p><strong>Configure Powerlevel10k (Optional):</strong></p>
+<p>When you start a new terminal session, Powerlevel10k will offer to run a configuration wizard. Follow the instructions to customize your prompt to your liking.</p>
+</li>
+<li>
+<p><strong>Restart Zsh:</strong></p>
+<p>Restart your terminal or run <code>source ~/.zshrc</code> to apply the changes.</p>
+</li>
+</ol>
+<p>Now you should have Powerlevel10k installed and configured on your Ubuntu 22.04 system.</p>
+<h2 id="install-zsh-autosuggestions-">Install zsh-autosuggestions 🚀</h2>
+<p>Powerlevel10k does not change the default behavior of Zsh in terms of tab-completion; rather, it enhances and customizes the appearance of the prompt. The behavior of tab-completion is primarily controlled by the Zsh configuration.</p>
+<p>If you want to enable suggestions during tab-completion in Zsh, you can use the <code>zsh-autosuggestions</code> plugin. This plugin provides fish-like autosuggestions as you type, and it works well with Powerlevel10k.</p>
+<p>Here are the steps to install and configure <code>zsh-autosuggestions</code>:</p>
+<ol>
+<li>
+<p><strong>Install zsh-autosuggestions:</strong></p>
+<p>You can install it using your preferred method. One common way is via a plugin manager like <code>oh-my-zsh</code>.</p>
+<p>If you are using <code>oh-my-zsh</code>, you can also manually clone the repository:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Enable zsh-autosuggestions:</strong></p>
+<p>Update your <code>~/.zshrc</code> file to enable the plugin. Add or modify the <code>plugins</code> line to include <code>zsh-autosuggestions</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>zsh-autosuggestions<span class="o">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Restart Zsh or Reload Configuration:</strong></p>
+<p>Either restart your terminal or run the following command to apply the changes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
+</span></span></code></pre></div></li>
+</ol>
+<p>Now, as you type, you should see autosuggestions appearing based on your command history.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

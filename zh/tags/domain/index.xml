@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Domain on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/domain/</link>
+    <description>Recent content in Domain on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 13 Oct 2023 14:02:18 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/domain/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>為 GitHub Pages 網站設定自訂網域</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/custom-domain-for-github-pages/</link>
+      <pubDate>Fri, 13 Oct 2023 14:02:18 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/custom-domain-for-github-pages/</guid>
+      <description>這篇文章記錄如何為 Github Page 設定自訂網域，以 Godaddy 為例</description>
+      <content:encoded><![CDATA[<p>在 Github pages 上設定 CNAME 不用額外付費，只是你需要先擁有一個私人域名。這邊假定我們已經在 <a href="https://www.godaddy.com/">Godaddy</a> 購買了域名，所以先到 <a href="https://sg.godaddy.com/help/manage-dns-records-680">Godaddy DNS 設定頁面</a>設定。</p>
+<ol>
+<li>先透過 Terminal 查詢 Github 的 IP 地址。</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            dig {Your Domain}.github.io
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dig xxxx.github.io
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><img loading="lazy" src="4.png" alt="dig"  />
+</p>
+<ol start="2">
+<li>到 Godaddy DNS 頁面設定 4 個 <code>A Record</code>，1 個 <code>CNAME Record</code>，請參考圖片。</li>
+</ol>
+<p><img loading="lazy" src="3.png" alt="godaddy setting"  />
+</p>
+<ol start="3">
+<li>在私人存儲庫中添加 <code>CNAME</code> 文件，內容為 <code>xxx.{Domain Name}</code>，例如 <code>blog.xxx.com</code>。</li>
+</ol>
+<p><img loading="lazy" src="5.png" alt="CNAME File"  />
+</p>
+<ol start="4">
+<li>在頁面內設定 CNAME 並打勾 <code>Enforce HTTPS</code>。</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="github pages"  />
+
+<img loading="lazy" src="2.png" alt="custom domain setting"  />
+</p>
+<p>需要一點時間才會生效，如果一切都正常，第四步驟的 DNS Check 應該會通過。</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

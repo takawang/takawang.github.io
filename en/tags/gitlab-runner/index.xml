@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gitlab Runner on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/gitlab-runner/</link>
+    <description>Recent content in Gitlab Runner on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 14 Oct 2023 21:13:26 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/gitlab-runner/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Setup Gitlab Runner in Container</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/install-gitlab-runner/</link>
+      <pubDate>Sat, 14 Oct 2023 21:13:26 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/install-gitlab-runner/</guid>
+      <description>Setup Gitlab Runner in Container</description>
+      <content:encoded><![CDATA[<ol>
+<li>Use local system volume mounts to start the runner container.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d --name gitlab-runner --restart always <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  gitlab/gitlab-runner:latest
+</span></span></code></pre></div><ol start="2">
+<li>Create a group runner with a runner <code>authentication token</code>.</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="group runner"  />
+</p>
+<p>👉 <em>Add group runner tag</em></p>
+<p><img loading="lazy" src="2.png" alt="add tag"  />
+</p>
+<p>👉 <em>Get authentication token</em></p>
+<p><img loading="lazy" src="3.png" alt="get token"  />
+
+You may refer to this <a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">article</a>.</p>
+<ol start="3">
+<li>Register a runner</li>
+</ol>
+<p>Don&rsquo;t forget to change the authentication token.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">RUNNER_TOKEN</span><span class="o">=</span><span class="s2">&#34;glrt-vTJPYBaajfypaShJH2xx&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --non-interactive <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --url <span class="s2">&#34;https://gitlab.com/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --token <span class="s2">&#34;</span><span class="nv">$RUNNER_TOKEN</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --executor <span class="s2">&#34;docker&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --docker-image docker:stable-dind <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --description <span class="s2">&#34;docker-runner&#34;</span>
+</span></span></code></pre></div><ol start="4">
+<li>Edit <code>/srv/gitlab-runner/config/config.toml</code></li>
+</ol>
+<p>Modify the following configurations:</p>
+<ul>
+<li><code>concurrent</code>: optional</li>
+<li><code>privileged</code></li>
+<li><code>volumes</code>: docker in docker</li>
+<li><code>network_mode</code>: optional</li>
+</ul>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            /srv/gitlab-runner/config/config.toml
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">4</span> <span class="c"># change</span>
+</span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">shutdown_timeout</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">session_server</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://gitlab.com/&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">28470179</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-vTJPYBaajfypaShJH2Ge&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2023-10-14T12:45:43Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MaxUploadedArchiveSize</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">docker</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_verify</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">image</span> <span class="p">=</span> <span class="s2">&#34;docker:stable-dind&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">privileged</span> <span class="p">=</span> <span class="kc">true</span> <span class="c"># change</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_entrypoint_overwrite</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">oom_kill_disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_cache</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="c">#volumes = [&#34;/cache&#34;] # change</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">,</span> <span class="s2">&#34;/var/run/docker.sock:/run/docker.sock&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">shm_size</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">network_mode</span> <span class="p">=</span> <span class="s2">&#34;host&#34;</span> <span class="c"># add</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<ol start="6">
+<li>Restart Runner</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker restart gitlab-runner
+</span></span></code></pre></div><h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/">Install GitLab Runner</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/docker.html">Run GitLab Runner in a container</a></li>
+<li><a href="https://docs.gitlab.com/runner/register/index.html">Registering runners </a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/runners/runners_scope.html#create-a-group-runner-with-a-runner-authentication-token">Create a group runner with a runner authentication token</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

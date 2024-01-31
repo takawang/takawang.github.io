@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Domain on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/tags/domain/</link>
+    <description>Recent content in Domain on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 13 Oct 2023 14:02:18 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/en/tags/domain/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuring a custom domain for your GitHub Pages site</title>
+      <link>https://blog2.cmwang.net/en/posts/2023/10/custom-domain-for-github-pages/</link>
+      <pubDate>Fri, 13 Oct 2023 14:02:18 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/en/posts/2023/10/custom-domain-for-github-pages/</guid>
+      <description>This article show you how to set up a custom domain for a GitHub Page, using Godaddy as an example.</description>
+      <content:encoded><![CDATA[<p>Setting up a CNAME for your GitHub Pages does not require additional payment, but you need to have a private domain first. Here, we assume that we have already purchased a domain from <a href="https://www.godaddy.com/">Godaddy</a>, so let&rsquo;s go to the <a href="https://sg.godaddy.com/help/manage-dns-records-680">Godaddy DNS settings page</a> to configure it.</p>
+<ol>
+<li>First, query GitHub&rsquo;s IP address via Terminal:</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            dig {Your Domain}.github.io
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dig xxxx.github.io
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><img loading="lazy" src="4.png" alt="dig"  />
+</p>
+<ol start="2">
+<li>Go to the Godaddy DNS page and set up 4 <code>A Records</code> and 1 <code>CNAME Record</code>, please refer to the image.</li>
+</ol>
+<p><img loading="lazy" src="3.png" alt="godaddy setting"  />
+</p>
+<ol start="3">
+<li>Add a <code>CNAME</code> file with <code>xxx.{Domain Name}</code> to the private repo, ex. <code>blog.xxx.com</code>.</li>
+</ol>
+<p><img loading="lazy" src="5.png" alt="CNAME File"  />
+</p>
+<ol start="4">
+<li>Set up CNAME on the page and check the <code>Enforce HTTPS</code> option.</li>
+</ol>
+<p><img loading="lazy" src="1.png" alt="github pages"  />
+
+<img loading="lazy" src="2.png" alt="custom domain setting"  />
+</p>
+<p>It might take some time to take effect. If everything is set up correctly, the DNS Check in step 4 should pass.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"></code></pre></div>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

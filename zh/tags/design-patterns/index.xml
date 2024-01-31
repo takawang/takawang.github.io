@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Design Patterns on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/design-patterns/</link>
+    <description>Recent content in Design Patterns on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 21 Jan 2017 20:12:53 +0000</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/design-patterns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Design Patterns Explained - CH8</title>
+      <link>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch8/</link>
+      <pubDate>Sat, 21 Jan 2017 20:12:53 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch8/</guid>
+      <description>&lt;h1 id=&#34;expanding-our-horizons&#34;&gt;Expanding Our Horizons&lt;/h1&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Object&lt;/li&gt;
+&lt;li&gt;Encapsulation&lt;/li&gt;
+&lt;li&gt;Inheritance&lt;/li&gt;
+&lt;li&gt;Handling variation&lt;/li&gt;
+&lt;li&gt;Commonality and variability analysis&lt;/li&gt;
+&lt;li&gt;Abstract class and its derived classes&lt;/li&gt;
+&lt;/ul&gt;</description>
+      <content:encoded><![CDATA[<h1 id="expanding-our-horizons">Expanding Our Horizons</h1>
+<h2 id="overview">Overview</h2>
+<ul>
+<li>Object</li>
+<li>Encapsulation</li>
+<li>Inheritance</li>
+<li>Handling variation</li>
+<li>Commonality and variability analysis</li>
+<li>Abstract class and its derived classes</li>
+</ul>
+<h2 id="objects-traditional-view-and-new-view">Objects: Traditional view and new view</h2>
+<h3 id="traditional-view">Traditional View</h3>
+<ul>
+<li>Data with methods - <strong>smart data</strong></li>
+<li>too narrow from <strong>implementation</strong> perspective</li>
+</ul>
+<h3 id="broad-view">Broad View</h3>
+<ul>
+<li>From <strong>conceptual</strong> perspective</li>
+<li>an object is an <em>entity that has responsibilities</em> (責任), these responsibilities define the behavior of the object. Or an <em>entity that has specific behavior</em> (特定行為).</li>
+</ul>
+<h2 id="focus-on-intentionmotivation-not-implementation">Focus on intention/motivation not implementation</h2>
+<p>This view enables us to build software in two steps:</p>
+<ol>
+<li>Make a preliminary design without worrying about all the details involved.</li>
+<li>Implement the design.</li>
+</ol>
+<p>The reason this works is that we only have to focus on the object’s <strong>public interface</strong> — the communication window through which I ask the object to do something.</p>
+<p>Hiding implementations behind interfaces essentially <strong>decouples</strong> them from the using objects.</p>
+<hr>
+<h2 id="encapsulation-traditional-view-and-new-view">Encapsulation: Traditional view and new view</h2>
+<h3 id="traditional-view-1">Traditional View</h3>
+<ul>
+<li>data hiding</li>
+</ul>
+<h3 id="broad-view-1">Broad View</h3>
+<ul>
+<li><strong>any kind of hiding</strong>
+<ul>
+<li>Implementations (data, methods..)</li>
+<li><strong>Drived</strong> classes (<strong>Encapsulation of type</strong> is achieved when there is an <em>abstract class</em> with derivations (or an interface with implementations) that are used <em>polymorphically</em>)</li>
+<li>Design details</li>
+<li>Instantiation rules (ex. creational patterns)</li>
+</ul>
+</li>
+</ul>
+<h2 id="advantage">Advantage</h2>
+<p>It gives us a better way to split up (decompose) our programs. The <strong>encapsulating layers</strong> become the <strong>interfaces</strong> we design to. (封裝層成為設計需要遵循的介面)</p>
+<p>By encapsulating different kinds of subclasses (<strong>encapsulation of type</strong>), we can add new ones without changing any of the client programs using them. (<em>GoF typically means when they mention encapsulation</em>)</p>
+<hr>
+<h2 id="inheritance">Inheritance</h2>
+<h3 id="traditional-view-2">Traditional View</h3>
+<ul>
+<li><strong>reuse</strong> of classes</li>
+<li>achived by creating classes and then deriving new (<em>spcialized</em>) classes bases on these base (<em>generalized</em>) classes</li>
+</ul>
+<h3 id="broad-view-2">Broad View</h3>
+<ul>
+<li>using inheritance for specialization, however
+<ul>
+<li>can cause weak cohesion</li>
+<li>reduces possibility of reuse</li>
+<li>does not scale well with variation</li>
+</ul>
+</li>
+<li><em>to classify classes as things that behave the same way</em>. (<strong>placeholder</strong>)</li>
+</ul>
+<hr>
+<h2 id="find-what-is-varying-and-encapsulate-it">Find What Is Varying and Encapsulate It</h2>
+<blockquote>
+<p>Consider <strong>what</strong> should be variable in your design. This approach is the opposite of focusing on the <strong>cause</strong> of redesign. Instead of considering what might force a change to a design, consider what you want to be <strong><em>able</em></strong> to change without redesign. The focus here is on <strong><em>encapsulating the concept that varies</em></strong>, a theme of many design patterns.
+&ndash; GoF, Design Patterns</p>
+</blockquote>
+<hr>
+<h2 id="more-about-gofs-encapsulation">More about GoF&rsquo;s Encapsulation</h2>
+<ul>
+<li>Design Patterns use inheritance to classify variations in behaviors.</li>
+<li>Hiding classes with an abstract class or interface — <strong>type encapsulation</strong>.</li>
+<li>Containing a reference of this <em>abstract class</em> or <em>interface</em> type (aggregation) <strong>hides</strong> these <em>derived classes</em> that represent <strong>variations</strong> in behavior.</li>
+<li>In effect, many design patterns <em>use encapsulation to create layers</em> between objects.</li>
+</ul>
+<hr>
+<h2 id="containing-variation-in-data-vs-containing-variation-in-behavior">Containing variation in data vs containing variation in behavior</h2>
+<h3 id="handling-variation-in-data">Handling variation in data</h3>
+<ul>
+<li>Have a data member that tells me what type of movement my object has.</li>
+<li>Have two different types of <strong>Animals</strong> (both derived from the base <strong>Animal</strong> class) — one for walking and one for flying.</li>
+</ul>
+<h3 id="handling-variation-in-behavior-with-objects">Handling variation in behavior with objects</h3>
+<p>Using objects to contain variation in attributes and using objects to contain variation in behavior are very similar. Don&rsquo;t afraid.</p>
+<hr>
+<h2 id="commonality-and-variability">Commonality and Variability</h2>
+<p>Identify <strong>where</strong> things vary (commonality analysis) and then identify <strong>how</strong> they vary (variability analysis).</p>
+<p><strong>Commonality analysis</strong> is the search for common elements that helps us understand how family members are the same.</p>
+<p><strong>Variability analysis</strong> reveals how family members vary. Variability only makes sense within a given commonality.</p>
+<p>Ex. Whiteboard marker, pencil, ballpoint pen</p>
+<ul>
+<li>Commonality: writing instrument</li>
+<li>Variability: material to write, shape..</li>
+</ul>
+<h2 id="commonality-and-variability-and-abstract-class">Commonality and Variability and Abstract class</h2>
+<p><strong>Commonality analysis</strong> seeks structure that is unlikely to change over time, while <strong>variability analysis</strong> captures structure that is likely to change. <strong><em>Variability analysis makes sense only in terms of the context defined by the associated commonality analysis</em></strong>.
+In other words, if variations are the specific concrete cases in the domain, commonality defines the concepts in the domain that tie them together. The <strong><em>common concepts</em></strong> will be represented by <strong>abstract classes</strong>. The <strong><em>variations</em></strong> found by variability analysis will be implemented by the <strong>concrete classes</strong>.</p>
+<h2 id="relationship-between-commonality-and-variability-perspectives-and-abstract-classes">Relationship between Commonality and Variability, perspectives, and abstract classes</h2>
+<p><img loading="lazy" src="relationship.png" alt="relationship"  />
+</p>
+<hr>
+<h2 id="benefits-of-using-abstract-classes-for-specialization">Benefits of using abstract classes for specialization</h2>
+<p><img loading="lazy" src="benefits.png" alt="benefits"  />
+</p>
+<hr>
+<h2 id="two-step-procedure-for-design">Two-Step Procedure for Design</h2>
+<p>Ask yourself:</p>
+<ul>
+<li>When defining an <strong>abstract class</strong> (commonality):
+<ul>
+<li>What <strong>interface</strong> is needed to handle all the responsibilities (core concepts from the conceptual perspective) of this class?</li>
+</ul>
+</li>
+<li>When defining <strong>derived classes</strong>:
+<ul>
+<li>Given this particular implementation (this <strong>variation</strong>), how can I implement it (variation) with the given specification?</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="take-away">Take away</h2>
+<p>Think object-oriented in a broad way.</p>
+<ul>
+<li>Object: an <em>entity that has responsibilities (specific behavior)</em></li>
+<li>Encapsulation: <strong>any</strong> kind of <strong>hiding</strong> (instantiation rule, type..)</li>
+<li>Inheritance: use for <strong>specialization</strong> and <em>classify classes as things that behave the same way</em>.</li>
+</ul>
+<p><strong>Find what is varying and encapsulate it</strong> (in behavior).</p>
+<p>Commonality, variability and abstract class: use inheritance to classify variations in behaviors.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Design Patterns Explained - CH1</title>
+      <link>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/</link>
+      <pubDate>Fri, 20 Jan 2017 18:12:53 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch1/</guid>
+      <description>&lt;h1 id=&#34;object-oriented-paradigm&#34;&gt;Object-Oriented Paradigm&lt;/h1&gt;
+&lt;p&gt;Purpose: Explain why object-oriented paradigm over functional decomposition.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h1 id="object-oriented-paradigm">Object-Oriented Paradigm</h1>
+<p>Purpose: Explain why object-oriented paradigm over functional decomposition.</p>
+<h2 id="naive-problem">Naive Problem</h2>
+<p>If I were to give you the task of writing code to access a description of shapes that were stored in a database and then display them.</p>
+<p>如果給你一個任務，要編寫一段程式，存取在資料庫中儲存的形狀描述，然後將它顯示出來。</p>
+<h2 id="structural-programming-thinking---possible-steps">Structural Programming thinking - possible steps</h2>
+<ol>
+<li>Locate the list of shapes in the database. (在資料庫中找到形狀清單)。</li>
+<li>Open up the list of shapes. (打開形狀清單)。</li>
+<li>Sort the list according to some rules. (依照某種規則將清單排序)。</li>
+<li>Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。</li>
+</ol>
+<h2 id="functional-decomposition-功能分解">Functional Decomposition (功能分解)</h2>
+<p>4a. Identify the type of shape. (識別形狀的類型)。
+4b. Get the location of the shape. (獲取形狀的位置)。</p>
+<p>4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。</p>
+<h2 id="functional-decomposition-的挑戰">Functional Decomposition 的挑戰</h2>
+<ol>
+<li>它通常會導致一個*<strong>*主**<strong>程式負責控制子程式(subprograms)。 這使得主程式所承受的</strong>責任</strong>太多了：要協調各 subprograms，還要控制他們的順序 (Why not delegation?)。 <strong>&laquo;上帝物件：能者多勞&raquo;</strong></li>
+<li>如果將實作各步驟的所有邏輯都放在一個大 Function 或大 module 的話，則這些步驟的實質性變化，都必須對這個 Function 或 module 進行修改。 <strong>&laquo;因應變化的能力差&raquo;</strong></li>
+</ol>
+<h2 id="討論">討論</h2>
+<ol>
+<li>需求總是在改變 <strong>(不變的真理)</strong>。</li>
+<li>我們可能不知道會發生什麼變化，但我們能夠猜到哪裡會變化。<strong>(OO 最大的優點之一，就是可以封裝這些變化區域)。</strong></li>
+<li>與其抱怨需要總是改變，不如改變開發流程，有效的因應變化。</li>
+</ol>
+<h2 id="dealing-with-changes-functional-decomposition">Dealing with Changes: Functional Decomposition</h2>
+<p>4c. Call the appropriate function that will display the shape, giving it the shape’s location. (以形狀的位置為參數，呼叫顯示形狀的 Function)。</p>
+<p><strong>Using Modularity to Contain Variation</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nl">function</span><span class="p">:</span> <span class="n">display</span> <span class="n">shape</span>
+</span></span><span class="line"><span class="cl"><span class="nl">input</span><span class="p">:</span> <span class="n">type</span> <span class="n">of</span> <span class="n">shape</span><span class="p">,</span> <span class="n">description</span> <span class="n">of</span> <span class="n">shape</span>
+</span></span><span class="line"><span class="cl"><span class="nl">action</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">   <span class="k">switch</span> <span class="p">(</span><span class="n">type</span> <span class="n">of</span> <span class="n">shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nl">square</span><span class="p">:</span> <span class="n">put</span> <span class="n">display</span> <span class="n">function</span> <span class="k">for</span> <span class="n">square</span> <span class="n">here</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nl">circle</span><span class="p">:</span> <span class="n">put</span> <span class="n">display</span> <span class="n">function</span> <span class="k">for</span> <span class="n">circle</span> <span class="n">here</span>
+</span></span></code></pre></div><h2 id="討論-1">討論</h2>
+<ol>
+<li>如果要顯示一個新的形狀(例如三角形)，我可能只需要改這個模組(希望是)。</li>
+<li>這個模組的輸入是 type of shape, description of shape，如果今天使用不同方式提供輸入(例如 array of points 或其他方式)，該怎麼辦？</li>
+</ol>
+<hr>
+<h2 id="functional-decomposition-兩個可能的問題">Functional Decomposition 兩個可能的問題</h2>
+<ol>
+<li><strong>Weak cohesion</strong> (Cohesion refers to how “closely the operations in a routine are related; cohesion as <strong>clarity</strong> because the more that operations are related in a routine (or a class), the easier it is to understand things.)</li>
+<li><strong>Tight Coupling</strong> (Coupling refers to “the strength of a connection between two routines. Coupling is a complement to cohesion.)</li>
+</ol>
+<p>The goal is to create routines with internal integrity <strong>(strong cohesion)</strong> and small, direct, visible, and flexible relations to other routines <strong>(loose coupling)</strong>.</p>
+<hr>
+<h2 id="從日常生活借鏡">從日常生活借鏡</h2>
+<p>You are an instructor at a conference. People in your class have another class to attend following yours, but don’t know where it is located. One of your responsibilities is to make sure everyone knows how to get to the next class.</p>
+<p>你的責任是確保大家知道怎麼去到下一堂課的位置。</p>
+<hr>
+<h2 id="可能的步驟">可能的步驟</h2>
+<ol>
+<li>Get list of people in the class.</li>
+<li>For each person on this list, do the following:
+<ol>
+<li>Find the next class he or she is taking.</li>
+<li>Find the location of that class.</li>
+<li>Find the way to get from your classroom to the person’s next class.</li>
+<li>Tell the person how to get to his or her next class.</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="所以你可能需要這麼做">所以你可能需要這麼做</h2>
+<ol>
+<li>A way of getting the list of people in the class.</li>
+<li>A way of getting the schedule for each person in the class.</li>
+<li>A program that gives someone directions from your classrom to any other classroom.</li>
+<li>A control program that works for each person in the class and does the reuqired steps for each person.</li>
+</ol>
+<hr>
+<h2 id="不-你應該會這樣做">不! 你應該會這樣做</h2>
+<p>你可能會把從這個教室到其他教室的路線貼出來，然後告訴所有人：我們已經將下一堂課的地點和其他教室的位置都貼在後面了，請根據它找到你們下一堂課的教室。</p>
+<p>You would probably post directions to go from this classroom to the other classrooms and then tell everyone in the class, <strong><em>I have posted the locations of the classes following this in the back of the room, as well as the locations of the other classrooms. Please use them to go to your next classroom.</em></strong></p>
+<hr>
+<h2 id="兩種策略的差別">兩種策略的差別</h2>
+<ol>
+<li>Giving <strong>explicit directions</strong> to everyone.</li>
+<li>Giving <strong>general instructions</strong> and then expect the each person will figure out how to do the task individually. <strong>(責任轉移 delegation)</strong></li>
+</ol>
+<hr>
+<h2 id="需求又改變了">需求又改變了</h2>
+<p>如果我被告知，需要給擔任助教工作的學生一些特殊指示。他們可能需要在下一堂課前收集本堂課學生的評價，並且交到辦公室。</p>
+<ol>
+<li>第一種方式，不得不改控制程式，<strong>區別研究生跟大學生</strong>，然後給研究生特別的指示。</li>
+<li>第二種方式，只需要為研究生再編寫一個程式，但控制程式仍然只需要說: <strong>找到你們的下一堂教室</strong>。</li>
+</ol>
+<hr>
+<h2 id="為什麼有這麼大的差異">為什麼有這麼大的差異</h2>
+<ol>
+<li>人們對自己的行為負責，而不再由一個中央控制程式負責決定。</li>
+<li>控制程式可以與不同類型的學生交流(大學生或研究生)。</li>
+<li>控制程式不需要知道學生從這個教室到下一個教室可能需要採取的任何特殊步驟。</li>
+</ol>
+<hr>
+<h2 id="軟體開發的三種視角">軟體開發的三種視角</h2>
+<ol>
+<li><strong>Conceptual:</strong> 表示 domain concepts，不管如何實作。回答這個問題：<strong>What am I responsibile for?</strong></li>
+<li><strong>Specification:</strong> 關注軟體的 interface，但還是不管如何實作。回答這個問題：<strong>How am I used?</strong></li>
+<li><strong>Implementation:</strong> 我們都很熟。回答這個問題： <strong>How do I fulfill my responsibilities?&quot;</strong></li>
+</ol>
+<hr>
+<h2 id="不同視角的用途">不同視角的用途</h2>
+<p>概念層次上的溝通：你告訴學生的是「你要他們怎麼做」，而不是「如何去做」。 (you are telling people what you want, not how to do it.)</p>
+<p>在概念層次上交流，而在另一層次(實作)上執行，這樣講師就不需要知道具體的實作細節。只需要一般性，概念性的知道即可。</p>
+<p><strong>效力</strong>：只要概念不變，請求者與<strong>實作細節的變化</strong>就被隔離開來。</p>
+<hr>
+<h2 id="object-oriented-paradigm-1">Object-Oriented Paradigm</h2>
+<p>使用物件的優點在於，可以定義物件負責自己的事務。</p>
+<p><img loading="lazy" src="resp.png" alt="resp"  />
+</p>
+<hr>
+<h2 id="討論-2">討論</h2>
+<p>The <strong>objects</strong> were identified by looking at the entities in the <strong>problem domain</strong>. I identified the <strong>responsibilities (or methods)</strong> for each object by looking at what these entities <strong>need to do</strong>.</p>
+<p>&ndash;
+☆☆☆ 理解物件的最佳方式 ☆☆☆
+<strong>將其看為具有責任的東西</strong>。物件應該自己負責自己，而且應該清楚地定義責任。</p>
+<hr>
+<h2 id="apply-fowlers-perspectives">Apply Fowler&rsquo;s Perspectives</h2>
+<ul>
+<li>At the <strong>conceptual</strong> level, an object is a set of responsibilities. (一組責任)</li>
+<li>At the <strong>specification</strong> level, an object is a set of methods (behaviors) that can be invoked by other objects or by itself. (一組行為)</li>
+<li>At the <strong>implementation</strong> level, an object is code and data and computational interactions between them.</li>
+</ul>
+<hr>
+<h2 id="object-oriented-approach">Object-Oriented Approach</h2>
+<ol>
+<li>Start the control program.</li>
+<li>Instantiate the collection of students in the classroom.</li>
+<li>Tell the collection to have the students go to their next class.</li>
+<li>The collection tells each student to go to his or her next class.</li>
+<li>Each student:
+<ol>
+<li>Finds where his next class is.</li>
+<li>Determines how to get there.</li>
+<li>Goes there.</li>
+</ol>
+</li>
+<li>Done.</li>
+</ol>
+<hr>
+<h2 id="abstract-and-polymorphism">Abstract and Polymorphism</h2>
+<ul>
+<li>Student abstract class, GraduageStudent and RegularStudent classes.</li>
+<li>Abstract classes define what other, related, classes can do. Abstract classes act as <strong>placeholders</strong> for other classes.</li>
+<li>Collection 只需要處理 Student 這個 Concept (Abstract)，每一種 Student 都可以按照自己的方式實作功能 (Concrete)。</li>
+<li>當我們透過抽象參考，概念性的要求物件做什麼時，將得到不同的行為，具體行為取決於 Derived Class 的實作。<strong>(Polymorphism)</strong></li>
+</ul>
+<hr>
+<h2 id="回到一開始的問題">回到一開始的問題</h2>
+<ol>
+<li>Locate the list of shapes in the database. (在資料庫中找到形狀清單)。</li>
+<li>Open up the list of shapes. (打開形狀清單)。</li>
+<li>Sort the list according to some rules. (依照某種規則將清單排序)。</li>
+<li>Display the individual shapes on the monitor. (在螢幕上顯示各種形狀)。</li>
+</ol>
+<hr>
+<h2 id="object-oriented-approach-12">Object-Oriented Approach (1/2)</h2>
+<p><img loading="lazy" src="resp2.png" alt="esp2.png"  />
+</p>
+<hr>
+<h2 id="object-oriented-approach-22">Object-Oriented Approach (2/2)</h2>
+<ol>
+<li>主程式建立一個 <em>ShapeDataBase</em> 物件。</li>
+<li>主程式要求 database object 找到我感興趣的一組形狀，並且 instantiate 一個保存這些形狀的 collection 物件.</li>
+<li>主程式要求 Collection 物件排序所存放的形狀。</li>
+<li>主程式要求 Collection 物件顯示形狀。</li>
+<li>Collection 物件要求所存放的每個形狀顯示自己。</li>
+<li>每個形狀根據形狀種類顯示自己。</li>
+</ol>
+<hr>
+<h2 id="需求又改變了-1">需求又改變了</h2>
+<ul>
+<li>
+<p>增加新的形狀 (三角形)</p>
+<ol>
+<li>增加一個新的三角形 Concrete Class</li>
+<li>在此 Derived Class 實作自己的顯示方法。</li>
+</ol>
+</li>
+<li>
+<p>更改排序方式</p>
+<ol>
+<li>修改 Collection 的 Sorting algorithm</li>
+</ol>
+</li>
+</ul>
+<p><strong>結果</strong>：The object-oriented approach has limited the impact of <strong>changing</strong> requirements.</p>
+<hr>
+<h2 id="封裝的優點">封裝的優點</h2>
+<ol>
+<li>使用更容易，因為使用者不再需要擔心實作問題</li>
+<li>可以在不考慮呼叫者的情況下修改實作 (因為它一開始就不知道物件怎麼實作的 depend on interface, not implementation)</li>
+<li>The internals of an object are unknown to other objects. (封裝使物件內部行為的變化對其他物件變得透明了 <strong>&lt;不可見&gt;</strong>)。</li>
+</ol>
+<hr>
+<h2 id="take-away">Take away</h2>
+<ol>
+<li>將物件看為<strong>具有責任</strong>的東西。物件應該自己負責自己，而且應該清楚地定義責任。</li>
+<li>物件真正的威力不在於繼承，而是來自於<strong>封裝行為</strong>(採取更廣義的封裝定義)。</li>
+<li>OO 最大的優點之一，就是可以<strong>封裝</strong>這些<strong>變化區域</strong>。</li>
+<li>抽象與責任轉嫁的好處 (placeholder and delegation)。</li>
+<li>三種視角的應用 (在抽象層次上溝通，在實作層次上執行)。</li>
+</ol>]]></content:encoded>
+    </item>
+    <item>
+      <title>設計模式學習資源</title>
+      <link>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-resources/</link>
+      <pubDate>Thu, 12 Jan 2017 17:57:07 +0000</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-resources/</guid>
+      <description>一些設計模式的連結，年代有點久了，不是很值得參考了</description>
+      <content:encoded><![CDATA[<p>以前收集的一些學習資源，年代有點久遠，請斟酌參考。</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="http://steventtud.logdown.com/posts/2014/01/02/teddy-flow-design-pattern">[Design Pattern]資源總整理</a></li>
+<li><a href="http://www.uml.org.cn/sjms/sjms.asp#9">UML 軟件工程組織</a></li>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/index.html#">圖說設計模式</a></li>
+<li><a href="http://www.cnblogs.com/oomusou/archive/2007/03/31/695076.html">真 OO 无双 之 真乱舞书</a></li>
+<li><a href="https://sourcemaking.com/design_patterns">Source Making</a></li>
+<li><a href="http://best-practice-software-engineering.ifs.tuwien.ac.at/patterns.html">Best Practice Software Engineering</a></li>
+<li><a href="http://rockssdlog.blogspot.tw/search?updated-max=2012-04-19T15:35:00%2B08:00&amp;max-results=7&amp;m=1">白話 Rock 的系統開發雜記</a></li>
+<li><a href="https://dotblogs.com.tw/joysdw12/series/1?qq=Design%2520Pattern">.Net 蛤什麼?</a></li>
+<li><a href="http://openhome.cc/Gossip/DesignPattern/">非關語言: 設計模式</a></li>
+<li><a href="http://www.oodesign.com/prototype-pattern.html">OO Design</a></li>
+<li><a href="https://pl.cs.jhu.edu/oose/lectures/design-patterns.shtml">Object-Oriented Software Engineering</a></li>
+<li><a href="http://blog.monochromegane.com/blog/2014/03/23/struct-implementaion-patterns-in-golang/">Go 言語での構造體実裝パターン</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/dn568099.aspx">Cloud Design Patterns: Prescriptive Architecture Guidance for Cloud Applications</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

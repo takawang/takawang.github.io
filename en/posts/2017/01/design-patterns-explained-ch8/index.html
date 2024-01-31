@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Design Patterns Explained - CH8 | Liberation Notes</title>
+<meta name="keywords" content="Design Patterns, OOP">
+<meta name="description" content="Expanding Our Horizons
+Overview
+
+Object
+Encapsulation
+Inheritance
+Handling variation
+Commonality and variability analysis
+Abstract class and its derived classes
+">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch8/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Design Patterns Explained - CH8" />
+<meta property="og:description" content="Expanding Our Horizons
+Overview
+
+Object
+Encapsulation
+Inheritance
+Handling variation
+Commonality and variability analysis
+Abstract class and its derived classes
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-01-21T20:12:53+00:00" />
+<meta property="article:modified_time" content="2017-01-21T20:12:53+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="Design Patterns Explained - CH8"/>
+<meta name="twitter:description" content="Expanding Our Horizons
+Overview
+
+Object
+Encapsulation
+Inheritance
+Handling variation
+Commonality and variability analysis
+Abstract class and its derived classes
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Design Patterns Explained - CH8",
+      "item": "https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Design Patterns Explained - CH8",
+  "name": "Design Patterns Explained - CH8",
+  "description": "Expanding Our Horizons Overview Object Encapsulation Inheritance Handling variation Commonality and variability analysis Abstract class and its derived classes ",
+  "keywords": [
+    "Design Patterns", "OOP"
+  ],
+  "articleBody": "Expanding Our Horizons Overview Object Encapsulation Inheritance Handling variation Commonality and variability analysis Abstract class and its derived classes Objects: Traditional view and new view Traditional View Data with methods - smart data too narrow from implementation perspective Broad View From conceptual perspective an object is an entity that has responsibilities (責任), these responsibilities define the behavior of the object. Or an entity that has specific behavior (特定行為). Focus on intention/motivation not implementation This view enables us to build software in two steps:\nMake a preliminary design without worrying about all the details involved. Implement the design. The reason this works is that we only have to focus on the object’s public interface — the communication window through which I ask the object to do something.\nHiding implementations behind interfaces essentially decouples them from the using objects.\nEncapsulation: Traditional view and new view Traditional View data hiding Broad View any kind of hiding Implementations (data, methods..) Drived classes (Encapsulation of type is achieved when there is an abstract class with derivations (or an interface with implementations) that are used polymorphically) Design details Instantiation rules (ex. creational patterns) Advantage It gives us a better way to split up (decompose) our programs. The encapsulating layers become the interfaces we design to. (封裝層成為設計需要遵循的介面)\nBy encapsulating different kinds of subclasses (encapsulation of type), we can add new ones without changing any of the client programs using them. (GoF typically means when they mention encapsulation)\nInheritance Traditional View reuse of classes achived by creating classes and then deriving new (spcialized) classes bases on these base (generalized) classes Broad View using inheritance for specialization, however can cause weak cohesion reduces possibility of reuse does not scale well with variation to classify classes as things that behave the same way. (placeholder) Find What Is Varying and Encapsulate It Consider what should be variable in your design. This approach is the opposite of focusing on the cause of redesign. Instead of considering what might force a change to a design, consider what you want to be able to change without redesign. The focus here is on encapsulating the concept that varies, a theme of many design patterns. – GoF, Design Patterns\nMore about GoF’s Encapsulation Design Patterns use inheritance to classify variations in behaviors. Hiding classes with an abstract class or interface — type encapsulation. Containing a reference of this abstract class or interface type (aggregation) hides these derived classes that represent variations in behavior. In effect, many design patterns use encapsulation to create layers between objects. Containing variation in data vs containing variation in behavior Handling variation in data Have a data member that tells me what type of movement my object has. Have two different types of Animals (both derived from the base Animal class) — one for walking and one for flying. Handling variation in behavior with objects Using objects to contain variation in attributes and using objects to contain variation in behavior are very similar. Don’t afraid.\nCommonality and Variability Identify where things vary (commonality analysis) and then identify how they vary (variability analysis).\nCommonality analysis is the search for common elements that helps us understand how family members are the same.\nVariability analysis reveals how family members vary. Variability only makes sense within a given commonality.\nEx. Whiteboard marker, pencil, ballpoint pen\nCommonality: writing instrument Variability: material to write, shape.. Commonality and Variability and Abstract class Commonality analysis seeks structure that is unlikely to change over time, while variability analysis captures structure that is likely to change. Variability analysis makes sense only in terms of the context defined by the associated commonality analysis. In other words, if variations are the specific concrete cases in the domain, commonality defines the concepts in the domain that tie them together. The common concepts will be represented by abstract classes. The variations found by variability analysis will be implemented by the concrete classes.\nRelationship between Commonality and Variability, perspectives, and abstract classes Benefits of using abstract classes for specialization Two-Step Procedure for Design Ask yourself:\nWhen defining an abstract class (commonality): What interface is needed to handle all the responsibilities (core concepts from the conceptual perspective) of this class? When defining derived classes: Given this particular implementation (this variation), how can I implement it (variation) with the given specification? Take away Think object-oriented in a broad way.\nObject: an entity that has responsibilities (specific behavior) Encapsulation: any kind of hiding (instantiation rule, type..) Inheritance: use for specialization and classify classes as things that behave the same way. Find what is varying and encapsulate it (in behavior).\nCommonality, variability and abstract class: use inheritance to classify variations in behaviors.\n",
+  "wordCount" : "803",
+  "inLanguage": "en",
+  "datePublished": "2017-01-21T20:12:53Z",
+  "dateModified": "2017-01-21T20:12:53Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/en/posts/2017/01/design-patterns-explained-ch8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/en/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/zh/" title="中文"
+                            aria-label="中文">中文</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/en/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/en/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/en/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Design Patterns Explained - CH8
+    </h1>
+    <div class="post-meta"><span title='2017-01-21 20:12:53 +0000 UTC'>2017-01-21</span>&nbsp;·&nbsp;803 words&nbsp;·&nbsp;Taka&nbsp;|&nbsp;Translations:
+<ul class="i18n_list">
+    <li>
+        <a href="https://blog2.cmwang.net/zh/posts/2017/01/design-patterns-explained-ch8/">中文</a>
+    </li>
+</ul>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="expanding-our-horizons">Expanding Our Horizons<a hidden class="anchor" aria-hidden="true" href="#expanding-our-horizons">#</a></h1>
+<h2 id="overview">Overview<a hidden class="anchor" aria-hidden="true" href="#overview">#</a></h2>
+<ul>
+<li>Object</li>
+<li>Encapsulation</li>
+<li>Inheritance</li>
+<li>Handling variation</li>
+<li>Commonality and variability analysis</li>
+<li>Abstract class and its derived classes</li>
+</ul>
+<h2 id="objects-traditional-view-and-new-view">Objects: Traditional view and new view<a hidden class="anchor" aria-hidden="true" href="#objects-traditional-view-and-new-view">#</a></h2>
+<h3 id="traditional-view">Traditional View<a hidden class="anchor" aria-hidden="true" href="#traditional-view">#</a></h3>
+<ul>
+<li>Data with methods - <strong>smart data</strong></li>
+<li>too narrow from <strong>implementation</strong> perspective</li>
+</ul>
+<h3 id="broad-view">Broad View<a hidden class="anchor" aria-hidden="true" href="#broad-view">#</a></h3>
+<ul>
+<li>From <strong>conceptual</strong> perspective</li>
+<li>an object is an <em>entity that has responsibilities</em> (責任), these responsibilities define the behavior of the object. Or an <em>entity that has specific behavior</em> (特定行為).</li>
+</ul>
+<h2 id="focus-on-intentionmotivation-not-implementation">Focus on intention/motivation not implementation<a hidden class="anchor" aria-hidden="true" href="#focus-on-intentionmotivation-not-implementation">#</a></h2>
+<p>This view enables us to build software in two steps:</p>
+<ol>
+<li>Make a preliminary design without worrying about all the details involved.</li>
+<li>Implement the design.</li>
+</ol>
+<p>The reason this works is that we only have to focus on the object’s <strong>public interface</strong> — the communication window through which I ask the object to do something.</p>
+<p>Hiding implementations behind interfaces essentially <strong>decouples</strong> them from the using objects.</p>
+<hr>
+<h2 id="encapsulation-traditional-view-and-new-view">Encapsulation: Traditional view and new view<a hidden class="anchor" aria-hidden="true" href="#encapsulation-traditional-view-and-new-view">#</a></h2>
+<h3 id="traditional-view-1">Traditional View<a hidden class="anchor" aria-hidden="true" href="#traditional-view-1">#</a></h3>
+<ul>
+<li>data hiding</li>
+</ul>
+<h3 id="broad-view-1">Broad View<a hidden class="anchor" aria-hidden="true" href="#broad-view-1">#</a></h3>
+<ul>
+<li><strong>any kind of hiding</strong>
+<ul>
+<li>Implementations (data, methods..)</li>
+<li><strong>Drived</strong> classes (<strong>Encapsulation of type</strong> is achieved when there is an <em>abstract class</em> with derivations (or an interface with implementations) that are used <em>polymorphically</em>)</li>
+<li>Design details</li>
+<li>Instantiation rules (ex. creational patterns)</li>
+</ul>
+</li>
+</ul>
+<h2 id="advantage">Advantage<a hidden class="anchor" aria-hidden="true" href="#advantage">#</a></h2>
+<p>It gives us a better way to split up (decompose) our programs. The <strong>encapsulating layers</strong> become the <strong>interfaces</strong> we design to. (封裝層成為設計需要遵循的介面)</p>
+<p>By encapsulating different kinds of subclasses (<strong>encapsulation of type</strong>), we can add new ones without changing any of the client programs using them. (<em>GoF typically means when they mention encapsulation</em>)</p>
+<hr>
+<h2 id="inheritance">Inheritance<a hidden class="anchor" aria-hidden="true" href="#inheritance">#</a></h2>
+<h3 id="traditional-view-2">Traditional View<a hidden class="anchor" aria-hidden="true" href="#traditional-view-2">#</a></h3>
+<ul>
+<li><strong>reuse</strong> of classes</li>
+<li>achived by creating classes and then deriving new (<em>spcialized</em>) classes bases on these base (<em>generalized</em>) classes</li>
+</ul>
+<h3 id="broad-view-2">Broad View<a hidden class="anchor" aria-hidden="true" href="#broad-view-2">#</a></h3>
+<ul>
+<li>using inheritance for specialization, however
+<ul>
+<li>can cause weak cohesion</li>
+<li>reduces possibility of reuse</li>
+<li>does not scale well with variation</li>
+</ul>
+</li>
+<li><em>to classify classes as things that behave the same way</em>. (<strong>placeholder</strong>)</li>
+</ul>
+<hr>
+<h2 id="find-what-is-varying-and-encapsulate-it">Find What Is Varying and Encapsulate It<a hidden class="anchor" aria-hidden="true" href="#find-what-is-varying-and-encapsulate-it">#</a></h2>
+<blockquote>
+<p>Consider <strong>what</strong> should be variable in your design. This approach is the opposite of focusing on the <strong>cause</strong> of redesign. Instead of considering what might force a change to a design, consider what you want to be <strong><em>able</em></strong> to change without redesign. The focus here is on <strong><em>encapsulating the concept that varies</em></strong>, a theme of many design patterns.
+&ndash; GoF, Design Patterns</p>
+</blockquote>
+<hr>
+<h2 id="more-about-gofs-encapsulation">More about GoF&rsquo;s Encapsulation<a hidden class="anchor" aria-hidden="true" href="#more-about-gofs-encapsulation">#</a></h2>
+<ul>
+<li>Design Patterns use inheritance to classify variations in behaviors.</li>
+<li>Hiding classes with an abstract class or interface — <strong>type encapsulation</strong>.</li>
+<li>Containing a reference of this <em>abstract class</em> or <em>interface</em> type (aggregation) <strong>hides</strong> these <em>derived classes</em> that represent <strong>variations</strong> in behavior.</li>
+<li>In effect, many design patterns <em>use encapsulation to create layers</em> between objects.</li>
+</ul>
+<hr>
+<h2 id="containing-variation-in-data-vs-containing-variation-in-behavior">Containing variation in data vs containing variation in behavior<a hidden class="anchor" aria-hidden="true" href="#containing-variation-in-data-vs-containing-variation-in-behavior">#</a></h2>
+<h3 id="handling-variation-in-data">Handling variation in data<a hidden class="anchor" aria-hidden="true" href="#handling-variation-in-data">#</a></h3>
+<ul>
+<li>Have a data member that tells me what type of movement my object has.</li>
+<li>Have two different types of <strong>Animals</strong> (both derived from the base <strong>Animal</strong> class) — one for walking and one for flying.</li>
+</ul>
+<h3 id="handling-variation-in-behavior-with-objects">Handling variation in behavior with objects<a hidden class="anchor" aria-hidden="true" href="#handling-variation-in-behavior-with-objects">#</a></h3>
+<p>Using objects to contain variation in attributes and using objects to contain variation in behavior are very similar. Don&rsquo;t afraid.</p>
+<hr>
+<h2 id="commonality-and-variability">Commonality and Variability<a hidden class="anchor" aria-hidden="true" href="#commonality-and-variability">#</a></h2>
+<p>Identify <strong>where</strong> things vary (commonality analysis) and then identify <strong>how</strong> they vary (variability analysis).</p>
+<p><strong>Commonality analysis</strong> is the search for common elements that helps us understand how family members are the same.</p>
+<p><strong>Variability analysis</strong> reveals how family members vary. Variability only makes sense within a given commonality.</p>
+<p>Ex. Whiteboard marker, pencil, ballpoint pen</p>
+<ul>
+<li>Commonality: writing instrument</li>
+<li>Variability: material to write, shape..</li>
+</ul>
+<h2 id="commonality-and-variability-and-abstract-class">Commonality and Variability and Abstract class<a hidden class="anchor" aria-hidden="true" href="#commonality-and-variability-and-abstract-class">#</a></h2>
+<p><strong>Commonality analysis</strong> seeks structure that is unlikely to change over time, while <strong>variability analysis</strong> captures structure that is likely to change. <strong><em>Variability analysis makes sense only in terms of the context defined by the associated commonality analysis</em></strong>.
+In other words, if variations are the specific concrete cases in the domain, commonality defines the concepts in the domain that tie them together. The <strong><em>common concepts</em></strong> will be represented by <strong>abstract classes</strong>. The <strong><em>variations</em></strong> found by variability analysis will be implemented by the <strong>concrete classes</strong>.</p>
+<h2 id="relationship-between-commonality-and-variability-perspectives-and-abstract-classes">Relationship between Commonality and Variability, perspectives, and abstract classes<a hidden class="anchor" aria-hidden="true" href="#relationship-between-commonality-and-variability-perspectives-and-abstract-classes">#</a></h2>
+<p><img loading="lazy" src="relationship.png" alt="relationship"  />
+</p>
+<hr>
+<h2 id="benefits-of-using-abstract-classes-for-specialization">Benefits of using abstract classes for specialization<a hidden class="anchor" aria-hidden="true" href="#benefits-of-using-abstract-classes-for-specialization">#</a></h2>
+<p><img loading="lazy" src="benefits.png" alt="benefits"  />
+</p>
+<hr>
+<h2 id="two-step-procedure-for-design">Two-Step Procedure for Design<a hidden class="anchor" aria-hidden="true" href="#two-step-procedure-for-design">#</a></h2>
+<p>Ask yourself:</p>
+<ul>
+<li>When defining an <strong>abstract class</strong> (commonality):
+<ul>
+<li>What <strong>interface</strong> is needed to handle all the responsibilities (core concepts from the conceptual perspective) of this class?</li>
+</ul>
+</li>
+<li>When defining <strong>derived classes</strong>:
+<ul>
+<li>Given this particular implementation (this <strong>variation</strong>), how can I implement it (variation) with the given specification?</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="take-away">Take away<a hidden class="anchor" aria-hidden="true" href="#take-away">#</a></h2>
+<p>Think object-oriented in a broad way.</p>
+<ul>
+<li>Object: an <em>entity that has responsibilities (specific behavior)</em></li>
+<li>Encapsulation: <strong>any</strong> kind of <strong>hiding</strong> (instantiation rule, type..)</li>
+<li>Inheritance: use for <strong>specialization</strong> and <em>classify classes as things that behave the same way</em>.</li>
+</ul>
+<p><strong>Find what is varying and encapsulate it</strong> (in behavior).</p>
+<p>Commonality, variability and abstract class: use inheritance to classify variations in behaviors.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/en/tags/design-patterns/">Design Patterns</a></li>
+      <li><a href="https://blog2.cmwang.net/en/tags/oop/">OOP</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/en/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Performance Benchmarking of YOLOv7 TensorRT</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH8 on x"
+            href="https://x.com/intent/tweet/?text=Design%20Patterns%20Explained%20-%20CH8&amp;url=https%3a%2f%2fblog2.cmwang.net%2fen%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch8%2f&amp;hashtags=DesignPatterns%2cOOP">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH8 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fen%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch8%2f&amp;title=Design%20Patterns%20Explained%20-%20CH8&amp;summary=Design%20Patterns%20Explained%20-%20CH8&amp;source=https%3a%2f%2fblog2.cmwang.net%2fen%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch8%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH8 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fen%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch8%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Design Patterns Explained - CH8 on telegram"
+            href="https://telegram.me/share/url?text=Design%20Patterns%20Explained%20-%20CH8&amp;url=https%3a%2f%2fblog2.cmwang.net%2fen%2fposts%2f2017%2f01%2fdesign-patterns-explained-ch8%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/en/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

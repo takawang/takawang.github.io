@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Tech | Liberation Notes</title>
+<meta name="keywords" content="">
+<meta name="description" content="這是 Taka 的部落格。它涵蓋了生活方式、日記、感受等等">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/categories/tech/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://blog2.cmwang.net/zh/categories/tech/index.xml">
+<link rel="alternate" hreflang="en" href="https://blog2.cmwang.net/en/categories/tech/">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/categories/tech/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Tech" />
+<meta property="og:description" content="這是 Taka 的部落格。它涵蓋了生活方式、日記、感受等等" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/categories/tech/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="Tech"/>
+<meta name="twitter:description" content="這是 Taka 的部落格。它涵蓋了生活方式、日記、感受等等"/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Tech
+    <a href="/zh/categories/tech/index.xml" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">帶有進度條的 Faster Whisper
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-19 19:59:44 +0800 CST'>2023-10-19</span>&nbsp;·&nbsp;379 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 帶有進度條的 Faster Whisper" href="https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">在 Ubuntu 安裝 Nvidia Docker
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章只有英文版的</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-16 14:04:06 +0800 CST'>2023-10-16</span>&nbsp;·&nbsp;291 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 在 Ubuntu 安裝 Nvidia Docker" href="https://blog2.cmwang.net/zh/posts/2023/10/install-nvidia-docker-for-ubuntu/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">透過 Docker 設定 Gitlab Runner
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如何在本機透過 Docker 安裝 Gitlab runner</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-14 21:13:26 +0800 CST'>2023-10-14</span>&nbsp;·&nbsp;297 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 透過 Docker 設定 Gitlab Runner" href="https://blog2.cmwang.net/zh/posts/2023/10/install-gitlab-runner/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">在 Ubuntu 設定 Powerlevel10k
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>記錄如何在 Ubuntu 設定 zsh 與 Powerlevel10k 及 zsh-autosuggestions</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-13 15:40:06 +0800 CST'>2023-10-13</span>&nbsp;·&nbsp;712 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 在 Ubuntu 設定 Powerlevel10k" href="https://blog2.cmwang.net/zh/posts/2023/10/install-powerlevel10k-on-ubuntu/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">為 GitHub Pages 網站設定自訂網域
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章記錄如何為 Github Page 設定自訂網域，以 Godaddy 為例</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-13 14:02:18 +0800 CST'>2023-10-13</span>&nbsp;·&nbsp;205 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 為 GitHub Pages 網站設定自訂網域" href="https://blog2.cmwang.net/zh/posts/2023/10/custom-domain-for-github-pages/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Hugo 部署指南
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這個指南將引導你完成在 GitHub 上建立私人網站並部署到 GitHub Pages 的過程</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-10 20:01:46 +0800 CST'>2023-10-10</span>&nbsp;·&nbsp;505 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to Hugo 部署指南" href="https://blog2.cmwang.net/zh/posts/2023/10/hugo-deployment-guide/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">如何安裝 Hugo 環境
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章會介紹如何安裝 Hugo 環境</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-10 19:41:05 +0800 CST'>2023-10-10</span>&nbsp;·&nbsp;230 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 如何安裝 Hugo 環境" href="https://blog2.cmwang.net/zh/posts/2023/10/how-to-install-hugo/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">搬回 Github Pages
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2023 重新回到靜態網頁的懷抱，Hugo 讓人感覺愉快。</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-10-10 16:33:39 +0800 CST'>2023-10-10</span>&nbsp;·&nbsp;145 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 搬回 Github Pages" href="https://blog2.cmwang.net/zh/posts/2023/10/blog-reboot-2023/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Hugo 測試
+    </h2>
+  </header>
+  <footer class="entry-footer"><span title='2023-10-06 09:34:04 +0000 UTC'>2023-10-06</span>&nbsp;·&nbsp;91 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to Hugo 測試" href="https://blog2.cmwang.net/zh/posts/2023/10/hugo-test/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">配置USB-FS以適用於USB3 Vision相機
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章只有英文版的</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-12-29 13:14:24.183 +0000 UTC'>2022-12-29</span>&nbsp;·&nbsp;284 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 配置USB-FS以適用於USB3 Vision相機" href="https://blog2.cmwang.net/zh/posts/2022/12/configuring-usb-fs-for-usb3-vision-camera/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">透過 CoreML 在 iOS 上實現即時的物體偵測
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章只有英文版的</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-08-06 11:04:15.84 +0000 UTC'>2022-08-06</span>&nbsp;·&nbsp;695 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 透過 CoreML 在 iOS 上實現即時的物體偵測" href="https://blog2.cmwang.net/zh/posts/2022/08/execute-yolov7-model-on-ios-devices/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">YOLOv7 TensorRT 的性能測試
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章只有英文版的</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-07-25 10:30:00.141 +0000 UTC'>2022-07-25</span>&nbsp;·&nbsp;261 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to YOLOv7 TensorRT 的性能測試" href="https://blog2.cmwang.net/zh/posts/2022/07/performance-benchmarking-of-yolov7-tensorrt/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">模擬奧運五環無人機燈光秀
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>練習 CALayer &amp; Gesture Recognizer@</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-03-19 12:37:27.889 +0000 UTC'>2022-03-19</span>&nbsp;·&nbsp;508 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 模擬奧運五環無人機燈光秀" href="https://blog2.cmwang.net/zh/posts/2022/03/simulated-olympic-rings-drone-light-show/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">iPad上的影片播放器
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>練習使用 AVPlayerViewController 製作動態字幕影片</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-03-16 10:32:00.619 +0000 UTC'>2022-03-16</span>&nbsp;·&nbsp;1693 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to iPad上的影片播放器" href="https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">仿製 iPad 上的 Apple Music
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>練習使用 Scroll View &amp; Table View 仿製 iPad 上的 Apple Music App</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-03-13 11:35:11.135 +0000 UTC'>2022-03-13</span>&nbsp;·&nbsp;523 字&nbsp;·&nbsp;Taka</footer>
+  <a class="entry-link" aria-label="post link to 仿製 iPad 上的 Apple Music" href="https://blog2.cmwang.net/zh/posts/2022/03/replicate-apple-music-ipad-os-app/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://blog2.cmwang.net/zh/categories/tech/">
+      «&nbsp;上一篇&nbsp;
+    </a>
+    <a class="next" href="https://blog2.cmwang.net/zh/categories/tech/page/3/">下一篇&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

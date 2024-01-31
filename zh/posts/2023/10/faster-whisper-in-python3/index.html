@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>帶有進度條的 Faster Whisper | Liberation Notes</title>
+<meta name="keywords" content="Whisper, AI, Python">
+<meta name="description" content="如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="帶有進度條的 Faster Whisper" />
+<meta property="og:description" content="如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-19T19:59:44+08:00" />
+<meta property="article:modified_time" content="2023-10-19T19:59:44+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="帶有進度條的 Faster Whisper"/>
+<meta name="twitter:description" content="如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "帶有進度條的 Faster Whisper",
+      "item": "https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "帶有進度條的 Faster Whisper",
+  "name": "帶有進度條的 Faster Whisper",
+  "description": "如何使用 faster-whisper 並產生進度條，你可以用它來幫影片自動產生字幕",
+  "keywords": [
+    "Whisper", "AI", "Python"
+  ],
+  "articleBody": "faster-whisper 使用CTranslate2重新實現 OpenAI 的 Whisper 模型，CTranslate2是一個用於 Transformer 模型快速推論的引擎。整體速度提升不少，前提還是要有 GPU。\n以下是產生字幕的簡單範例，請先安裝 faster_whisper 與 pysubs2\ntranscribe without progress bar # pip install faster_whisper pysubs2 from faster_whisper import WhisperModel import pysubs2 model = WhisperModel(model_size = 'large-v2') segments, _ = model.transcribe(audio='audio.mp3') # to use pysubs2, the argument must be a segment list-of-dicts results= [] for s in segments: segment_dict = {'start':s.start,'end':s.end,'text':s.text} results.append(segment_dict) subs = pysubs2.load_from_whisper(results) subs.save('output.srt') #save srt file 我們可以這樣改寫，讓他透過 tqdm 產生進度條\ntranscribe with progress bar from faster_whisper import WhisperModel import pysubs2 model = WhisperModel(model_size = 'large-v2') segments, _ = model.transcribe(audio='audio.mp3') # Prepare results for SRT file format results = [] timestamps = 0.0 # for progress bar with tqdm(total=info.duration, unit=\" audio seconds\") as pbar: for seg in segments: segment_dict = {'start': seg.start, 'end': seg.end, 'text': seg.text} results.append(segment_dict) # Update progress bar based on segment duration pbar.update(seg.end - timestamps) timestamps = seg.end # Handle silence at the end of the audio if timestamps \u003c info.duration: pbar.update(info.duration - timestamps) subs = pysubs2.load_from_whisper(results) subs.save('output.srt') #save srt file 順便附上 Docker file\nDockerfile # Use the official NVIDIA CUDA image as the base image FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04 ARG DEBIAN_FRONTEND=noninteractive # Install necessary dependencies RUN apt-get update \u0026\u0026 apt-get install -y \\ wget \\ python3 \\ python3-pip \\ \u0026\u0026 apt-get clean \\ \u0026\u0026 rm -rf /var/lib/apt/lists/* # Set the working directory inside the container WORKDIR /app # Install required Python packages RUN pip install faster_whisper pysubs2 # Create directories to store the models RUN mkdir -p /models/faster-whisper-medium # Download the medium model using wget to the specified directory RUN wget -O /models/faster-whisper-medium/config.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/config.json \u0026\u0026 \\ wget -O /models/faster-whisper-medium/model.bin https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/model.bin \u0026\u0026 \\ wget -O /models/faster-whisper-medium/tokenizer.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/tokenizer.json \u0026\u0026 \\ wget -O /models/faster-whisper-medium/vocabulary.txt https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/vocabulary.txt COPY app.py /app/ # Run script CMD [\"python3\", \"app.py\"] Source Code: https://github.com/taka-wang/docker-whisper\n",
+  "wordCount" : "379",
+  "inLanguage": "zh",
+  "datePublished": "2023-10-19T19:59:44+08:00",
+  "dateModified": "2023-10-19T19:59:44+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Taka"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2023/10/faster-whisper-in-python3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      帶有進度條的 Faster Whisper
+    </h1>
+    <div class="post-meta"><span title='2023-10-19 19:59:44 +0800 CST'>2023-10-19</span>&nbsp;·&nbsp;379 字&nbsp;·&nbsp;Taka&nbsp;|&nbsp;語言:
+<ul class="i18n_list">
+    <li>
+        <a href="https://blog2.cmwang.net/en/posts/2023/10/faster-whisper-in-python3/">English</a>
+    </li>
+</ul>
+
+</div>
+  </header> 
+  <div class="post-content"><p><a href="https://github.com/guillaumekln/faster-whisper">faster-whisper</a> 使用<code>CTranslate2</code>重新實現 OpenAI 的 Whisper 模型，<code>CTranslate2</code>是一個用於 Transformer 模型快速推論的引擎。整體速度提升不少，前提還是要有 GPU。</p>
+<p>以下是產生字幕的簡單範例，請先安裝 <code>faster_whisper</code> 與 <code>pysubs2</code></p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            transcribe without progress bar
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># pip install faster_whisper pysubs2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span> <span class="o">=</span> <span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># to use pysubs2, the argument must be a segment list-of-dicts</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span><span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">end</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span> <span class="c1">#save srt file</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>我們可以這樣改寫，讓他透過 tqdm 產生進度條</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            transcribe with progress bar
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">faster_whisper</span> <span class="kn">import</span> <span class="n">WhisperModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pysubs2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperModel</span><span class="p">(</span><span class="n">model_size</span> <span class="o">=</span> <span class="s1">&#39;large-v2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">segments</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="s1">&#39;audio.mp3&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Prepare results for SRT file format</span>
+</span></span><span class="line"><span class="cl">  <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">timestamps</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># for progress bar</span>
+</span></span><span class="line"><span class="cl">  <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&#34; audio seconds&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">segment_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_dict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="c1"># Update progress bar based on segment duration</span>
+</span></span><span class="line"><span class="cl">          <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">seg</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">timestamps</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1"># Handle silence at the end of the audio</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">timestamps</span> <span class="o">&lt;</span> <span class="n">info</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subs</span> <span class="o">=</span> <span class="n">pysubs2</span><span class="o">.</span><span class="n">load_from_whisper</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">subs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;output.srt&#39;</span><span class="p">)</span> <span class="c1">#save srt file</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p>順便附上 Docker file</p>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Dockerfile
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Use the official NVIDIA CUDA image as the base image</span>
+</span></span><span class="line"><span class="cl">FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+</span></span><span class="line"><span class="cl">ARG <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install necessary dependencies</span>
+</span></span><span class="line"><span class="cl">RUN apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3-pip <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set the working directory inside the container</span>
+</span></span><span class="line"><span class="cl">WORKDIR /app
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install required Python packages</span>
+</span></span><span class="line"><span class="cl">RUN pip install faster_whisper pysubs2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create directories to store the models</span>
+</span></span><span class="line"><span class="cl">RUN mkdir -p /models/faster-whisper-medium
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Download the medium model using wget to the specified directory</span>
+</span></span><span class="line"><span class="cl">RUN wget -O /models/faster-whisper-medium/config.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/config.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/model.bin https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/model.bin <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/tokenizer.json https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/tokenizer.json <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    wget -O /models/faster-whisper-medium/vocabulary.txt https://huggingface.co/guillaumekln/faster-whisper-medium/resolve/main/vocabulary.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">COPY app.py /app/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run script</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;python3&#34;</span>, <span class="s2">&#34;app.py&#34;</span><span class="o">]</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><strong>Source Code</strong>: <a href="https://github.com/taka-wang/docker-whisper">https://github.com/taka-wang/docker-whisper</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/whisper/">Whisper</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/ai/">AI</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/python/">Python</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2023/10/frontend-history/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>前端開發歷史</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2023/10/install-nvidia-docker-for-ubuntu/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>在 Ubuntu 安裝 Nvidia Docker</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 帶有進度條的 Faster Whisper on x"
+            href="https://x.com/intent/tweet/?text=%e5%b8%b6%e6%9c%89%e9%80%b2%e5%ba%a6%e6%a2%9d%e7%9a%84%20Faster%20Whisper&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f10%2ffaster-whisper-in-python3%2f&amp;hashtags=Whisper%2cAI%2cPython">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 帶有進度條的 Faster Whisper on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f10%2ffaster-whisper-in-python3%2f&amp;title=%e5%b8%b6%e6%9c%89%e9%80%b2%e5%ba%a6%e6%a2%9d%e7%9a%84%20Faster%20Whisper&amp;summary=%e5%b8%b6%e6%9c%89%e9%80%b2%e5%ba%a6%e6%a2%9d%e7%9a%84%20Faster%20Whisper&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f10%2ffaster-whisper-in-python3%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 帶有進度條的 Faster Whisper on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f10%2ffaster-whisper-in-python3%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 帶有進度條的 Faster Whisper on telegram"
+            href="https://telegram.me/share/url?text=%e5%b8%b6%e6%9c%89%e9%80%b2%e5%ba%a6%e6%a2%9d%e7%9a%84%20Faster%20Whisper&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2023%2f10%2ffaster-whisper-in-python3%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

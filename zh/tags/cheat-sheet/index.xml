@@ -1,0 +1,1100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cheat Sheet on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/cheat-sheet/</link>
+    <description>Recent content in Cheat Sheet on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 17 Dec 2023 17:51:52 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/cheat-sheet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PDO Crash Course</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/12/pdo-crash-course/</link>
+      <pubDate>Sun, 17 Dec 2023 17:51:52 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/12/pdo-crash-course/</guid>
+      <description>PDO Cheat Sheet</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>PDO (PHP Data Objects) is a database access layer providing a uniform method of access to multiple databases. It is a secure and efficient way to interact with databases in PHP.</p>
+</blockquote>
+<h3 id="1-connecting-to-a-database">1. Connecting to a Database</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dbname</span> <span class="o">=</span> <span class="s1">&#39;your_database_name&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$username</span> <span class="o">=</span> <span class="s1">&#39;your_username&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$password</span> <span class="o">=</span> <span class="s1">&#39;your_password&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s2">&#34;mysql:host=</span><span class="si">$host</span><span class="s2">;dbname=</span><span class="si">$dbname</span><span class="s2">&#34;</span><span class="p">,</span> <span class="nv">$username</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">setAttribute</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">ATTR_ERRMODE</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">ERRMODE_EXCEPTION</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;Connected successfully&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">PDOException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;Connection failed: &#34;</span> <span class="o">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>The line <code>$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</code> sets the error handling mode for PDO. Specifically, it sets PDO to throw exceptions when errors occur.</p>
+<ul>
+<li><code>PDO::ATTR_ERRMODE</code>: This is an attribute that controls the error reporting mode.</li>
+<li><code>PDO::ERRMODE_EXCEPTION</code>: This mode causes PDO to throw exceptions when errors occur, making it easier to handle errors in your code.</li>
+</ul>
+<p>So, if there&rsquo;s an error in a PDO operation, it will throw an exception, and you can catch that exception to handle errors more gracefully.</p>
+<h3 id="2-executing-queries">2. Executing Queries</h3>
+<ul>
+<li>
+<p>SELECT Statement</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM your_table_name&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$result</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Process each row as needed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">echo</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;column1&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s2">&#34;</span><span class="se">\t</span><span class="s2">&#34;</span> <span class="o">.</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;column2&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>fetchAll</code></strong>: This method is used to fetch all rows from the result set returned by a prepared statement. It retrieves all the rows into an array.</li>
+<li><strong><code>PDO::FETCH_ASSOC</code></strong>: This is a fetch style constant provided by PDO that specifies the format in which the rows should be fetched. In this case, <code>FETCH_ASSOC</code> indicates that the rows should be fetched as an associative array where the column names are used as keys.</li>
+</ul>
+</li>
+<li>
+<p>INSERT Statement:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;value1&#39;</span><span class="p">,</span> <span class="s1">&#39;value2&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">&#39;INSERT INTO your_table_name (column1, column2) VALUES (?, ?)&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Data inserted successfully&#34;</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>UPDATE Statement:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$newValue</span> <span class="o">=</span> <span class="s1">&#39;new_value&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">&#39;UPDATE your_table_name SET column1 = ? WHERE id = ?&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">([</span><span class="nv">$newValue</span><span class="p">,</span> <span class="nv">$id</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Data updated successfully&#34;</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>DELETE Statement:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">&#39;DELETE FROM your_table_name WHERE id = ?&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">([</span><span class="nv">$id</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Data deleted successfully&#34;</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="3-prepared-statements-and-parameter-binding">3. Prepared Statements and Parameter Binding:</h3>
+<p>Prepared statements help prevent SQL injection by separating SQL code from user input.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$username</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$password</span> <span class="o">=</span> <span class="s1">&#39;pass&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM users WHERE username = :username AND password = :password&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">bindParam</span><span class="p">(</span><span class="s1">&#39;:username&#39;</span><span class="p">,</span> <span class="nv">$username</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">bindParam</span><span class="p">(</span><span class="s1">&#39;:password&#39;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">);</span>
+</span></span></code></pre></div><p>In this example, placeholders (<code>:username</code> and <code>:password</code>) are used in the query, and then values are bound to these placeholders using <code>bindParam</code>. This helps prevent SQL injection and allows for better reuse of the prepared statement.</p>
+<h3 id="4-error-handling">4. Error Handling</h3>
+<p>Always handle errors to ensure a robust application.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Html Form Cheat Sheet</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/html-form-cheat-sheet/</link>
+      <pubDate>Wed, 21 Oct 2020 17:14:50 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/html-form-cheat-sheet/</guid>
+      <description>HTML Form Cheat Sheet</description>
+      <content:encoded><![CDATA[<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1.0&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Simple Form<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Contact Us<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- The &#39;action&#39; attribute specifies where the form data will be sent --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- The &#39;method&#39; attribute specifies the HTTP method to be used (GET or POST) --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/submit_form&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;post&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Text Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;name&#34;</span><span class="p">&gt;</span>Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your name&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">required</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Email Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email&#34;</span><span class="p">&gt;</span>Email:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">required</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Password Input --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;password&#34;</span><span class="p">&gt;</span>Password:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_password&#34;</span> <span class="na">required</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Radio Buttons --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Preferred Contact Method:<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;contact_email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;contact_method&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">value</span><span class="o">=</span><span class="s">&#34;email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">checked</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;contact_email&#34;</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span>
+</span></span><span class="line"><span class="cl">        <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;contact_phone&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;contact_method&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">value</span><span class="o">=</span><span class="s">&#34;phone&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;contact_phone&#34;</span><span class="p">&gt;</span>Phone<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Checkbox --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;checkbox&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="na">checked</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span><span class="p">&gt;</span>Subscribe to our newsletter<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Textarea for Longer Text --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;message&#34;</span><span class="p">&gt;</span>Message:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">textarea</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;message&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">name</span><span class="o">=</span><span class="s">&#34;user_message&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">rows</span><span class="o">=</span><span class="s">&#34;4&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">cols</span><span class="o">=</span><span class="s">&#34;50&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Your message&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c">&lt;!-- Submit Button --&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><ol>
+<li>
+<p><strong><code>&lt;form&gt;</code> element:</strong> This is the container for your form. The <code>action</code> attribute specifies the URL where the form data will be sent, and the <code>method</code> attribute specifies the HTTP method (usually &ldquo;GET&rdquo; or &ldquo;POST&rdquo;).</p>
+</li>
+<li>
+<p><strong>Text Input (<code>&lt;input type=&quot;text&quot;&gt;</code>):</strong> Used for single-line text input. The <code>id</code> attribute is a unique identifier, and the <code>name</code> attribute is the key that will be used to identify this field when the form is submitted.</p>
+</li>
+<li>
+<p><strong>Email Input (<code>&lt;input type=&quot;email&quot;&gt;</code>):</strong> Similar to text input but specifically designed for email addresses.</p>
+</li>
+<li>
+<p><strong>Password Input (<code>&lt;input type=&quot;password&quot;&gt;</code>):</strong> Used for password input. The text is usually masked for security.</p>
+</li>
+<li>
+<p><strong>Radio Buttons (<code>&lt;input type=&quot;radio&quot;&gt;</code>):</strong> Used when the user must select one option from a group of options. The <code>name</code> attribute groups the radio buttons together.</p>
+</li>
+<li>
+<p><strong>Checkbox (<code>&lt;input type=&quot;checkbox&quot;&gt;</code>):</strong> Allows the user to select multiple options. The <code>checked</code> attribute makes the checkbox initially selected.</p>
+</li>
+<li>
+<p><strong>Textarea (<code>&lt;textarea&gt;</code>):</strong> Used for multi-line text input, suitable for longer messages.</p>
+</li>
+<li>
+<p><strong>Submit Button (<code>&lt;input type=&quot;submit&quot;&gt;</code>):</strong> Submits the form when clicked.</p>
+</li>
+</ol>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>HTML Cheat Sheet</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/</link>
+      <pubDate>Tue, 20 Oct 2020 17:14:50 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/html-cheat-sheet/</guid>
+      <description>Cheat Sheet for HTML</description>
+      <content:encoded><![CDATA[<h2 id="document-structure">Document Structure</h2>
+<ul>
+<li>
+<p><code>!</code> 然後 <code>tab</code> 快速鍵，快速產出骨架：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    ....
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="paragraph-element-p">Paragraph element <code>p</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>lorem ...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="heading-element-h1-h2-h6">Heading element <code>h1</code>, <code>h2</code>,&hellip;, <code>h6</code></h2>
+<ul>
+<li>只能有一個 H1</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Taka&#39;s Blog<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="comments">Comments</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- something --&gt;</span>
+</span></span></code></pre></div><h2 id="void-element-br-與-hr">Void Element <code>br</code> 與 <code>hr</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 換行 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">hr</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 分隔線 --&gt;</span>
+</span></span></code></pre></div><h2 id="lists-ul-與-ol">Lists <code>ul</code> 與 <code>ol</code></h2>
+<h3 id="unordered-list">Unordered List</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>item 3<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="ordered-list">Ordered List</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 1
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 2
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    item 3
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="emphasis-em">Emphasis <code>em</code></h2>
+<ul>
+<li>不要再使用 <code>&lt;i&gt;lorem&lt;/i&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="bold-strong">Bold <code>strong</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="superscript-subscript-sup-sub">Superscript, Subscript <code>sup</code> <code>sub</code></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;&lt;/</span><span class="nt">sub</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="image-image">Image <code>image</code></h2>
+<ul>
+<li><code>alt</code> 很重要</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;io.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;something in the folder&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="anchor-links-a">Anchor (links) <code>a</code></h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#examples">The Anchor element - HTML: HyperText Markup Language | MDN</a></p>
+<ul>
+<li>link to other elements，可以用 <code>#</code> link 到某一段落的 <code>id</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;...&#34;</span><span class="p">&gt;</span>go to reddit<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;#pets&#34;</span><span class="p">&gt;</span>My Pets<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- link to section --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pets&#34;</span><span class="p">&gt;</span>Pets<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="image-anchor">image anchor</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://example.com&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;[https://picsum.photos/400](https://picsum.photos/400)&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;pig&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="target">target</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;contact.html&#34;</span> <span class="na">target</span><span class="o">=</span><span class="s">&#34;_blank&#34;</span><span class="p">&gt;</span>Contact<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="inline-vs-block-elements"><code>Inline</code> vs <code>block</code> elements</h2>
+<ul>
+<li>inline 不會換行</li>
+<li>block elements 會佔滿整行，例如 <code>heading elements</code></li>
+</ul>
+<h2 id="forms">Forms</h2>
+<ul>
+<li>use form to group controls together</li>
+<li><code>name</code> for input，這樣傳遞參數才能區別是哪個 input</li>
+<li><code>placeholder</code> for text input</li>
+<li><code>required</code> 設為必填</li>
+<li>input types:
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types">The Input (Form Input) element - HTML: HyperText Markup Language | MDN</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/register&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;get&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;any&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span><span class="p">&gt;</span>Enter your name<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name_input&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;your_name&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- text inputs --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- button --&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;number&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;color&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;checkbox&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;subscribe&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- 🔥 --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="range-input">range input</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;range&#34;</span> <span class="na">min</span><span class="o">=</span><span class="s">&#34;0&#34;</span> <span class="na">max</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">step</span><span class="o">=</span><span class="s">&#34;2&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;volumnvalue&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h3 id="text-area">text area</h3>
+<ul>
+<li>multiple line text input</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">rows</span><span class="o">=</span><span class="s">&#34;10&#34;</span> <span class="na">cols</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="selects">selects</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>Select your pet<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;pets&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;pet_options&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;dog&#34;</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;cat&#34;</span><span class="p">&gt;</span>Cat<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="radio-button">radio button</h3>
+<ul>
+<li>需要給 value 區分是哪個被選中</li>
+<li>若使用同樣的 <code>name</code> ，就可以 group radio button</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;phone&#34;</span><span class="p">&gt;</span>Call me<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;phone&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email&#34;</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;radio&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">***</span><span class="na">name</span><span class="o">=</span><span class="s">&#34;contact&#34;</span> <span class="err">***</span> <span class="err">**</span><span class="na">value</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="err">**</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="tables">Tables</h2>
+<ul>
+<li><code>&lt;thead&gt;</code></li>
+<li><code>&lt;tbody&gt;</code></li>
+<li><code>&lt;tfoot&gt;</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_1<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>col_2<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>lorem<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="span-and-divs">Span and Divs</h2>
+<ul>
+<li>
+<p><code>span</code> use for styling purpose, it does not have any meaning</p>
+</li>
+<li>
+<p><code>div</code> generic containers that have no inherent meaning, they are use to group content together for styling.</p>
+</li>
+<li>
+<p>Semantic markup / Semantic elements</p>
+<ul>
+<li>使用有語意的標籤而不是一堆 div</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Glossary/Semantics">Semantics - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a></p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>PHP Cheat Sheet</title>
+      <link>https://blog2.cmwang.net/zh/posts/2020/10/php-cheat-sheet/</link>
+      <pubDate>Sat, 17 Oct 2020 14:25:53 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2020/10/php-cheat-sheet/</guid>
+      <description>Cheat Sheet for PHP8</description>
+      <content:encoded><![CDATA[<h2 id="comments">Comments</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// one line comment 👈
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># another one line comment 👈
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">This is a multiple-lines comment block
+</span></span></span><span class="line"><span class="cl"><span class="cm">that spans over multiple
+</span></span></span><span class="line"><span class="cl"><span class="cm">lines
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span></code></pre></div><h2 id="input--output">Input &amp; Output</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;Hello World&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Debug output
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">(</span><span class="nv">$names</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">print_r</span><span class="p">(</span><span class="nv">$products</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Input from console
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name</span> <span class="o">=</span> <span class="nx">readline</span><span class="p">(</span><span class="s1">&#39;What is your name : &#39;</span><span class="p">);</span>
+</span></span></code></pre></div><h2 id="naming-conventions">Naming Conventions</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// PHP opening/closing tag
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">  <span class="k">echo</span> <span class="s2">&#34;Hello World&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// 🔥 if no closing tag the rest of the file will be considered PHP
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// Short syntax for PHP echo 💡
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;?= &#34;Hello World&#34; ?&gt;
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">//Enable strict typing (first line of your PHP file)
+</span></span></span><span class="line"><span class="cl"><span class="err">&lt;? declare(strict_types=1);
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// Include a PHP file
+</span></span></span><span class="line"><span class="cl"><span class="err">require &#39;app/Product.php&#39;
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// Create a namespace
+</span></span></span><span class="line"><span class="cl"><span class="err">namespace App;
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">// Use a namespace
+</span></span></span><span class="line"><span class="cl"><span class="err">use App\Product;
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$firstName = &#39;Mike&#39;  // camelCase
+</span></span></span><span class="line"><span class="cl"><span class="err">function updateProduct() // camelCase
+</span></span></span><span class="line"><span class="cl"><span class="err">class ProductItem // StudlyCaps
+</span></span></span><span class="line"><span class="cl"><span class="err">const ACCESS_KEY = &#39;123abc&#39;; // all upper case with underscore separators
+</span></span></span></code></pre></div><h2 id="variables-declaration">Variables Declaration</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$name</span> <span class="o">=</span> <span class="s1">&#39;Mike&#39;</span><span class="p">;</span> <span class="c1">//string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$isActive</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span> <span class="c1">//boolean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$number</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span> <span class="c1">//integer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$bankBalance</span> <span class="o">=</span> <span class="mi">1_000_000</span><span class="p">;</span> <span class="c1">// readable integer 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$amount</span> <span class="o">=</span> <span class="mf">99.95</span><span class="p">;</span> <span class="c1">//float
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">]</span> <span class="c1">//array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">const</span> <span class="no">MAX_USERS</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> <span class="c1">//constant
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;MAX_USERS&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span> <span class="c1">//constant
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Assign &#39;by reference&#39; with the &amp; keyword
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name_2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$name_1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Type conversion 🔥
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$age</span> <span class="o">=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="nx">readline</span><span class="p">(</span><span class="s1">&#39;Your age: &#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;Your age is&#39;</span> <span class="o">.</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span><span class="nv">$age</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">gettype</span><span class="p">(</span><span class="nv">$age</span><span class="p">);</span> <span class="c1">// int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">is_int</span><span class="p">(</span><span class="nv">$age</span><span class="p">)</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">is_float</span><span class="p">(</span><span class="mf">12.5</span><span class="p">)</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">is_string</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="c1">// true
+</span></span></span></code></pre></div><h2 id="data-types">Data Types</h2>
+<ul>
+<li><strong>null</strong>: case insensitive</li>
+<li><strong>bool</strong>: case insensitive</li>
+<li><a href="#numbers">int</a></li>
+<li><a href="#numbers">float</a></li>
+<li><a href="#strings">string</a></li>
+<li><a href="#arrays">array</a></li>
+<li>object</li>
+<li>callable</li>
+<li>resource</li>
+</ul>
+<h3 id="strings">Strings</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// String can use single quote
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name</span> <span class="o">=</span> <span class="s1">&#39;Mike&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// or double quote
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name</span> <span class="o">=</span> <span class="s2">&#34;Mike&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Double quote string can escape characters \n = new line  \t = tab  \\ = backslash
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="s2">&#34;Hello Mike</span><span class="se">\n</span><span class="s2">Hello David&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Double quote string can do interpolation 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="s2">&#34;Hello </span><span class="si">$name</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Hello </span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">™&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// string concat
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="s1">&#39;Hello &#39;</span> <span class="o">.</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// string length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">strlen</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Remove space(s) before and after
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Convert to lowercase / uppercase
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">strtolower</span><span class="p">(</span><span class="nv">$email</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">strtoupper</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Converts the first character to uppercase
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">ucfirst</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>  <span class="c1">// &#39;Mike&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Replace text a by text b in $text
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">str_replace</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="nv">$text</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// String Contains (PHP 8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">str_contains</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;ke&#39;</span><span class="p">)</span>  <span class="c1"># true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Find numeric position of first occurrence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$pos</span> <span class="o">=</span> <span class="nx">strpos</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">);</span> <span class="c1"># 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Returns portion of string (offset / length)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">substr</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">$pos</span><span class="p">);</span> <span class="c1"># Mi
+</span></span></span></code></pre></div><h3 id="numbers">Numbers</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// Shortcut addition assignment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$value</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$value</span><span class="o">++</span> <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1">// or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$value</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Shortcut subtraction assignment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$value</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$value</span><span class="o">--</span> <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1">// or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$value</span> <span class="o">-=</span> <span class="mi">1</span> <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Check if numeric
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">is_numeric</span><span class="p">(</span><span class="s1">&#39;59.99&#39;</span><span class="p">);</span> <span class="c1"># true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Round a number
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">round</span><span class="p">(</span><span class="mf">0.80</span><span class="p">);</span>  <span class="c1">// returns 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Round a number with precision
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">round</span><span class="p">(</span><span class="mf">1.49356</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>  <span class="c1">// returns 1.49
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random number
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span><span class="p">(</span><span class="nx">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span> <span class="c1"># 89
+</span></span></span></code></pre></div><h3 id="arrays">Arrays</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//Array declaration can contain any types
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$example</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="mf">50.2</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Array declaration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="s1">&#39;Peter&#39;</span><span class="p">,</span> <span class="s1">&#39;Shawn&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Insert
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$names</span><span class="p">[]</span> <span class="o">=</span> <span class="s2">&#34;Jane&#34;</span><span class="p">;</span> <span class="c1">// 💡 change array length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Direct access to a specific element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">//output Peter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// How to access an array in an array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$example</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="c1">// 20
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//add a element to an array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$names</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">&#39;Micheal&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Array merge
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$array3</span> <span class="o">=</span> <span class="nx">array_merge</span><span class="p">(</span><span class="nv">$array1</span><span class="p">,</span> <span class="nv">$array2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Merge with spreading operator (also work with associative array)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$array3</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="nv">$array1</span><span class="p">,</span> <span class="o">...</span><span class="nv">$array2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Array Concat with Spread Operator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="s1">&#39;Peter&#39;</span><span class="p">,</span> <span class="s1">&#39;Paul&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$people</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="o">...</span><span class="nv">$names</span><span class="p">];</span> <span class="c1">// [&#39;John&#39;, &#39;Mike&#39;, &#39;Peter&#39;, &#39;Paul&#39;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Remove array entry:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">unset</span><span class="p">(</span><span class="nv">$names</span><span class="p">[</span><span class="s1">&#39;Peter&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Array to string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">implode</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="nv">$names</span><span class="p">)</span> <span class="c1">//output Mike, Shawn, John, Micheal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// String to Array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">explode</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="nv">$text</span><span class="p">);</span> <span class="c1">// [&#39;Mike&#39;, &#39;Shawn&#39;, &#39;John&#39;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//loop for each array entry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">foreach</span><span class="p">(</span><span class="nv">$names</span> <span class="k">as</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">echo</span> <span class="s1">&#39;Hello &#39;</span> <span class="o">.</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Number of items in a Array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">count</span><span class="p">(</span><span class="nv">$names</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Associative array declaration (key =&gt; value):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$person</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span> <span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;genre&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;men&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Add to ass. array:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$person</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Mike&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//loop ass. array key =&gt; value:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">foreach</span><span class="p">(</span><span class="nv">$names</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">echo</span> <span class="nv">$key</span> <span class="o">.</span> <span class="s1">&#39; : &#39;</span> <span class="o">.</span> <span class="nv">$value</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Check if a specific key exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">array_key_exists</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="nv">$person</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Return keys
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">array_keys</span><span class="p">(</span><span class="nv">$person</span><span class="p">);</span> <span class="c1">// [&#39;age&#39;, &#39;genre&#39;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Return values
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nx">array_values</span><span class="p">(</span><span class="nv">$person</span><span class="p">)</span> <span class="c1">// [45, &#39;men&#39;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Array filter (return a filtered array)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$filteredPeople</span> <span class="o">=</span> <span class="nx">array_filter</span><span class="p">(</span><span class="nv">$people</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$person</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$names</span><span class="o">-&gt;</span><span class="na">active</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Array map (return transform array):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$onlyNames</span> <span class="o">=</span> <span class="nx">array_map</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$person</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$person</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">},</span> <span class="nv">$people</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Search associative array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$items</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;product 1&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;200&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;product 2&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;300&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;product 3&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;400&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;product 4&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># search all value in the &#39;name&#39; column
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$found_key</span> <span class="o">=</span> <span class="nx">array_search</span><span class="p">(</span><span class="s1">&#39;product 3&#39;</span><span class="p">,</span> <span class="nx">array_column</span><span class="p">(</span><span class="nv">$items</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># return 2
+</span></span></span></code></pre></div><h2 id="type-casting">Type Casting</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// Booleans
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="s2">&#34;&#34;</span><span class="p">);</span>             <span class="c1">// -&gt; false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="s2">&#34;Some Text&#34;</span><span class="p">);</span>    <span class="c1">// -&gt; true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">boolean</span><span class="p">)</span> <span class="s2">&#34;0&#34;</span><span class="p">);</span>         <span class="c1">// -&gt; false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="s2">&#34;false&#34;</span><span class="p">);</span>        <span class="c1">// -&gt; true 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="mi">0</span><span class="p">);</span>              <span class="c1">// -&gt; false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="mi">1</span><span class="p">);</span>              <span class="c1">// -&gt; true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>             <span class="c1">// -&gt; true 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="k">null</span><span class="p">);</span>           <span class="c1">// -&gt; false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="p">[]);</span>             <span class="c1">// -&gt; false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">bool</span><span class="p">)</span> <span class="p">[</span><span class="s2">&#34;hello&#34;</span><span class="p">]);</span>      <span class="c1">// -&gt; true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Integers
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="k">false</span><span class="p">);</span>        <span class="c1">// -&gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">integer</span><span class="p">)</span> <span class="k">true</span><span class="p">);</span>     <span class="c1">// -&gt; 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="s2">&#34;-1&#34;</span><span class="p">);</span>         <span class="c1">// -&gt; -1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="s2">&#34;Hello&#34;</span><span class="p">);</span>      <span class="c1">// -&gt; 0 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="s2">&#34;12 months&#34;</span><span class="p">);</span>  <span class="c1">// -&gt; 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="mf">12.7</span><span class="p">);</span>         <span class="c1">// -&gt; 12 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="k">null</span><span class="p">);</span>         <span class="c1">// -&gt; 0 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Float
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="k">false</span><span class="p">);</span>      <span class="c1">// -&gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="k">true</span><span class="p">);</span>       <span class="c1">// -&gt; 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="s2">&#34;-1&#34;</span><span class="p">);</span>       <span class="c1">// -&gt; -1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="s2">&#34;Hello&#34;</span><span class="p">);</span>    <span class="c1">// -&gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="s2">&#34;2.5 Hour&#34;</span><span class="p">);</span> <span class="c1">// -&gt; 2.5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">float</span><span class="p">)</span> <span class="k">null</span><span class="p">);</span>       <span class="c1">// -&gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Strings
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="k">false</span><span class="p">);</span>     <span class="c1">// -&gt; &#34;&#34; 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="k">true</span><span class="p">);</span>      <span class="c1">// -&gt; &#34;1&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="mi">0</span><span class="p">);</span>         <span class="c1">// -&gt; &#34;0&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="mf">1.353</span><span class="p">);</span>     <span class="c1">// -&gt; &#34;1.353&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="p">[]);</span>        <span class="c1">// -&gt; &#34;Array&#34; 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="p">[</span><span class="s2">&#34;John&#34;</span><span class="p">]);</span>  <span class="c1">// -&gt; &#34;Array&#34; 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="nx">string</span><span class="p">)</span> <span class="k">null</span><span class="p">);</span>      <span class="c1">// -&gt; &#34;&#34; 💡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Arrays
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="k">false</span><span class="p">);</span>      <span class="c1">// -&gt; [false]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="k">true</span><span class="p">);</span>       <span class="c1">// -&gt; [true]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="mi">0</span><span class="p">);</span>          <span class="c1">// -&gt; [0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="mf">1.353</span><span class="p">);</span>      <span class="c1">// -&gt; [1.353]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="s2">&#34;John&#34;</span><span class="p">);</span>     <span class="c1">// -&gt; [&#34;John&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">var_dump</span><span class="p">((</span><span class="k">array</span><span class="p">)</span> <span class="k">null</span><span class="p">);</span>       <span class="c1">// -&gt; []
+</span></span></span></code></pre></div><h2 id="conditionals">Conditionals</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// If / elseif / else
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nv">$condition</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;condition 10&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">elseif</span>  <span class="p">(</span><span class="nv">$condition</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;condition 5&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;all other conditions&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// And condition = &amp;&amp;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nv">$condition</span> <span class="o">===</span> <span class="mi">10</span> <span class="o">&amp;&amp;</span> <span class="nv">$condition2</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;10 and 5&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Or condition = ||
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nv">$condition</span> <span class="o">===</span> <span class="mi">10</span> <span class="o">||</span> <span class="nv">$condition2</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;10 or 5&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// One line
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nv">$isActive</span><span class="p">)</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Null check
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">is_null</span><span class="p">(</span><span class="nv">$name</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="nx">something</span><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Comparaison operation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">==</span> <span class="c1">// equal no type check
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">===</span> <span class="c1">// equal with type check
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">!=</span> <span class="c1">//not equal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">||</span> <span class="c1">//or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">&amp;&amp;</span> <span class="c1">//and
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">&gt;</span> <span class="c1">//greater than
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">&lt;</span> <span class="c1">//less than
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Ternary operator (true : false)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nv">$isValid</span> <span class="o">?</span> <span class="s1">&#39;user valid&#39;</span> <span class="o">:</span> <span class="s1">&#39;user not valid&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Null Coalesce Operator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nv">$name</span> <span class="o">??</span> <span class="s1">&#39;Mike&#39;</span><span class="p">;</span>  <span class="c1">//output &#39;Mike&#39; if $name is null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Null Coalesce Assignment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$name</span> <span class="o">??=</span> <span class="s1">&#39;Mike&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Null Safe Operator (PHP 8) will return null if one ? is null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nv">$user</span><span class="o">?-&gt;</span><span class="na">profile</span><span class="o">?-&gt;</span><span class="na">activate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Null Safe + Null Coalesce (if null will return &#39;No user profile&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="nv">$user</span><span class="o">?-&gt;</span><span class="na">profile</span><span class="o">?-&gt;</span><span class="na">activate</span><span class="p">()</span> <span class="o">??</span> <span class="s1">&#39;Not applicable&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Spaceship operator return -1 0 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">usort</span><span class="p">(</span><span class="nv">$names</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$a</span> <span class="o">&lt;=&gt;</span> <span class="nv">$b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#39;John&#39;, &#39;Mike&#39;, &#39;Paul&#39;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Return false when convert as boolean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nx">unset</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Compare same variable with multiple values
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">switch</span> <span class="p">(</span><span class="nv">$color</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s1">&#39;red&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;The color is red&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s1">&#39;yellow&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;The color is yellow&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s1">&#39;blue&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;The color is blue&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;The color is unknown&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Match Expression (PHP 8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$type</span> <span class="o">=</span> <span class="nx">match</span><span class="p">(</span><span class="nv">$color</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;red&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;danger&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;warning&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;green&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span> <span class="o">=&gt;</span> <span class="s1">&#39;Unknown&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Check if variable declare
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">isset</span><span class="p">(</span><span class="nv">$color</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">]);</span>  <span class="c1"># true
+</span></span></span></code></pre></div><h2 id="loops--iterations">Loops &amp; Iterations</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//for loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;i value = &#34;</span> <span class="o">.</span> <span class="nx">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//while loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="nv">$number</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;value : &#39;</span> <span class="o">.</span> <span class="nv">$number</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$number</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//do while
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;value : &#39;</span> <span class="o">.</span> <span class="nv">$number</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$number</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nv">$number</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// foreach with break / continue exemple
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$values</span> <span class="k">as</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span> <span class="o">===</span> <span class="s1">&#39;two&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span> <span class="c1">// exit loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$value</span> <span class="o">===</span> <span class="s1">&#39;three&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span> <span class="c1">// next loop iteration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="functions">Functions</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//function declararion
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">name</span><span class="p">(</span><span class="nv">$firstName</span><span class="p">,</span> <span class="nv">$lastName</span> <span class="o">=</span> <span class="s1">&#39;defaultvalue&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;</span><span class="si">$firstName</span><span class="s2"> </span><span class="si">$lastName</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//function call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">name</span><span class="p">(</span><span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="s1">&#39;Taylor&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//function call with named parameters (PHP 8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">name</span><span class="p">(</span><span class="nx">firstName</span><span class="o">:</span> <span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="nx">lastName</span><span class="o">:</span> <span class="s1">&#39;Taylor&#39;</span><span class="p">);</span> <span class="c1">// order can change
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//function variables params
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">name</span><span class="p">(</span><span class="o">...</span><span class="nv">$params</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">.</span> <span class="nx">“</span> <span class="nx">“</span> <span class="o">.</span> <span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Closure function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;welcome&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Arrow functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="nx">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;welcome&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Typed parameter and typed return
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">display</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$first</span><span class="p">,</span> <span class="nx">string</span> <span class="nv">$last</span><span class="p">)</span> <span class="o">:</span> <span class="nx">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;</span><span class="si">$first</span><span class="s2"> </span><span class="si">$last</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Typed or null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">display</span><span class="p">(</span><span class="o">?</span><span class="nx">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Union type (or)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">display</span><span class="p">(</span><span class="nx">string</span><span class="o">|</span><span class="nx">int</span> <span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Intersection type (and)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">count_and_interate</span><span class="p">(</span><span class="nx">Iterator</span><span class="o">&amp;</span><span class="nx">Countable</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Return any type (mixed)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">logInfo</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$info</span><span class="p">)</span> <span class="o">:</span> <span class="nx">mixed</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// No return (void)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">logInfo</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$info</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="enumerations">Enumerations</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// Declaration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">enum</span> <span class="nx">InvoiceStatus</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Sent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Paid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Cancelled</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// The enum can then be use as a type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">function</span> <span class="nf">printInvoiceStatus</span><span class="p">(</span><span class="nx">InvoiceStatus</span> <span class="nv">$status</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span><span class="p">(</span><span class="nv">$status</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">printInvoiceStatus</span><span class="p">(</span><span class="nx">InvoiceStatus</span><span class="o">::</span><span class="na">Sent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Sent
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// enum with return value and public function exemple
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">enum</span> <span class="nx">InvoiceStatus</span> <span class="o">:</span> <span class="nx">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Sent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Paid</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">Cancelled</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">text</span><span class="p">()</span> <span class="o">:</span> <span class="nx">string</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">match</span> <span class="p">(</span><span class="nv">$this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">self</span><span class="o">::</span><span class="na">Sent</span> <span class="o">=&gt;</span> <span class="s1">&#39;Sent&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">self</span><span class="o">::</span><span class="na">Paid</span> <span class="o">=&gt;</span> <span class="s1">&#39;Paid&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">self</span><span class="o">::</span><span class="na">Cancelled</span> <span class="o">=&gt;</span> <span class="s1">&#39;Cancelled&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">getInvoiceStatus</span><span class="p">(</span><span class="nx">InvoiceStatus</span> <span class="nv">$status</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span><span class="p">(</span><span class="nv">$status</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span><span class="p">(</span><span class="nv">$status</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">getInvoiceStatus</span><span class="p">(</span><span class="nx">InvoiceStatus</span><span class="o">::</span><span class="na">Paid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Paid1
+</span></span></span></code></pre></div><h2 id="files">Files</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// Get the current dir
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$current_dir</span> <span class="o">=</span> <span class="no">__DIR__</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Check if file exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">file_exists</span><span class="p">(</span><span class="s1">&#39;/posts/first.txt&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="nx">some</span> <span class="nx">stuff</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Read file content into one variable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$post</span> <span class="o">=</span> <span class="nx">file_get_contents</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//File read
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$file</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="s2">&#34;test.txt&#34;</span><span class="p">,</span> <span class="s2">&#34;r&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Output lines until EOF is reached
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span><span class="p">(</span><span class="o">!</span> <span class="nx">feof</span><span class="p">(</span><span class="nv">$file</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">$line</span> <span class="o">=</span> <span class="nx">fgets</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">echo</span> <span class="nv">$line</span><span class="o">.</span> <span class="s2">&#34;&lt;br&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fclose</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// File write (csv)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$file</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="s1">&#39;export.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Mike&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span> <span class="o">=&gt;</span> <span class="mi">45</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Write key name as csv header
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fputcsv</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span> <span class="nx">array_keys</span><span class="p">(</span><span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Write lines (format as csv)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fputcsv</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span> <span class="nv">$row</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fclose</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span></span></code></pre></div><h2 id="errors">Errors</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//Throw Error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">someCondition</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">&#39;Data format error&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Catch the Error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">checkData</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="oop">OOP</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//class declaration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// object instantiation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$person</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//class properties and constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">protected</span> <span class="nv">$firstName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">protected</span> <span class="nv">$lastName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$firstName</span><span class="p">,</span> <span class="nv">$lastName</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">firstName</span> <span class="o">=</span> <span class="nv">$firstName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">lastName</span> <span class="o">=</span> <span class="nv">$lastName</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Constructor Property Promotion (PHP 8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="k">protected</span> <span class="nv">$firstName</span><span class="p">,</span> <span class="k">protected</span> <span class="nv">$lastName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Getter and Setter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">is_string</span><span class="p">(</span><span class="nv">$name</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">&#39;$name must be a string!&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Readonly properties (PHP 8.1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="nx">readonly</span> <span class="nx">string</span> <span class="nv">$firstName</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="nx">readonly</span> <span class="nx">string</span> <span class="nv">$lastName</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//static constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="o">...</span><span class="nv">$params</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="nx">self</span><span class="p">(</span><span class="nv">$params</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$person</span> <span class="o">=</span> <span class="nx">Person</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nx">‘Mike’</span><span class="p">,</span> <span class="nx">‘Taylor’</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Static Method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">greeting</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">welcome</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;Hello World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Call static method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">greeting</span><span class="o">::</span><span class="na">welcome</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Static method call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">greeting</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">welcome</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;Hello World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span><span class="o">::</span><span class="na">welcome</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">greeting</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Static constant
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Connection</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="no">MAX_USER</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">Connection</span><span class="o">::</span><span class="na">MAX_USER</span> <span class="c1"># 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// class inheritance
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Customer</span> <span class="k">extends</span> <span class="nx">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">name</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">parent</span><span class="o">::</span><span class="na">name</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;Override method&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// self keyword reference current class (not modify by inheritance late binding like static will be)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">self</span><span class="o">::</span><span class="na">welcome</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Interface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">interface</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">function</span> <span class="nf">makeSound</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Cat</span> <span class="k">implements</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">function</span> <span class="nf">makeSound</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;Meow&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$animal</span><span class="o">-&gt;</span><span class="na">makeSound</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Trait (mix-in)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">trait</span> <span class="nx">HelloWorld</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s1">&#39;Hello World!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Greetings</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">use</span> <span class="nx">HelloWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Greetings</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$object</span><span class="o">-&gt;</span><span class="na">sayHello</span><span class="p">();</span>
+</span></span></code></pre></div><h2 id="superglobals">Superglobals</h2>
+<p><code>TODO</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$GLOBALS</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_REQUEST</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_GET</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_POST</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_SESSION</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_COOKIE</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_FILES</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_ENV</span>
+</span></span></code></pre></div><hr>
+<h2 id="references-">References 📔</h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/language.operators.php">PHP: Operators</a></li>
+<li><a href="https://www.php.net/manual/en/reserved.keywords.php">PHP Keywords</a></li>
+<li><a href="https://www.php.net/manual/en/indexes.functions.php">PHP Functions &amp; Methods</a></li>
+<li><a href="https://dev.to/ericchapman/series/16288">ModernPHP Series&rsquo; Articles</a></li>
+<li><a href="https://www.geeksforgeeks.org/php-superglobals/">PHP | Superglobals</a></li>
+<li><a href="https://code.tutsplus.com/php-superglobals-explained-with-cheatsheet--cms-36598t">PHP Superglobals Explained—With Cheatsheet</a></li>
+<li><a href="https://dev.to/ericchapman/php-cheat-sheet-updated-to-php-81-3o4p">PHP cheat sheet (updated to PHP 8.1)</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

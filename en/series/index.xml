@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/en/series/</link>
+    <description>Recent content in Series on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://blog2.cmwang.net/en/series/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

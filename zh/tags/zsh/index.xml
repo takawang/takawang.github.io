@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>zsh on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/zsh/</link>
+    <description>Recent content in zsh on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 13 Oct 2023 15:40:06 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/zsh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在 Ubuntu 設定 Powerlevel10k</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/10/install-powerlevel10k-on-ubuntu/</link>
+      <pubDate>Fri, 13 Oct 2023 15:40:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/10/install-powerlevel10k-on-ubuntu/</guid>
+      <description>記錄如何在 Ubuntu 設定 zsh 與 Powerlevel10k 及 zsh-autosuggestions</description>
+      <content:encoded><![CDATA[<h2 id="安裝-powerlevel10k-">安裝 Powerlevel10K 🚀</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安裝 Oh My Zsh：</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安裝主題</span>
+</span></span><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>安裝 Zsh：</strong></p>
+<p>如果你沒有安裝 Zsh，請使用以下命令安裝：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install zsh
+</span></span></code></pre></div></li>
+<li>
+<p><strong>安裝 Oh My Zsh：</strong></p>
+<p>執行以下命令安裝 Oh My Zsh：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>安裝 Powerlevel10k 主題：</strong></p>
+<p>將 Powerlevel10k Repo Clone 到 Oh My Zsh 的自定義主題目錄：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+</span></span></code></pre></div></li>
+<li>
+<p><strong>設定 Zsh 主題：</strong></p>
+<p>開啟你的 <code>~/.zshrc</code> 檔案：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ~/.zshrc
+</span></span></code></pre></div><p>找到以 <code>ZSH_THEME</code> 開頭的那一行，並將其改為：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;powerlevel10k/powerlevel10k&#34;</span>
+</span></span></code></pre></div><p>儲存檔案並退出。</p>
+</li>
+<li>
+<p><strong>安裝所需字型：</strong></p>
+<p>Powerlevel10k 使用特殊字元，因此你需要安裝包含這些字元的字型。Nerd Fonts 是常用的選擇。按照 <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts GitHub 倉庫</a> 上的說明安裝相容的字型。</p>
+</li>
+<li>
+<p><strong>配置 Powerlevel10k（可選）：</strong></p>
+<p>當你啟動新的 Terminal 時，Powerlevel10k 將提供執行配置引導的選項。按照指示自定義你的提示符。</p>
+</li>
+<li>
+<p><strong>重啟 Zsh：</strong></p>
+<p>重新啟動你的 Terminal，或者執行 <code>source ~/.zshrc</code> 以套用更改。</p>
+</li>
+</ol>
+<p>現在，Powerlevel10k 應該已經在你的 Ubuntu 22.04 系統上安裝並配置完成。</p>
+<h2 id="安裝-zsh-autosuggestions-">安裝 zsh-autosuggestions 🚀</h2>
+<p>Powerlevel10k 不會改變 Zsh 在自動補齊的預設行為；它主要增強和自定義提示符的外觀。自動補齊的行為主要由 Zsh 配置控制。</p>
+<p>如果你想在 Zsh 的自動補齊啟用建議，你可以使用 <code>zsh-autosuggestions</code> 外掛。該外掛提供類似 fish 的提示，與 Powerlevel10k 配合使用效果很好。</p>
+<p>以下是安裝和配置 <code>zsh-autosuggestions</code> 的步驟：</p>
+<ol>
+<li>
+<p><strong>安裝 zsh-autosuggestions：</strong></p>
+<p>你可以使用你喜歡的方法安裝它。一個常見的方法是透過外掛管理器，比如 <code>oh-my-zsh</code>。</p>
+<p>如果你使用 <code>oh-my-zsh</code>，你也可以手動克隆倉庫：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+</span></span></code></pre></div></li>
+<li>
+<p><strong>啟用 zsh-autosuggestions：</strong></p>
+<p>更新你的 <code>~/.zshrc</code> 檔案以啟用該外掛。在 <code>plugins</code> 行中新增或修改 <code>zsh-autosuggestions</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>zsh-autosuggestions<span class="o">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>重啟 Zsh 或重新載入配置：</strong></p>
+<p>重新啟動你的 Terminal，或者執行以下命令以應用更改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
+</span></span></code></pre></div></li>
+</ol>
+<p>現在，當你鍵入時，你應該會看到基於你的命令歷史的自動建議。</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

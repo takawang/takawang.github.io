@@ -1,0 +1,1375 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CSS on Liberation Notes</title>
+    <link>https://blog2.cmwang.net/zh/tags/css/</link>
+    <description>Recent content in CSS on Liberation Notes</description>
+    <image>
+      <title>Liberation Notes</title>
+      <url>https://blog2.cmwang.net/47</url>
+      <link>https://blog2.cmwang.net/47</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 25 Dec 2023 20:25:54 +0800</lastBuildDate>
+    <atom:link href="https://blog2.cmwang.net/zh/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SCSS Crash Course</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/12/scss-crash-course/</link>
+      <pubDate>Mon, 25 Dec 2023 20:25:54 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/12/scss-crash-course/</guid>
+      <description>SCSS Crash Course</description>
+      <content:encoded><![CDATA[<p>SCSS 是一種用於簡化和增強 CSS 的語言，它具有變數、巢狀規則、混入、函數等功能，使得 CSS 更易於維護和擴展。</p>
+<h2 id="1-安裝-sass">1. 安裝 Sass</h2>
+<p>首先，確保你的開發環境中已經安裝了 Sass。你可以使用 npm（Node.js 包管理器）來安裝 Sass：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install -g sass
+</span></span></code></pre></div><h2 id="2-創建-scss-文件">2. 創建 SCSS 文件</h2>
+<p>在你的專案中，創建一個新的 <code>.scss</code> 文件，例如 <code>styles.scss</code>。</p>
+<h2 id="3-基本語法">3. 基本語法</h2>
+<h3 id="變數-variable-">變數 (Variable) 🔥</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="nv">$primary-color</span><span class="o">:</span> <span class="mh">#3498db</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$font-size</span><span class="o">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">color</span><span class="o">:</span> <span class="nv">$primary-color</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">font-size</span><span class="o">:</span> <span class="nv">$font-size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="巢狀規則-nested-">巢狀規則 (Nested) 🔥</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">background</span><span class="o">:</span> <span class="nv">$primary-color</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">ul</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">list-style</span><span class="o">:</span> <span class="ni">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">li</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="na">display</span><span class="o">:</span> <span class="ni">inline-block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">margin-right</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>對應的 CSS</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">nav</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">background</span><span class="o">:</span> <span class="nv">$primary</span><span class="o">-</span><span class="nx">color</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">nav</span> <span class="nx">ul</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">list</span><span class="o">-</span><span class="nx">style</span><span class="o">:</span> <span class="nx">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">padding</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">nav</span> <span class="nx">ul</span> <span class="nx">li</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">display</span><span class="o">:</span> <span class="nx">inline</span><span class="o">-</span><span class="nx">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">margin</span><span class="o">-</span><span class="nx">right</span><span class="o">:</span> <span class="mi">10</span><span class="nx">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="父選擇器或巢狀選擇器-parent-selector-">父選擇器或巢狀選擇器 (Parent Selector) 🔥</h3>
+<p>在 SCSS 中，<code>&amp;</code> 符號被稱為“父選擇器”（Parent Selector）或“嵌套選擇器”（Nested Selector）。它在 SCSS 中的主要作用是引用父選擇器的上下文，使得在嵌套的情況下能夠更靈活地構建和生成 CSS。</p>
+<p>以下是一些常見用法：</p>
+<ol>
+<li>
+<p><strong>嵌套選擇器：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">background</span><span class="o">:</span> <span class="mh">#333</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">color</span><span class="o">:</span> <span class="mh">#fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="na">text-decoration</span><span class="o">:</span> <span class="ni">underline</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>對應的 CSS：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="mh">#333</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="nt">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="nt">a</span><span class="p">:</span><span class="nd">hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">text-decoration</span><span class="p">:</span> <span class="kc">underline</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這裡，<code>&amp;</code> 用於引用其上下文中的父選擇器 <code>nav</code>。</p>
+</li>
+<li>
+<p><strong>擴展選擇器：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="nc">.button</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">background</span><span class="o">:</span> <span class="no">blue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">&amp;</span><span class="nc">.active</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">background</span><span class="o">:</span> <span class="no">red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>對應的 CSS：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">button</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="kc">blue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">button</span><span class="p">.</span><span class="nc">active</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="kc">red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這裡，<code>&amp;</code> 被用於嵌套地構建 <code>.button.active</code>。</p>
+</li>
+</ol>
+<h3 id="混入-mixin-">混入 (Mixin) 🔥</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="k">@mixin</span><span class="nf"> border-radius</span><span class="p">(</span><span class="nv">$radius</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">-webkit-border-radius</span><span class="o">:</span> <span class="nv">$radius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">-moz-border-radius</span><span class="o">:</span> <span class="nv">$radius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">border-radius</span><span class="o">:</span> <span class="nv">$radius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@include</span><span class="nd"> border-radius</span><span class="p">(</span><span class="mi">10</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="導入-import-">導入 (Import) 💡</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="c1">// _variables.scss
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$primary-color</span><span class="o">:</span> <span class="mh">#3498db</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// styles.scss
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">@import</span> <span class="s2">&#34;variables&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">color</span><span class="o">:</span> <span class="nv">$primary-color</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="擴展-extend-">擴展 (Extend) 💡</h3>
+<p>擴展是一種 SCSS 功能，允許你使用一個選擇器的樣式來擴展另一個選擇器的樣式，類似於 CSS 中的類。這可以減少代碼的重複並提高可維護性。</p>
+<ul>
+<li>
+<p>SCSS 範例</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="o">%</span><span class="nc">button-style</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">display</span><span class="o">:</span> <span class="ni">inline-block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">padding</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">font-size</span><span class="o">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.btn-primary</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@extend</span> <span class="o">%</span><span class="nc">button-style</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">background-color</span><span class="o">:</span> <span class="mh">#3498db</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">color</span><span class="o">:</span> <span class="mh">#fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.btn-secondary</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@extend</span> <span class="o">%</span><span class="nc">button-style</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">background-color</span><span class="o">:</span> <span class="mh">#e74c3c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">color</span><span class="o">:</span> <span class="mh">#fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這個例子中，<code>%button-style</code> 是一個 placeholder，它包含了通用的按鈕樣式。然後，<code>btn-primary</code> 和 <code>btn-secondary</code> 透過 <code>@extend</code> 將這些通用樣式擴展到具體的按鈕類別中。</p>
+</li>
+<li>
+<p>對應的 CSS</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">.</span><span class="nx">btn</span><span class="o">-</span><span class="nx">primary</span><span class="p">,</span> <span class="o">.</span><span class="nx">btn</span><span class="o">-</span><span class="nx">secondary</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">display</span><span class="o">:</span> <span class="nx">inline</span><span class="o">-</span><span class="nx">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">padding</span><span class="o">:</span> <span class="mi">10</span><span class="nx">px</span> <span class="mi">20</span><span class="nx">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span><span class="o">:</span> <span class="mi">16</span><span class="nx">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="nx">btn</span><span class="o">-</span><span class="nx">primary</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">background</span><span class="o">-</span><span class="nx">color</span><span class="o">:</span> <span class="c1">#3498db;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">color</span><span class="o">:</span> <span class="c1">#fff;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">.</span><span class="nx">btn</span><span class="o">-</span><span class="nx">secondary</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">background</span><span class="o">-</span><span class="nx">color</span><span class="o">:</span> <span class="c1">#e74c3c;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">color</span><span class="o">:</span> <span class="c1">#fff;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="函數-function">函數 (Function)</h3>
+<p>SCSS 允許你定義和使用函數，這樣你就可以更靈活地處理數據和生成樣式。</p>
+<ul>
+<li>
+<p>SCSS 範例</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="k">@function</span><span class="nf"> calculate-width</span><span class="p">(</span><span class="nv">$width</span><span class="o">,</span> <span class="nv">$padding</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@return</span> <span class="nv">$width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="nv">$padding</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">width</span><span class="o">:</span> <span class="nf">calculate-width</span><span class="p">(</span><span class="mi">200</span><span class="kt">px</span><span class="o">,</span> <span class="mi">10</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="na">padding</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這個例子中，<code>calculate-width</code> 函數接受兩個參數：<code>$width</code> 和 <code>$padding</code>，然後返回計算後的寬度。這個函數被用於設置 <code>.container</code> 元素的寬度。</p>
+</li>
+</ul>
+<h2 id="4-編譯-scss-到-css">4. 編譯 SCSS 到 CSS</h2>
+<p>在終端機中執行以下命令，將你的 SCSS 文件編譯成 CSS：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sass input.scss output.css
+</span></span></code></pre></div><p>或者，如果你想要在每次保存文件時自動編譯，可以使用以下命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sass --watch input.scss:output.css
+</span></span></code></pre></div><ul>
+<li>
+<ol start="5">
+<li>Sass 與 SCSS 語法差異</li>
+</ol>
+<p>Sass（Syntactically Awesome Stylesheets）和 SCSS（Sassy CSS）都是 CSS 預處理器，它們提供了一些額外的功能和語法來更有效地編寫和管理樣式表。以下是 Sass 和 SCSS 的主要差異：</p>
+<ol>
+<li><strong>語法差異：</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>Sass：</strong> 使用縮進來表示區塊和層次結構，並且不使用分號和大括號。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sass" data-lang="sass"><span class="line"><span class="cl"><span class="nt">body</span>
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">font</span><span class="o">:</span> <span class="mi">14</span><span class="kt">px</span><span class="o">/</span><span class="mi">1</span><span class="mf">.4</span> <span class="s2">&#34;Helvetica Neue&#34;</span><span class="o">,</span> <span class="no">sans-serif</span>
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">color</span><span class="o">:</span> <span class="mh">#333</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.container</span>
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="no">auto</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>SCSS：</strong> 使用大括號表示區塊和分號來結束每個聲明，更接近傳統的 CSS 語法。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">font</span><span class="o">:</span> <span class="mi">14</span><span class="kt">px</span><span class="o">/</span><span class="mi">1</span><span class="mf">.4</span> <span class="s2">&#34;Helvetica Neue&#34;</span><span class="o">,</span> <span class="ni">sans-serif</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">color</span><span class="o">:</span> <span class="mh">#333</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">.container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="ni">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<ol start="2">
+<li><strong>文件擴展名：</strong></li>
+</ol>
+<ul>
+<li><strong>Sass：</strong> Sass 文件使用 <code>.sass</code> 作為擴展名。</li>
+<li><strong>SCSS：</strong> SCSS 文件使用 <code>.scss</code> 作為擴展名。</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Grid</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-grid/</link>
+      <pubDate>Tue, 14 Nov 2023 11:22:04 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-grid/</guid>
+      <description>CSS Grid 網格</description>
+      <content:encoded><![CDATA[<iframe width="100%" height="600px" src="https://takawang.github.io/css/grid/"></iframe>
+<h2 id="terminology">Terminology</h2>
+<ul>
+<li>網格項目 (grid item): 網格布局中的元素，可以是任何 HTML 元素。</li>
+<li>網格單元格 (grid cell): 網格中的一個矩形區域，由行和列組成。</li>
+<li>網格軌道 (grid track): 網格中一行或一列的區域。</li>
+</ul>
+<p><img loading="lazy" src="term.png" alt="CSS Grid terminology"  />
+</p>
+<h2 id="grid-sizing">Grid Sizing</h2>
+<blockquote>
+<p>fr 是指 &ldquo;fractional unit&rdquo;，它是一種相對單位，用於指定網格容器（grid container）中的列（columns）或行（rows）的大小</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* auto */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">100</span><span class="kt">px</span> <span class="kc">auto</span><span class="p">;</span> <span class="c">/* 高的 auto 只會 fit content */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="kc">auto</span><span class="p">;</span> <span class="c">/* 寬的 auto 會填滿 100%寬 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* minmax */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">400</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">400</span><span class="kt">px</span><span class="p">,</span> <span class="mi">800</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* repeat */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span> <span class="c">/* 8 columns, each 100px wide */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span> <span class="c">/* 8 rows, each 100px tall */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* grid auto rows 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-rows</span><span class="p">:</span> <span class="mi">300</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 超出的格子，未來設為高度300px 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="position-grid-items">Position Grid Items</h2>
+<h3 id="1-使用-grid-column-和-grid-row-屬性">1. 使用 <code>grid-column</code> 和 <code>grid-row</code> 屬性</h3>
+<p>這種方式通過指定網格項目的起始和終止線的位置來定位它。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span> <span class="c">/* 從第 2 col 到第 4 col */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span> <span class="c">/* 從第 1 row 到第 3 row */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">span</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">-1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">/* ... 以下參考就好，不要用 ❌ */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="n">span</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column-start</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column-end</span><span class="p">:</span> <span class="mi">-1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-area</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span> <span class="c">/* row-start, column-start, row-end, column-end  */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="2-使用命名的網格線named-grid-lines">2. 使用命名的網格線（Named Grid Lines）</h3>
+<p>你可以在 <code>grid-template-columns</code> 和 <code>grid-template-rows</code> 屬性中使用名稱來定義網格線，然後在 <code>grid-column</code> 和 <code>grid-row</code> 屬性中使用這些名稱。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="p">[</span><span class="n">col1</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span> <span class="p">[</span><span class="n">col2</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span> <span class="p">[</span><span class="n">col3</span> <span class="n">test</span><span class="p">]</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="p">[</span><span class="n">row1</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span> <span class="p">[</span><span class="n">row2</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span> <span class="p">[</span><span class="n">row3</span><span class="p">]</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="n">col1</span> <span class="o">/</span> <span class="n">col3</span> <span class="o">|</span> <span class="n">test</span><span class="p">;</span> <span class="c">/* 從 col1 到 col3 的列 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="n">row1</span> <span class="o">/</span> <span class="n">row3</span><span class="p">;</span> <span class="c">/* 從 row1 到 row3 的行 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3-使用命名的網格區域named-grid-areas">3. 使用命名的網格區域（Named Grid Areas）：</h3>
+<p>你可以在網格容器中使用 <code>grid-template-areas</code> 屬性為不同的區域命名，然後在網格項目中使用 <code>grid-area</code> 屬性引用這些名稱。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-areas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;header header .&#34;</span> <span class="c">/* 用點留白 🔥 */</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;main main sidebar&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;footer footer footer&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-item</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-area</span><span class="p">:</span> <span class="n">main</span><span class="p">;</span> <span class="c">/* 使用 &#34;main&#34; 命名的區域 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="implicit-grids">Implicit Grids</h2>
+<p>在 CSS Grid 中，<code>grid-auto-rows|columns</code> 和 <code>grid-auto-flow</code> 是用於控制網格自動生成的兩個重要屬性。</p>
+<h3 id="1-grid-auto-rows-與grid-auto-columns">1. <code>grid-auto-rows</code> 與<code>grid-auto-columns</code></h3>
+<p><code>grid-auto-rows</code> 屬性用於指定網格容器中那些由<strong>自動生成</strong>的列的高度。當你的網格項目超出了你在 <code>grid-template-rows</code> 中明確定義的列數時，這些額外的列會由 <code>grid-auto-rows</code> 屬性來控制。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="mi">100</span><span class="kt">px</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 兩個明確定義的行 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-rows</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* 自動生成的行的高度 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在這個例子中，如果你有超過兩個網格項目，額外的行高度將為 50px。</p>
+<h3 id="2-grid-auto-flow">2. <code>grid-auto-flow</code></h3>
+<p><code>grid-auto-flow</code> 屬性用於指定在添加新的網格項目時，它們應該如何放置到網格容器中。這個屬性有四個值：</p>
+<ul>
+<li><code>row</code>（預設值）：新的項目將按照行添加。</li>
+<li><code>column</code>：新的項目將按照列添加。</li>
+<li><code>dense</code>：網格容器將嘗試將項目填充到所有的空隙，而不僅僅是按照順序添加。</li>
+<li><code>dense column</code>：組合了 <code>dense</code> 和 <code>column</code>，新的項目將按照列添加，同時容器會嘗試填充所有的空隙。</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">grid-container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-auto-flow</span><span class="p">:</span> <span class="kc">column</span><span class="p">;</span> <span class="c">/* 新的項目將按照直行添加 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="css-grid-中的大小選項">CSS Grid 中的大小選項</h2>
+<p>在 CSS Grid 中，<code>min-content</code>、<code>max-content</code>和<code>minmax()</code>函數被用來以一種靈活且具有響應性的方式來定義網格軌道（行或列）的大小。</p>
+<ol>
+<li>
+<p><strong><code>min-content</code></strong>：這個關鍵字將軌道的大小設置為其內容的<strong>最小內在</strong>大小。換句話說，它使軌道的大小盡可能小，同時仍然容納其內容。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-columns</span><span class="o">:</span> <span class="nt">min-content</span> <span class="nt">1fr</span> <span class="nt">min-content</span><span class="o">;</span>
+</span></span></code></pre></div><p>在這個例子中，第一行和第三行將根據它們包含的最小內容寬度來設置大小，而第二行將占據剩餘的可用空間。</p>
+</li>
+<li>
+<p><strong><code>max-content</code></strong>：這個關鍵字將軌道的大小設置為其內容的<strong>最大內在</strong>大小。它使軌道的大小足以容納其內容，而不會溢出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-columns</span><span class="o">:</span> <span class="nt">max-content</span> <span class="nt">1fr</span> <span class="nt">max-content</span><span class="o">;</span>
+</span></span></code></pre></div><p>類似於<code>min-content</code>，這個例子將基於它們包含的最大內容寬度來設置第一列和第三列的大小，而第二行將占據剩餘的可用空間。</p>
+</li>
+<li>
+<p><strong><code>minmax(min, max)</code></strong>：這個函數允許你為軌道的大小指定一個範圍。它接受兩個參數，即<strong>最小大小</strong>和<strong>最大大小</strong>。瀏覽器將根據網格容器中的可用空間在這些值之間分配空間。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>minmax() 可以用以下任何值:</p>
+<ul>
+<li>長度</li>
+<li>%</li>
+<li>fr</li>
+<li>max-content</li>
+<li>min-content</li>
+<li>auto</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">grid-template-rows</span><span class="o">:</span> <span class="nt">minmax</span><span class="o">(</span><span class="nt">min-content</span><span class="o">,</span> <span class="nt">200px</span><span class="o">)</span> <span class="nt">1fr</span> <span class="nt">minmax</span><span class="o">(</span><span class="nt">100px</span><span class="o">,</span> <span class="nt">max-content</span><span class="o">);</span>
+</span></span></code></pre></div><p>在這個例子中，第一列的大小將基於最小內容寬度，但不會小於內容的內在大小。第二列占據剩餘的空間，而第三列的大小將基於最大內容寬度，但不會大於 200 像素。</p>
+<h2 id="grid-auto-fill-與-auto-fit">Grid <code>auto-fill</code> 與 <code>auto-fit</code></h2>
+<p>在 CSS Grid 中，<code>auto-fill</code>和<code>auto-fit</code>是與<code>grid-template-columns</code>和<code>grid-template-rows</code>屬性一起使用的兩個值。</p>
+<ol>
+<li>
+<p><code>Auto-fill</code></p>
+<ul>
+<li><code>auto-fill</code>關鍵字用於重複可用的網格軌道（列或行）盡可能多次，以填充可用空間。</li>
+<li>它創建盡可能多的軌道，而不會溢出容器。</li>
+</ul>
+<p>例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="kc">fill</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在此示例中，<code>grid-template-columns</code>屬性設置為<code>repeat(auto-fill, minmax(100px, 1fr));</code>。它創建盡可能多的行，最小大小為<code>100px</code>，最大大小為<code>1fr</code>（可用空間的一部分）。</p>
+</li>
+<li>
+<p><code>Auto-fit</code></p>
+<ul>
+<li><code>auto-fit</code>關鍵字與<code>auto-fill</code>類似，但它還會折疊任何空的軌道。如果項目未填滿所有可用的軌道，則空的軌道將被折疊(寬度為 0)，<strong>網格僅占據必要的空間</strong>。</li>
+</ul>
+<p>例子 (RWD Trick 🔥🔥🔥)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>類似於前一個例子，這裡使用了<code>auto-fit</code>。它創建盡可能多的行，最小大小為<code>100px</code>，最大大小為<code>1fr</code>，但任何空的軌道都將折疊，網格容器僅占據必要的寬度。</p>
+<hr>
+</li>
+</ol>
+<p>以下是一些使用 <code>auto-fill</code> 和 <code>auto-fit</code> 的示例：</p>
+<ul>
+<li><strong>創建一個響應式網格，該網格將根據屏幕的寬度自動調整 col 數：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="kc">fill</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong>創建具有固定 col 數的網格，無論屏幕的寬度是多少：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong>創建具有 col 的網格，這些 col 始終具有相同的寬度，無論網格項的數量是多少：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="mi">100</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS 透明度、可見性和顯示的區別</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/</link>
+      <pubDate>Mon, 13 Nov 2023 13:50:46 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-opacity-visibility-display/</guid>
+      <description>Unveiling the Veil: Understanding CSS Opacity, Visibility, and Display</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>key differences between opacity: 0, visibility: hidden, and display: none:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Visibility</th>
+<th>Layout</th>
+<th>Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opacity: 0</code></td>
+<td>Invisible</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>visibility: hidden</code></td>
+<td>Invisible</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>display: none</code></td>
+<td>Hidden</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  	
+	
+
+	
+		<script src="/shortcode-gallery/jquery-3.7.1.min.js"></script>
+	
+	
+	
+		<script src="/shortcode-gallery/lazy/jquery.lazy.min.js"></script>
+	
+
+	<script src="/shortcode-gallery/swipebox/js/jquery.swipebox.min.js"></script>
+	<link rel="stylesheet" href="/shortcode-gallery/swipebox/css/swipebox.min.css">
+
+	<script src="/shortcode-gallery/justified_gallery/jquery.justifiedGallery.min.js"></script>
+	<link rel="stylesheet" href="/shortcode-gallery/justified_gallery/justifiedGallery.min.css"/>
+
+
+<style>
+	
+
+	
+</style>
+
+
+
+
+
+<div id="gallery-57e5c498e48c692d40f88275ec05b1ba-0-wrapper" class="gallery-wrapper">
+<div id="gallery-57e5c498e48c692d40f88275ec05b1ba-0" class="justified-gallery">
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5596.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW85baOp7U7Y/8AdNQJI7W4kMsqAEgiMLzz7ilW8RCCzzttzkELz9cUrEKCsS7G/umkpyXsU25VDA4yMjrVMXhx/q/1pMmSsShPKtNpkKtu6gkd/aoP3hkISdz/AMDkP9MVcPIwenpQvy/dOPpTTKU0LCJDEwaQtgEYIP8AMis8W0uPufqK0Nzf3jSUmTKVz//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5596_hu7f4b4d2c2edffd83f5f66cd9c9c8f952_101146_30f7c86a5701abf58c25bf6fb91e4d3d.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5597.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRDhiBxmk89DjAZs9MKTWHqmhaV4gukkv7COaVI9qszsMDOccEepq9puj2Oj2Zs9Og&#43;zQkltqOx5IAzyfYUJIyUb6miTgKSCN3QEYNFZ6wtYgETzTFj/AMtpC2OD0p/2qX2/KlJJPQnW2qsLFC8cwZxtG0/0qV7iGP78uMjP3GP8hU&#43;0EgntRtTg7EyOh2jihNWKUrEFxCZFiKupDHIP4VH9jf8AvLVvBONzZ29OMUUmJu5//9k="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5597_hu22ab2c40678546e28814141d2446a7d5_76103_c1eb864404517c88e9a3583bdee9471c.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5598.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW85baOp7U7Y/8AdNQRyM1sJGklTkg&#43;WF9fekW6Qf8ALa4IK9wv50kkQoKxPsb&#43;6aSmW83mFyss7gAkhwuB&#43;QzUAvDj/V/rQ1YUo22JlTyrTaZCpz1BI7&#43;1RDOc/aWz/wBdHqyeRtPT0pNi&#43;g/IUJjU0LbqGic&#43;azsARjeeOPQ1QFtLj7n6ir4G0kjjPXFFJkylc//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5598_hu527bec6fd37ae742d2fcf60d9695602a_110500_38b02e9ad1cb679d2879b74d2cae9d2a.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5599.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRDhmAOM037TFkAEkt0AGaw9Q8O6LrmoC5v9OSaYx7S5kYcDoOCPU1j3WneB/C15atdwpZ3YHmRMnnNg/wB4YyOuetJJGSj1O4JwFJBG7oCMGiuNh8c&#43;GbbPl61NOc8&#43;dHK23j3X3rpftUvt&#43;VEkk9CdbaqwsULxzBnG0bT/AEqSWeJFIabYSuQQjH29KsbQSCe1G1ODsTI6HaOKaasUpGfFp80Uahr03IdtylhjHXP86l&#43;xv/eWreCcbmzt6cYopSd3clJJWR//2Q=="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5599_hu284c77e05f0ad30b2052bcd08d739c2c_92186_c8ec880758f8528062bf2056374d9532.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5600.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APW6KjgeV41cRCTrnkD&#43;YqfL7QRarnJyCwpcpmoNjKKnZVEZbYoOM9KzhenH3P1pEuNiUQoLXy5Io5eehbBqNIYkyRp8RznIMgP86s0UXK5xIRGFci3hgYgj5SMn8qpfZpcfc/UVeooJcrn/2Q=="
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5600_hudec4ab41b4aa45b76de306d12467581b_76953_07f3d38208f727062ea2dda30dbc63de.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+		
+		
+				
+			
+			
+			
+				
+			
+
+			
+			
+				
+					
+				
+			
+
+
+			
+			
+
+			
+			
+
+
+			<div>
+				
+				
+					
+					
+				
+				<a href="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5601.JPG" 
+					class="galleryImg"
+					
+						
+
+						
+							data-description="<br/> "
+						
+
+						
+					
+					>
+					<img			
+						width="480" height="600"
+
+						
+							
+							style="filter: blur(25px);"
+							
+								src="data:image/jpeg;base64,/9j/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4&#43;JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O//AABEIACAAGgMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5&#43;gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4&#43;Tl5ufo6ery8/T19vf4&#43;fr/2gAMAwEAAhEDEQA/APWWkRPvHHBNNFxGSAMsT/dGaytS0nTPEEsI1OyScQKxTc7DbnGehHoKr6b4a0DQpxc2dqttcmIoXjaQ8EjOOvcUJaGSR0JOApII3dARg0VQW3axjR1uZZxIeDLIXxwelO&#43;1S&#43;35UpJJ6E621Vh0ETxzAuowVPU/SpZHiX&#43;O3QgZXeV49&#43;e2alKhuvpimm3hYgtGCR0yTTTSQ0yr5N&#43;6It1JA3OU8tcDoc/0p32N/wC8tW8DCgAAJ0AopSd3cVraI//Z"
+							
+							class="lazy"
+							data-src="/zh/posts/2023/11/css-opacity-visibility-display/images/IMG_5601_huae7c82c443566df6f80c0c29e6cd7c27_89040_8c9ba488dda40dec35566121c146d557.JPG"
+						
+
+						
+							
+								
+							
+						
+					>
+				</a>
+			</div>
+		
+	
+</div>
+</div>
+
+<script>
+	if (!jQuery) {
+		alert("jquery is not loaded");
+	}
+
+	$( document ).ready(() => {
+		const gallery = $("#gallery-57e5c498e48c692d40f88275ec05b1ba-0");
+		
+
+		
+		let swipeboxInstance = null;
+
+		
+		
+		gallery.on('jg.complete', () => {
+			
+				
+				
+				$(() => {
+					$('.lazy').Lazy({
+						visibleOnly: true,
+						afterLoad: element => element.css({filter: "none", transition: "filter 1.0s ease-in-out"})
+					});
+				});
+			
+
+			swipeboxInstance = $('.galleryImg').swipebox(
+				jQuery.extend({},
+					{  }
+				)
+			);
+		});
+
+		
+		gallery.justifiedGallery({
+			rowHeight : "300",
+			margins : "5",
+			border : 0,
+			randomize :  false ,
+			waitThumbnailsLoad : false,
+			lastRow : "justify",
+			captions : false,
+			
+			
+		});
+
+		
+		
+	});
+</script>
+
+]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Units</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-units/</link>
+      <pubDate>Mon, 13 Nov 2023 12:59:39 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-units/</guid>
+      <description>CSS Units</description>
+      <content:encoded><![CDATA[<h2 id="-百分比"><code>%</code> 百分比</h2>
+<ul>
+<li>如果用於指定<strong>字體</strong>大小，則相對於其<code>父元素</code>的字體大小進行測量。</li>
+<li>如果用於指定<strong>長度</strong>，則相對於其<code>父元素</code>的寬度進行測量。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* 父元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">parent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">300</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* 子元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">child</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span> <span class="c">/* 字體大小相對於父元素的字體大小, 16px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span> <span class="c">/* 寬度相對於父元素的寬度, 150px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span> <span class="c">/* 內部填充相對於當前的字體大小 16px */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="em-相對-em"><code>em</code> (相對 EM)</h2>
+<ul>
+<li>如果用於指定<strong>字體</strong>大小，則相對於其<code>父元素</code>的字體大小進行測量。</li>
+<li>如果用於指定<strong>長度</strong>，則相對於<code>當前</code>的字體大小進行測量。 🔥</li>
+</ul>
+<blockquote>
+<p>用 EM 指定長度，<strong>需注意是用當前字體大小當基準</strong>。若當前沒指定，用繼承來的字體大小當基準。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* 父元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">parent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">300</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* 子元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">child</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span> <span class="c">/* 字體大小相對於父元素的字體大小 32px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span> <span class="c">/* 寬度相對於相對於[當前]的字體 32px x 3 = 96 px 🔥 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="rem-root-em"><code>rem</code> (Root EM)</h2>
+<ul>
+<li>REM (Root EM) 是相對於文檔的 Root element (<code>html</code> 元素) 的字體大小進行測量。</li>
+<li>REM 提供了一種統一的基準，使得在整個文檔中可以輕鬆地維護一致的尺寸比例。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* 設定根元素字體大小 */</span>
+</span></span><span class="line"><span class="cl"><span class="nt">html</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* 父元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">parent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">1</span><span class="kt">rem</span><span class="p">;</span> <span class="c">/* 字體大小相對於根元素 16px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">300</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* 子元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">child</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">2</span><span class="kt">rem</span><span class="p">;</span> <span class="c">/* 字體大小相對於根元素 32px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">3</span><span class="kt">rem</span><span class="p">;</span> <span class="c">/* 寬度相對於根元素 48px */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="vw-與-vh-viewport-width--height"><code>vw</code> 與 <code>vh</code> (Viewport Width &amp; Height)</h2>
+<ul>
+<li><code>vw</code> 表示相對於視窗寬度的百分比。</li>
+<li><code>vh</code> 表示相對於視窗高度的百分比。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* 父元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">parent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">50</span><span class="kt">vw</span><span class="p">;</span> <span class="c">/* 寬度相對於視窗寬度的50% */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* 子元素 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">child</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span> <span class="c">/* 字體大小相對於父元素的字體大小 32px */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">50</span><span class="kt">vh</span><span class="p">;</span> <span class="c">/* 寬度相對於視窗高度的50% */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Tricks</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-tricks/</link>
+      <pubDate>Mon, 13 Nov 2023 12:27:06 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-tricks/</guid>
+      <description>CSS Tricks (reset, center, faded overlay &amp;hellip;)</description>
+      <content:encoded><![CDATA[<h2 id="css-reset">CSS Reset</h2>
+<blockquote>
+<p>Do not set the font property in the universal selector. Instead, set it in the body selector for inheritance and performance.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="o">*,</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="p">::</span><span class="nd">before</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="p">::</span><span class="nd">after</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">inherit</span><span class="p">;</span> <span class="c">/* border-box */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">html</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">62.5</span><span class="kt">%</span><span class="p">;</span> <span class="c">/* 10px = 16px * 62.5% */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span> <span class="c">/* here */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-family</span><span class="p">:</span> <span class="o">....</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-weight</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">line-height</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="element-center-簡易版">Element Center (簡易版)</h2>
+<ul>
+<li>The easiest way to center anything with the transform, top and left properties.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">text-box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span> <span class="c">/* relative to parent container */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">top</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transfrom</span><span class="p">:</span> <span class="nb">translate</span><span class="p">(</span><span class="mi">-50</span><span class="kt">%</span><span class="p">,</span> <span class="mi">-50</span><span class="kt">%</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="faded-overlay-on-image">Faded overlay on image</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">header</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">height</span><span class="p">:</span> <span class="mi">95</span><span class="kt">vh</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-image</span><span class="p">:</span> <span class="nb">linear-gradient</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">to</span> <span class="kc">right</span> <span class="kc">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">rgba</span><span class="p">(</span><span class="mi">126</span><span class="p">,</span> <span class="mi">213</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">rgba</span><span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">133</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span> <span class="nb">url</span><span class="p">(</span><span class="sx">img/hero.jpg</span><span class="p">);</span> <span class="c">/* two layers */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-size</span><span class="p">:</span> <span class="kc">cover</span><span class="p">;</span> <span class="c">/* 背景圖片會被縮放以完全覆蓋背景區，可能背景圖片部分看不見 */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">background-position</span><span class="p">:</span> <span class="kc">top</span><span class="p">;</span> <span class="c">/* 縮放時，上半部不會被裁切 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="fade-in-animation">Fade in Animation</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">@</span><span class="k">keyframes</span> <span class="nt">moveInLeft</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">0</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">opacity</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translateX</span><span class="p">(</span><span class="mi">-100</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">80</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translateX</span><span class="p">(</span><span class="mi">20</span><span class="kt">px</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nt">100</span><span class="o">%</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">opacity</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">transform</span><span class="p">:</span> <span class="nb">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c">/* reset */</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">who-need-this-animation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c">/* animation */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-name</span><span class="p">:</span> <span class="n">moveInLeft</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-duration</span><span class="p">:</span> <span class="mi">1</span><span class="kt">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">animation-timing-function</span><span class="p">:</span> <span class="kc">ease-out</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="rwd-grid">RWD Grid</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="o">-</span><span class="n">fit</span><span class="p">,</span> <span class="nf">minmax</span><span class="p">(</span><span class="mi">100</span><span class="kt">px</span><span class="p">,</span> <span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Critical Rendering Path (CRP)</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-crp/</link>
+      <pubDate>Sun, 12 Nov 2023 15:40:59 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-crp/</guid>
+      <description>這篇文章只有英文版的</description>
+      <content:encoded><![CDATA[<blockquote>
+<p><strong>Behind the scenes when a web page is loaded and rendered:</strong></p>
+</blockquote>
+<ol>
+<li>
+<p><code>Load HTML</code></p>
+<ul>
+<li>The browser starts by fetching and loading the HTML file.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse HTML</code></p>
+<ul>
+<li>The HTML file is parsed to create the Document Object Model (DOM). The DOM represents the structure of the document as a tree of objects, where each object corresponds to a part of the document (e.g., elements, attributes).</li>
+</ul>
+</li>
+<li>
+<p><code>Load CSS</code></p>
+<ul>
+<li>If there are linked or inline stylesheets in the HTML, the browser fetches and loads them.</li>
+</ul>
+</li>
+<li>
+<p><code>Parse CSS</code></p>
+<ul>
+<li>The loaded CSS files are parsed to create the CSS Object Model (CSSOM). This represents the styles and layout information defined in the CSS.</li>
+<li><strong>Resolve Conflicting CSS Declarations:</strong>
+<ul>
+<li>If there are conflicting CSS declarations (i.e., rules that apply to the same element and property), the browser uses a specific set of rules to determine which styles take precedence.</li>
+</ul>
+</li>
+<li><strong>Process Final CSS Values:</strong>
+<ul>
+<li>The browser processes the final computed values for each CSS property, taking into account inheritance, specificity, and other rules.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Render Tree</code></p>
+<ul>
+<li>The DOM and CSSOM are combined to create the Render Tree. The Render Tree represents the visual hierarchy of the elements on the page that will be rendered. It includes only the elements that will actually be displayed.</li>
+</ul>
+</li>
+<li>
+<p><code>The Visual Formatting Model</code></p>
+<ul>
+<li>The visual formatting model takes the render tree and calculates the layout of each element on the page. This includes determining the size and position of each element based on its CSS properties.</li>
+<li>The visual formatting model also takes into account factors like the box model (margins, borders, padding), positioning, and floating elements.</li>
+</ul>
+</li>
+<li>
+<p><code>Render the Page</code></p>
+<ul>
+<li>Finally, the browser renders the page by painting each pixel according to the specifications of the visual formatting model.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><img loading="lazy" src="The-critical-rendering-path.png" alt="The critical rendering path"  />
+
+<em>Image source: <a href="https://wp-rocket.me/blog/critical-css/">Critical CSS in WordPress: What It Is and How to Optimize CSS Delivery</a></em></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Flexbox</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-flexbox/</link>
+      <pubDate>Fri, 10 Nov 2023 17:51:53 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-flexbox/</guid>
+      <description>CSS Flexbox</description>
+      <content:encoded><![CDATA[<iframe width="100%" height="600px" src="https://takawang.github.io/css/flexbox/"></iframe>
+<h3 id="_尺寸優先順序_"><em>尺寸優先順序</em></h3>
+<p>舉例：若有設 flex-basis 跟 width，優先考慮 flex-basis</p>
+<table>
+<thead>
+<tr>
+<th>優先權 (由大到小)</th>
+<th>屬性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>Max-width</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Min-width</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Flex-basis</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Width</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Content-width</td>
+</tr>
+</tbody>
+</table>
+<h3 id="flex-屬性縮寫"><code>flex</code> 屬性縮寫</h3>
+<p>flex: <strong>grow</strong> <strong>shrink</strong> <strong>basis</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">flex</span><span class="o">:</span> <span class="nt">1</span> <span class="nt">1</span> <span class="nt">0</span> <span class="c">/* is the same as flex: 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="nt">flex</span><span class="o">:</span> <span class="nt">2</span> <span class="nt">2</span> <span class="nt">0</span> <span class="c">/* is the same as flex: 2 */</span>
+</span></span><span class="line"><span class="cl"><span class="nt">flex</span><span class="o">:</span> <span class="nt">3</span>     <span class="c">/* is the same as flex: 3 3 0 */</span>
+</span></span></code></pre></div><hr>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">CSS-TRICKS: A Complete Guide to Flexbox</a></li>
+<li><a href="https://www.freecodecamp.org/news/do-you-even-flex-box-c16449cfca96/">FreeCodeCamp: A visual guide to CSS Flexbox</a></li>
+<li><a href="https://yoksel.github.io/flex-cheatsheet/#section-align-content">https://yoksel.github.io/flex-cheatsheet</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Float</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-float/</link>
+      <pubDate>Thu, 09 Nov 2023 23:46:58 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-float/</guid>
+      <description>CSS Float</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="float.png" alt="float image"  />
+</p>
+<p>當你將一個元素的 float 屬性設定為 left 時，它會向左浮動，<strong>脫離正常的文件流</strong>，被移動到其父元素的左邊。其他文件流中的元素會圍繞著浮動元素的周圍進行佈局。浮動元素之後的內容會填充到浮動元素的右側。</p>
+<p>浮動元素的父元素（如果沒有被清除浮動）可能會發生高度塌陷（height collapse），即父元素的高度不會自動地包含浮動元素。這就是所謂的<code>父元素塌陷問題</code>。為了解決這個問題，可以使用 clear 屬性清除浮動。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* 解決 父元素的高度塌陷 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">clearfix</span><span class="p">::</span><span class="nd">after</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">content</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">clear</span><span class="p">:</span> <span class="kc">both</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>使用 float 之後，周圍的元素可能會因為浮動元素的存在而受到影響，例如 Footer，可能需要使用 <code>clear</code> 屬性來確保某個元素不會在浮動元素旁邊顯示。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">clear</span><span class="o">:</span> <span class="nt">left</span><span class="o">|</span><span class="nt">right</span><span class="o">|</span><span class="nt">both</span><span class="o">;</span> <span class="c">/* 用 both 就不用管 float 哪邊 */</span>
+</span></span></code></pre></div><hr>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://css-tricks.com/all-about-floats/">All About Floats</a></li>
+<li><a href="https://javascript.plainenglish.io/working-with-the-float-property-in-css-f73cf7525261">Working With the Float Property in CSS</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>CSS Positioning</title>
+      <link>https://blog2.cmwang.net/zh/posts/2023/11/css-position/</link>
+      <pubDate>Thu, 09 Nov 2023 23:03:11 +0800</pubDate>
+      <guid>https://blog2.cmwang.net/zh/posts/2023/11/css-position/</guid>
+      <description>CSS positioning</description>
+      <content:encoded><![CDATA[<h2 id="position">Position</h2>
+<p><img loading="lazy" src="position.png" alt="position image"  />
+</p>
+<h3 id="-static">⚙️ <code>static</code></h3>
+<ul>
+<li>元素在文檔流中正常定位，與其他元素一樣 <strong>(預設)</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">static</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* ignore */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">top</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span> <span class="c">/* ignore */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="-relative">⚙️ <code>relative</code></h3>
+<ul>
+<li>相對於<strong>原始</strong>位置移動。</li>
+<li><strong>該元素周圍的其他元素仍然會保持原位繞過它，將其視為文件流的一部分，不受影響</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">right</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="-absolute">⚙️ <code>absolute</code></h3>
+<ul>
+<li>絕對定位是以<strong>最近的父元素</strong>為基準點，進行定位。</li>
+<li>如果沒有父元素，或者它的父元素沒有設定 <code>static</code> 以外的屬性 (通常用 <code>relative</code>)，<strong>它就會以<code>document</code>為基準點進行定位</strong> 🔥</li>
+<li>頁面捲動會跟著動。</li>
+<li><strong>元素會被移出正常文件流，並不為元素預留空間。</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span> <span class="c">/* 不能為 static，不然會定位到文檔左上角 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">right</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="-fixed">⚙️ <code>fixed</code></h3>
+<ul>
+<li>相對於瀏覽器窗口 <code>(viewport)</code> 進行定位。</li>
+<li><strong>即使捲動，還是貼在瀏覽器上方定位。</strong></li>
+<li>這種定位方式常用於創建固定在頁面上方或側邊的導航欄、工具欄等元素，使其在用戶滾動頁面時保持可見。</li>
+<li><strong>元素會被移出正常文件流，並不為元素預留空間。</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">.</span><span class="nc">box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">fixed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">right</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<blockquote>
+<p>簡而言之</p>
+</blockquote>
+<p><img loading="lazy" src="position2.png" alt="Position 2"  />
+
+<em>Image source: <a href="https://codingbff.medium.com/difference-between-css-position-absolute-versus-relative-35f064384c6">Difference between css position absolute versus relative</a></em></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

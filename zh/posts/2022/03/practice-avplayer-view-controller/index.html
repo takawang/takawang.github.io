@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>iPad上的影片播放器 | Liberation Notes</title>
+<meta name="keywords" content="iOS, AVPlayer, Swift, Storyboard">
+<meta name="description" content="練習使用 AVPlayerViewController 製作動態字幕影片">
+<meta name="author" content="Taka">
+<link rel="canonical" href="https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.64b1d907f7e47f4b0234b3e0890711bc3f62fedeba9a9aa0ad585a260840663d.css" integrity="sha256-ZLHZB/fkf0sCNLPgiQcRvD9i/t66mpqgrVhaJghAZj0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog2.cmwang.net/assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog2.cmwang.net/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog2.cmwang.net/assets/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog2.cmwang.net/assets/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-G9WYYRMSWH");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9WYYRMSWH"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-G9WYYRMSWH', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="iPad上的影片播放器" />
+<meta property="og:description" content="練習使用 AVPlayerViewController 製作動態字幕影片" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/" /><meta property="og:image" content="https://blog2.cmwang.net/47"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-16T10:32:00+00:00" />
+<meta property="article:modified_time" content="2023-10-09T23:21:43+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog2.cmwang.net/47"/>
+
+<meta name="twitter:title" content="iPad上的影片播放器"/>
+<meta name="twitter:description" content="練習使用 AVPlayerViewController 製作動態字幕影片"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog2.cmwang.net/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "iPad上的影片播放器",
+      "item": "https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "iPad上的影片播放器",
+  "name": "iPad上的影片播放器",
+  "description": "練習使用 AVPlayerViewController 製作動態字幕影片",
+  "keywords": [
+    "iOS", "AVPlayer", "Swift", "Storyboard"
+  ],
+  "articleBody": "學習目標：\nAVPlayer NotificationCenter Timer Swift Optional Function Switch Case 練習成果：\n原始碼：\nGitHub - takawang/letter-song\n歌詞：\n今晚 我想將那天的螢火 送到你的窗前 含意是\"我愛你\" 我想起我們的初吻 不管何時 只要閉上雙眼 就能奔向那最遙遠的地方 就像我在被浪濤湧來的沙上寫下的字跡般 你感覺也會像他們那樣從此消失 總是想念 雖然無法將我心裡所有的話語，說給你聽 但那裡頭，全都是\"我愛你\" 我何德何能 能擁有名為你的這份幸運 若我們現在能望著對方 該有多美好 就像我在被浪濤湧來的沙上寫下的字跡般 你感覺也會像他們那樣從此消失 還是想念 雖然無法將我寫在日記上的一字一句 都告訴你 但字字句句都代表著我愛你 今晚 我想將那天的螢火 送到你的窗前 希望今夜的你有個美好的夢 影片來源：https://www.youtube.com/watch?v=BzYnNdJhZQw\n歌詞來源：https://tinyurl.com/2p9c5d8a\nStoryboard:\n過程：\n本次結合幾個項目，練習 SDK 使用與熟悉 Swift 語法，只用 function print 無法滿足自己的期待，所以上網查了一些資料並搭配上課內容製作，將 AVPlayerViewController 加進 UIView 應該是最困難的部分，原本考慮使用 Container View 去做，但還不知道怎麼控制多個 Controller，並且跟 Storyboard 串接起來。\n主要在 iPad Pro 12.9 與 iPad Mini 6 實機測試過，iPhone 版面會看不到歌詞。\n新增 UIView，取得 IBOutlet -\u003e Line 12 將 AVPlayerViewController 加進 UIView -\u003e Line 50 用 IBAction 控制 影片播放並開始計時 -\u003e Line59 註冊 View 生命週期與影片播放結束的通知 -\u003e Line 20~28 Partial script import AVFoundation import AVKit import UIKit class ViewController: UIViewController { @IBOutlet weak var lyricsLabel: UILabel! @IBOutlet weak var videoView: UIView! var player: AVPlayer? var timer: Timer? var counter = 0.0 var isPlaying = false override func viewDidLoad() { super.viewDidLoad() // listen to active and resign notifications // ref: https://stackoverflow.com/a/45955660 NotificationCenter.default.addObserver(self, selector: #selector(self.openAndCloseActivity), name: UIApplication.didBecomeActiveNotification, object: nil) NotificationCenter.default.addObserver(self, selector: #selector(self.openAndCloseActivity), name: UIApplication.willResignActiveNotification, object: nil) // listen to end play notification // ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing NotificationCenter.default.addObserver(self, selector: #selector(self.videoDidEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil) // setup avplayer controller initVideoView() } // setup avplayer controller // // add avplayer controller to the current view and hide playback controls private func initVideoView() { // ref: https://medium.com/@nabilsafatli/how-to-create-a-custom-control-for-avplayer-1e53b9188ae3 guard let url = Bundle.main.url(forResource: \"night\", withExtension: \"mp4\") else { return } self.player = AVPlayer(url: url) //player!.rate = 1 //auto play let playerFrame = CGRect(x: 0, y: 0, width: videoView.frame.width, height: videoView.frame.height) let playerViewController = AVPlayerViewController() playerViewController.player = self.player playerViewController.view.frame = playerFrame addChild(playerViewController) // add player controller to view controller videoView.addSubview(playerViewController.view) playerViewController.didMove(toParent: self) playerViewController.showsPlaybackControls = false // hide playback controls } // handle play click event @IBAction func playVideo(_ sender: UIButton) { if !self.isPlaying { self.isPlaying = true // set flag self.counter = 0.0 // init counter self.player?.seek(to: CMTime(value: CMTimeValue(0.0), timescale: 1000)) // seek to head // init timer. // ref: https://medium.com/彼得潘的-swift-ios-app-開發教室/透過-timer-設定每幾秒重複執行-function-3c80f449107 self.timer = Timer.scheduledTimer( timeInterval: 0.1, target: self, selector: #selector(updateLyrics), userInfo: nil, repeats: true) // play video self.player?.play() } else { print(\"already playing, do nothing...\") } } @objc func updateLyrics() { self.counter += 0.1 // increase counter switch self.counter { case 5.0...20.0: self.lyricsLabel.text = \"IU - 夜信\" // 0 case 24.4...37.4: self.lyricsLabel.text = \"今晚 我想將那天的螢火\" // 1 case 37.5...47.0: self.lyricsLabel.text = \"送到你的窗前\" // 2 case 49.6...59.0: self.lyricsLabel.text = \"含意是 \\\"我愛你\\\"\" // 3 case 68.8...80.8: self.lyricsLabel.text = \"我想起我們的初吻\" // 4 case 80.9...90.0: self.lyricsLabel.text = \"不管何時 只要閉上雙眼\" // 5 case 93.1...103.2: self.lyricsLabel.text = \"就能奔向那最遙遠的地方\" // 6 case 105.7...115.8: self.lyricsLabel.text = \"就像我在被浪濤湧來的沙上寫下的字跡般\" // 7,8 case 115.9...123.4: self.lyricsLabel.text = \"你感覺也會像他們那樣從此消失\" // 9 case 123.5...127.4: self.lyricsLabel.text = \"總是想念\" // 10 case 127.5...141.0: self.lyricsLabel.text = \"雖然無法將我心裡所有的話語 說給你聽\" // 11,12 case 141.2...151.3: self.lyricsLabel.text = \"但那裡頭全都是 \\\"我愛你\\\"\" // 13 case 160.1...166.0: self.lyricsLabel.text = \"我何德何能\" // 14 case 166.1...171.7: self.lyricsLabel.text = \"能擁有名為你的這份幸運\" // 15 case 171.8...176.8: self.lyricsLabel.text = \"若我們現在能望著對方\" // 16 case 176.9...184.0: self.lyricsLabel.text = \"該有多美好\" // 17 case 184.1...194.1: self.lyricsLabel.text = \"就像我在被浪濤湧來的沙上寫下的字跡般\" // 18,19 case 194.2...202.5: self.lyricsLabel.text = \"你感覺也會像他們那樣從此消失\" // 20 case 202.6...205.8: self.lyricsLabel.text = \"還是想念\" // 21 case 205.9...212.1: self.lyricsLabel.text = \"雖然無法將我寫在日記上的一字一句\" // 22 case 212.2...220.5: self.lyricsLabel.text = \"都告訴你\" // 23 case 220.6...226.4: self.lyricsLabel.text = \"但字字句句都代表著我愛你\" // 24 case 228.5...241.9: self.lyricsLabel.text = \"今晚 我想將那天的螢火\" // 25 case 242.0...249.7: self.lyricsLabel.text = \"送到你的窗前\" // 26 case 255.9...267.2: self.lyricsLabel.text = \"希望今夜的你有個美好的夢\" // 27 default: self.lyricsLabel.text = \"\" } } // handle vidie end notification // ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing @objc func videoDidEnd(notification: NSNotification) { print(\"video ended\") self.timer?.invalidate() // stop timer self.isPlaying = false self.lyricsLabel.text = \"\" } // handle activity resume and close // ref: https://stackoverflow.com/a/45955660 @objc func openAndCloseActivity(_ notification: Notification) { if notification.name == UIApplication.didBecomeActiveNotification{ print(\"resume activity\") // seek to head self.player?.seek(to: CMTime(value: CMTimeValue(0.0), timescale: 1000)) // ref: https://stackoverflow.com/a/59839041 } else{ print(\"close activity\") self.player?.pause() // pause player self.timer?.invalidate() // stop timer self.isPlaying = false self.lyricsLabel.text = \"\" } } } 免責聲明：\n影片使用只為了學習目的，沒有營利行為，版權屬於原創作方 1theK.\n",
+  "wordCount" : "1693",
+  "inLanguage": "zh",
+  "datePublished": "2022-03-16T10:32:00.619Z",
+  "dateModified": "2023-10-09T23:21:43+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Taka"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog2.cmwang.net/zh/posts/2022/03/practice-avplayer-view-controller/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Liberation Notes",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog2.cmwang.net/assets/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog2.cmwang.net/zh/" accesskey="h" title="Liberation Notes (Alt + H)">Liberation Notes</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://blog2.cmwang.net/en/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog2.cmwang.net/zh/archives/" title="時間軸">
+                    <span>時間軸</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/categories/" title="類別">
+                    <span>類別</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog2.cmwang.net/zh/tags/" title="標籤">
+                    <span>標籤</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      iPad上的影片播放器
+    </h1>
+    <div class="post-meta"><span title='2022-03-16 10:32:00.619 +0000 UTC'>2022-03-16</span>&nbsp;·&nbsp;1693 字&nbsp;·&nbsp;Taka
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong>學習目標：</strong></p>
+<ul>
+<li>AVPlayer</li>
+<li>NotificationCenter</li>
+<li>Timer</li>
+<li>Swift Optional</li>
+<li>Function</li>
+<li>Switch Case</li>
+</ul>
+<p><strong>練習成果：</strong></p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/qnXX_HtG1sw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p><strong>原始碼：</strong></p>
+<p><a href="https://github.com/takawang/letter-song">GitHub - takawang/letter-song</a></p>
+<p><strong>歌詞：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">今晚 我想將那天的螢火
+</span></span><span class="line"><span class="cl">送到你的窗前
+</span></span><span class="line"><span class="cl">含意是&#34;我愛你&#34;
+</span></span><span class="line"><span class="cl">我想起我們的初吻
+</span></span><span class="line"><span class="cl">不管何時 只要閉上雙眼
+</span></span><span class="line"><span class="cl">就能奔向那最遙遠的地方
+</span></span><span class="line"><span class="cl">就像我在被浪濤湧來的沙上寫下的字跡般
+</span></span><span class="line"><span class="cl">你感覺也會像他們那樣從此消失
+</span></span><span class="line"><span class="cl">總是想念
+</span></span><span class="line"><span class="cl">雖然無法將我心裡所有的話語，說給你聽
+</span></span><span class="line"><span class="cl">但那裡頭，全都是&#34;我愛你&#34;
+</span></span><span class="line"><span class="cl">我何德何能
+</span></span><span class="line"><span class="cl">能擁有名為你的這份幸運
+</span></span><span class="line"><span class="cl">若我們現在能望著對方
+</span></span><span class="line"><span class="cl">該有多美好
+</span></span><span class="line"><span class="cl">就像我在被浪濤湧來的沙上寫下的字跡般
+</span></span><span class="line"><span class="cl">你感覺也會像他們那樣從此消失
+</span></span><span class="line"><span class="cl">還是想念
+</span></span><span class="line"><span class="cl">雖然無法將我寫在日記上的一字一句
+</span></span><span class="line"><span class="cl">都告訴你
+</span></span><span class="line"><span class="cl">但字字句句都代表著我愛你
+</span></span><span class="line"><span class="cl">今晚 我想將那天的螢火
+</span></span><span class="line"><span class="cl">送到你的窗前
+</span></span><span class="line"><span class="cl">希望今夜的你有個美好的夢
+</span></span></code></pre></div><p><strong>影片來源：</strong><a href="https://www.youtube.com/watch?v=BzYnNdJhZQw">https://www.youtube.com/watch?v=BzYnNdJhZQw</a></p>
+<p><strong>歌詞來源：</strong><a href="https://tinyurl.com/2p9c5d8a">https://tinyurl.com/2p9c5d8a</a></p>
+<p><strong>Storyboard:</strong></p>
+<p><img loading="lazy" src="images/1.png" alt="image"  />
+</p>
+<hr>
+<p><strong>過程：</strong></p>
+<p>本次結合幾個項目，練習 SDK 使用與熟悉 Swift 語法，只用 function print 無法滿足自己的期待，所以上網查了一些資料並搭配上課內容製作，將 AVPlayerViewController 加進 UIView 應該是最困難的部分，原本考慮使用 Container View 去做，但還不知道怎麼控制多個 Controller，並且跟 Storyboard 串接起來。</p>
+<p>主要在 <strong>iPad Pro 12.9</strong> 與 <strong>iPad Mini 6</strong> 實機測試過，iPhone 版面會看不到歌詞。</p>
+<ol>
+<li>新增 UIView，取得 IBOutlet -&gt; Line 12</li>
+<li>將 AVPlayerViewController 加進 UIView -&gt; Line 50</li>
+<li>用 IBAction 控制 影片播放並開始計時 -&gt; Line59</li>
+<li>註冊 View 生命週期與影片播放結束的通知 -&gt; Line 20~28</li>
+</ol>
+
+
+<div class="terminal space shadow">
+    <div class="top">
+        <div class="btns">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <div class="title">
+            Partial script
+        </div>
+    </div>
+    <div class="terminalbody"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">AVFoundation</span>
+</span></span><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">AVKit</span>
+</span></span><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">UIKit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBOutlet</span> <span class="kr">weak</span> <span class="kd">var</span> <span class="nv">lyricsLabel</span><span class="p">:</span> <span class="n">UILabel</span><span class="p">!</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBOutlet</span> <span class="kr">weak</span> <span class="kd">var</span> <span class="nv">videoView</span><span class="p">:</span> <span class="n">UIView</span><span class="p">!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">player</span><span class="p">:</span> <span class="n">AVPlayer</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">timer</span><span class="p">:</span> <span class="n">Timer</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">counter</span> <span class="p">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nv">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// listen to active and resign notifications</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://stackoverflow.com/a/45955660</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">openAndCloseActivity</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">didBecomeActiveNotification</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">openAndCloseActivity</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">willResignActiveNotification</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// listen to end play notification</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="kc">self</span><span class="p">.</span><span class="n">videoDidEnd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">name</span><span class="p">:</span> <span class="n">NSNotification</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">AVPlayerItemDidPlayToEndTime</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// setup avplayer controller</span>
+</span></span><span class="line"><span class="cl">    <span class="n">initVideoView</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// setup avplayer controller</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// add avplayer controller to the current view and hide playback controls</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">func</span> <span class="nf">initVideoView</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ref: https://medium.com/@nabilsafatli/how-to-create-a-custom-control-for-avplayer-1e53b9188ae3</span>
+</span></span><span class="line"><span class="cl">    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">url</span> <span class="p">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="n">forResource</span><span class="p">:</span> <span class="s">&#34;night&#34;</span><span class="p">,</span> <span class="n">withExtension</span><span class="p">:</span> <span class="s">&#34;mp4&#34;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">player</span> <span class="p">=</span> <span class="n">AVPlayer</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//player!.rate = 1 //auto play</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">playerFrame</span> <span class="p">=</span> <span class="n">CGRect</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">videoView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n">videoView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">playerViewController</span> <span class="p">=</span> <span class="n">AVPlayerViewController</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">player</span> <span class="p">=</span> <span class="kc">self</span><span class="p">.</span><span class="n">player</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="p">=</span> <span class="n">playerFrame</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">addChild</span><span class="p">(</span><span class="n">playerViewController</span><span class="p">)</span> <span class="c1">// add player controller to view controller</span>
+</span></span><span class="line"><span class="cl">    <span class="n">videoView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">playerViewController</span><span class="p">.</span><span class="n">view</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">didMove</span><span class="p">(</span><span class="n">toParent</span><span class="p">:</span> <span class="kc">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">playerViewController</span><span class="p">.</span><span class="n">showsPlaybackControls</span> <span class="p">=</span> <span class="kc">false</span> <span class="c1">// hide playback controls</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle play click event</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">playVideo</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="n">UIButton</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">!</span><span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// set flag</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="p">=</span> <span class="mf">0.0</span> <span class="c1">// init counter</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">seek</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">CMTime</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">CMTimeValue</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">timescale</span><span class="p">:</span> <span class="mi">1000</span><span class="p">))</span> <span class="c1">// seek to head</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// init timer.</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// ref: https://medium.com/彼得潘的-swift-ios-app-開發教室/透過-timer-設定每幾秒重複執行-function-3c80f449107</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">timer</span> <span class="p">=</span> <span class="n">Timer</span><span class="p">.</span><span class="n">scheduledTimer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">timeInterval</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">updateLyrics</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">userInfo</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">repeats</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// play video</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">play</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;already playing, do nothing...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">updateLyrics</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="c1">// increase counter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="kc">self</span><span class="p">.</span><span class="n">counter</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">5.0</span><span class="p">...</span><span class="mf">20.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;IU - 夜信&#34;</span> <span class="c1">// 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">24.4</span><span class="p">...</span><span class="mf">37.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;今晚  我想將那天的螢火&#34;</span> <span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">37.5</span><span class="p">...</span><span class="mf">47.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;送到你的窗前&#34;</span> <span class="c1">// 2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">49.6</span><span class="p">...</span><span class="mf">59.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;含意是 </span><span class="se">\&#34;</span><span class="s">我愛你</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="c1">// 3</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">68.8</span><span class="p">...</span><span class="mf">80.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;我想起我們的初吻&#34;</span> <span class="c1">// 4</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">80.9</span><span class="p">...</span><span class="mf">90.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;不管何時 只要閉上雙眼&#34;</span> <span class="c1">// 5</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">93.1</span><span class="p">...</span><span class="mf">103.2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就能奔向那最遙遠的地方&#34;</span> <span class="c1">// 6</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">105.7</span><span class="p">...</span><span class="mf">115.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就像我在被浪濤湧來的沙上寫下的字跡般&#34;</span> <span class="c1">// 7,8</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">115.9</span><span class="p">...</span><span class="mf">123.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;你感覺也會像他們那樣從此消失&#34;</span> <span class="c1">// 9</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">123.5</span><span class="p">...</span><span class="mf">127.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;總是想念&#34;</span> <span class="c1">// 10</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">127.5</span><span class="p">...</span><span class="mf">141.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;雖然無法將我心裡所有的話語  說給你聽&#34;</span> <span class="c1">// 11,12</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">141.2</span><span class="p">...</span><span class="mf">151.3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;但那裡頭全都是 </span><span class="se">\&#34;</span><span class="s">我愛你</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="c1">// 13</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">160.1</span><span class="p">...</span><span class="mf">166.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;我何德何能&#34;</span> <span class="c1">// 14</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">166.1</span><span class="p">...</span><span class="mf">171.7</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;能擁有名為你的這份幸運&#34;</span> <span class="c1">// 15</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">171.8</span><span class="p">...</span><span class="mf">176.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;若我們現在能望著對方&#34;</span> <span class="c1">// 16</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">176.9</span><span class="p">...</span><span class="mf">184.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;該有多美好&#34;</span> <span class="c1">// 17</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">184.1</span><span class="p">...</span><span class="mf">194.1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;就像我在被浪濤湧來的沙上寫下的字跡般&#34;</span> <span class="c1">// 18,19</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">194.2</span><span class="p">...</span><span class="mf">202.5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;你感覺也會像他們那樣從此消失&#34;</span> <span class="c1">// 20</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">202.6</span><span class="p">...</span><span class="mf">205.8</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;還是想念&#34;</span> <span class="c1">// 21</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">205.9</span><span class="p">...</span><span class="mf">212.1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;雖然無法將我寫在日記上的一字一句&#34;</span> <span class="c1">// 22</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">212.2</span><span class="p">...</span><span class="mf">220.5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;都告訴你&#34;</span> <span class="c1">// 23</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">220.6</span><span class="p">...</span><span class="mf">226.4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;但字字句句都代表著我愛你&#34;</span> <span class="c1">// 24</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">228.5</span><span class="p">...</span><span class="mf">241.9</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;今晚  我想將那天的螢火&#34;</span> <span class="c1">// 25</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">242.0</span><span class="p">...</span><span class="mf">249.7</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;送到你的窗前&#34;</span> <span class="c1">// 26</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mf">255.9</span><span class="p">...</span><span class="mf">267.2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;希望今夜的你有個美好的夢&#34;</span> <span class="c1">// 27</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle vidie end notification</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://www.tutorialspoint.com/how-to-use-swift-to-detect-when-avplayer-video-ends-playing</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">videoDidEnd</span><span class="p">(</span><span class="n">notification</span><span class="p">:</span> <span class="n">NSNotification</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;video ended&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">timer</span><span class="p">?.</span><span class="n">invalidate</span><span class="p">()</span> <span class="c1">// stop timer</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// handle activity resume and close</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ref: https://stackoverflow.com/a/45955660</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">openAndCloseActivity</span><span class="p">(</span><span class="kc">_</span> <span class="n">notification</span><span class="p">:</span> <span class="n">Notification</span><span class="p">)</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">notification</span><span class="p">.</span><span class="n">name</span> <span class="p">==</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">didBecomeActiveNotification</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;resume activity&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// seek to head</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">seek</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">CMTime</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">CMTimeValue</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">timescale</span><span class="p">:</span> <span class="mi">1000</span><span class="p">))</span> <span class="c1">// ref: https://stackoverflow.com/a/59839041</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">print</span><span class="p">(</span><span class="s">&#34;close activity&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">player</span><span class="p">?.</span><span class="n">pause</span><span class="p">()</span> <span class="c1">// pause player</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">timer</span><span class="p">?.</span><span class="n">invalidate</span><span class="p">()</span> <span class="c1">// stop timer</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">isPlaying</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">self</span><span class="p">.</span><span class="n">lyricsLabel</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></div>
+</div>
+<br />
+
+<p><strong>免責聲明：</strong></p>
+<p>影片使用只為了學習目的，沒有營利行為，版權屬於原創作方 <a href="https://www.youtube.com/channel/UCweOkPb1wVVH0Q0Tlj4a5Pw">1theK</a>.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog2.cmwang.net/zh/tags/ios/">iOS</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/swift/">Swift</a></li>
+      <li><a href="https://blog2.cmwang.net/zh/tags/storyboard/">Storyboard</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog2.cmwang.net/zh/posts/2022/03/simulated-olympic-rings-drone-light-show/">
+    <span class="title">« 上一篇</span>
+    <br>
+    <span>模擬奧運五環無人機燈光秀</span>
+  </a>
+  <a class="next" href="https://blog2.cmwang.net/zh/posts/2022/03/replicate-apple-music-ipad-os-app/">
+    <span class="title">下一篇 »</span>
+    <br>
+    <span>仿製 iPad 上的 Apple Music</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share iPad上的影片播放器 on x"
+            href="https://x.com/intent/tweet/?text=iPad%e4%b8%8a%e7%9a%84%e5%bd%b1%e7%89%87%e6%92%ad%e6%94%be%e5%99%a8&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2022%2f03%2fpractice-avplayer-view-controller%2f&amp;hashtags=iOS%2cSwift%2cStoryboard">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share iPad上的影片播放器 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2022%2f03%2fpractice-avplayer-view-controller%2f&amp;title=iPad%e4%b8%8a%e7%9a%84%e5%bd%b1%e7%89%87%e6%92%ad%e6%94%be%e5%99%a8&amp;summary=iPad%e4%b8%8a%e7%9a%84%e5%bd%b1%e7%89%87%e6%92%ad%e6%94%be%e5%99%a8&amp;source=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2022%2f03%2fpractice-avplayer-view-controller%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share iPad上的影片播放器 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2022%2f03%2fpractice-avplayer-view-controller%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share iPad上的影片播放器 on telegram"
+            href="https://telegram.me/share/url?text=iPad%e4%b8%8a%e7%9a%84%e5%bd%b1%e7%89%87%e6%92%ad%e6%94%be%e5%99%a8&amp;url=https%3a%2f%2fblog2.cmwang.net%2fzh%2fposts%2f2022%2f03%2fpractice-avplayer-view-controller%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+
+
+
+
+
+<section class="article discussion">
+  <script defer>
+    
+    let discussionSection = document.querySelector(
+      'section.article.discussion',
+    );
+    let logoSwitches = document.querySelector('.logo-switches');
+    let debounceTimer;
+
+    
+    function loadComments(theme, lang) {
+      
+      let scriptElement = document.createElement('script');
+      scriptElement.src = 'https://giscus.app/client.js';
+      scriptElement.setAttribute('data-repo', 'taka-wang/taka-wang.github.io');
+      scriptElement.setAttribute('data-repo-id', 'R_kgDOKc6Suw');
+      scriptElement.setAttribute('data-category', 'Announcements');
+      scriptElement.setAttribute('data-category-id', 'DIC_kwDOKc6Su84CaTJ_');
+      scriptElement.setAttribute('data-mapping', 'pathname');
+      scriptElement.setAttribute('data-strict', '0');
+      scriptElement.setAttribute('data-reactions-enabled', '1');
+      scriptElement.setAttribute('data-emit-metadata', '0');
+      scriptElement.setAttribute('data-input-position', 'bottom');
+      scriptElement.setAttribute('data-theme', theme);
+      scriptElement.setAttribute('data-lang', lang);
+      scriptElement.setAttribute('data-loading', 'lazy');
+      scriptElement.setAttribute('crossorigin', 'anonymous');
+      scriptElement.setAttribute('async', '');
+
+      
+      discussionSection.innerHTML = '';
+      discussionSection.appendChild(scriptElement);
+    }
+
+    
+    let currentHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+    let currentLang = (document.documentElement.lang || 'en').toLowerCase();
+    loadComments(
+      currentHugoTheme === 'light' ? 'light' : 'dark',
+      currentLang === 'zh' ? 'zh-TW' : 'en',
+    );
+
+    
+    logoSwitches.onclick = () => {
+      
+      clearTimeout(debounceTimer);
+
+      
+      debounceTimer = setTimeout(() => {
+        
+        let newHugoTheme = window.localStorage.getItem('pref-theme') || 'dark'; 
+        let newLang = (document.documentElement.lang || 'en').toLowerCase();
+
+        
+        if (newHugoTheme !== currentHugoTheme || newLang !== currentLang) {
+          currentHugoTheme = newHugoTheme;
+          currentLang = newLang;
+          loadComments(
+            newHugoTheme == 'light' ? 'light' : 'dark',
+            newLang === 'zh' ? 'zh-TW' : 'en',
+          );
+        }
+      }, 200);
+    };
+  </script>
+</section>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://blog2.cmwang.net/zh/">Liberation Notes</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> 
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '複製';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已複製！';
+            setTimeout(() => {
+                copybutton.innerHTML = '複製';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
